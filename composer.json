@@ -1,13 +1,17 @@
 {
-    "name": "sleeping-owl/admin",
-    "description": "Aministrative interface builder for Laravel.",
+    "name": "pseudoagentur/soa-admin-sentinel",
+    "description": "Sleeping Owl Aministrative interface builder for Laravel with Sentinel Integration",
     "homepage": "http://sleeping-owl.github.io",
-    "keywords": ["laravel", "admin", "administrator"],
+    "keywords": ["laravel", "admin", "administrator", "sentinel"],
     "license": "MIT",
     "authors": [
         {
             "name": "Sleeping Owl",
             "email": "owl.sleeping@yahoo.com"
+        },
+        {
+            "name": "Pseudoagentur",
+            "email": "hello@pseudoagentur.de"
         }
     ],
     "require": {
