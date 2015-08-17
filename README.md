@@ -46,7 +46,7 @@ Master Branch:
 
  2. After composer update, add service providers to the `config/app.php`
 
-	'Cartalyst\Sentinel\Laravel\SentinelServiceProvider',
+	    'Cartalyst\Sentinel\Laravel\SentinelServiceProvider',
         'SleepingOwl\Admin\AdminServiceProvider',
 
  3. Add this to the facades in `config/app.php`:
