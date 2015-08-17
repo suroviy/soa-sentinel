@@ -35,7 +35,7 @@ It includes:
 
  1. Require this package in your composer.json and run composer update:
 
-		"pseudoagentur/soa-admin-sentinel": "dev-development"
+		"pseudoagentur/soa-admin-sentinel": "dev-master"
 
  2. After composer update, add service providers to the `config/app.php`
 
