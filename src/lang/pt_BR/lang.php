@@ -30,11 +30,13 @@ return [
 	'table'    => [
 		'new-entry'      => 'Nova entrada',
 		'edit'           => 'Editar',
+		'restore'        => 'Restaurar',
 		'delete'         => 'Excluir',
 		'delete-confirm' => 'Tem certeza que deseja excluir este registro',
 		'delete-error'   => 'Ocorreu um erro ao excluir este registro. Você deve excluir todos os registros relacionados antes.',
 		'moveUp'         => 'Mover p/cima',
 		'moveDown'       => 'Mover p/baixo',
+		'error'          => 'Ocorreu um erro ao processar sua solicitação',
 		'filter'         => 'Mostrar entradas similares',
 		'filter-goto'    => 'Mostrar',
 		'save'           => 'Salvar',
@@ -61,6 +63,16 @@ return [
 	],
 	'select'   => [
 		'nothing'  => 'Nada selecionado',
-		'selected' => 'selecionado'
-	]
+		'selected' => 'selecionado',
+		'placeholder' => 'Selecione da lista',
+	],
+	'image'    => [
+		'browse'         => 'Seleciona a imagem',
+		'browseMultiple' => 'Selecione as imagens',
+		'remove'         => 'Remover a imagem',
+	],
+	'file'     => [
+		'browse' => 'Selecionar o arquivo',
+		'remove' => 'Remover o arquivo',
+	],
 ];

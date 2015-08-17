@@ -1,249 +1,129 @@
 <?php namespace SleepingOwl\Admin\Columns\Column;
 
-use Illuminate\Support\Str;
+use Illuminate\Contracts\Support\Renderable;
 use SleepingOwl\Admin\Admin;
-use SleepingOwl\Admin\Columns\Interfaces\ColumnInterface;
-use SleepingOwl\Admin\Models\ModelItem;
-use Illuminate\Support\Collection;
+use SleepingOwl\Admin\Interfaces\ColumnInterface;
+use SleepingOwl\Admin\Model\ModelConfiguration;
 
-abstract class BaseColumn implements ColumnInterface
+abstract class BaseColumn implements Renderable, ColumnInterface
 {
-	/**
-	 * Column field name
-	 *
-	 * @var string
-	 */
-	protected $name;
-	/**
-	 * Column label
-	 *
-	 * @var string
-	 */
-	protected $label;
-	/**
-	 * Is column sortable?
-	 *     false|true|'default'
-	 *
-	 * @var string|boolean
-	 */
-	protected $sortable;
-	protected $sortableDest = 'asc';
-	/**
-	 * Html builder
-	 *
-	 * @var \SleepingOwl\Html\HtmlBuilder
-	 */
-	protected $htmlBuilder;
-	/**
-	 * Model item, that ownes this column
-	 *
-	 * @var ModelItem
-	 */
-	protected $modelItem;
-	/**
-	 * Appends to this column cells
-	 *
-	 * @var ColumnInterface[]
-	 */
-	protected $appends = [];
-	/**
-	 * Is this column hidden?
-	 *
-	 * @var bool
-	 */
-	protected $hidden = false;
 
 	/**
-	 * @param string $name
-	 * @param string $label
+	 * Column header
+	 * @var ColumnHeader
 	 */
-	function __construct($name, $label = null)
+	protected $header;
+	/**
+	 * Model instance currently rendering
+	 * @var mixed
+	 */
+	protected $instance;
+	/**
+	 * Column appendant
+	 * @var ColumnInterface
+	 */
+	protected $append;
+
+	/**
+	 *
+	 */
+	function __construct()
 	{
-		$this->name = $name;
-		if (is_null($label))
-		{
-			$this->label = ucwords(str_replace('_', ' ', $name));
-		} else
-		{
-			$this->label = $label;
-		}
-		$this->sortable(true);
-		$this->htmlBuilder = Admin::instance()->htmlBuilder;
-		$this->modelItem = ModelItem::$current;
+		$this->header = new ColumnHeader;
 	}
 
 	/**
-	 * Set sortable property
-	 *
-	 * @param bool $sortable
+	 * Initialize column
 	 */
-	public function sortable($sortable)
+	public function initialize()
 	{
-		$this->sortable = $sortable;
 	}
 
 	/**
-	 * Set this column as default sortable for this model item
-	 * @param string $dest
+	 * Get related model configuration
+	 * @return ModelConfiguration
 	 */
-	public function sortableDefault($dest = 'asc')
+	protected function model()
 	{
-		$this->sortable = 'default';
-		$this->sortableDest = $dest;
+		return Admin::model(get_class($this->instance));
 	}
 
 	/**
-	 * Is this column sortable?
-	 *
+	 * Set column header label
+	 * @param string $title
+	 * @return $this
+	 */
+	public function label($title)
+	{
+		$this->header->title($title);
+		return $this;
+	}
+
+	/**
+	 * Enable/disable column orderable feature
+	 * @param bool $orderable
+	 * @return $this
+	 */
+	public function orderable($orderable)
+	{
+		$this->header->orderable($orderable);
+		return $this;
+	}
+
+	/**
+	 * Check if column is orderable
 	 * @return bool
 	 */
-	public function isSortable()
+	public function isOrderable()
 	{
-		return $this->sortable !== false;
+		return $this->header()->orderable();
 	}
 
 	/**
-	 * Is this column default sortable?
-	 *
-	 * @return bool
+	 * Get column header
+	 * @return ColumnHeader
 	 */
-	public function isSortableDefault()
+	public function header()
 	{
-		return $this->sortable === 'default';
+		return $this->header;
 	}
 
 	/**
-	 * Append column to this column cells
-	 *
-	 * @param ColumnInterface $append
+	 * Get or set column appendant
+	 * @param ColumnInterface|null $append
+	 * @return $this|ColumnInterface
 	 */
-	public function append(ColumnInterface $append)
+	public function append($append = null)
 	{
-		$this->appends[] = $append;
-	}
-
-	/**
-	 * Render column header
-	 *
-	 * @return string
-	 */
-	public function renderHeader()
-	{
-		return $this->htmlBuilder->tag('th', $this->getAttributesForHeader(), $this->label);
-	}
-
-	/**
-	 * Get attributes for column header tag
-	 *
-	 * @return array
-	 */
-	protected function getAttributesForHeader()
-	{
-		$attributes = [];
-		if ( ! $this->isSortable())
+		if (is_null($append))
 		{
-			$attributes['data-sortable'] = 'false';
+			return $this->append;
 		}
-		if ($this->isSortableDefault())
-		{
-			$attributes['data-sortable-default'] = $this->sortableDest;
-		}
-		$attributes['style'] = 'width:10px;';
-		return $attributes;
+		$this->append = $append;
+		return $this;
 	}
 
 	/**
-	 * Render column cell
-	 *
-	 * @param $instance
-	 * @param int $totalCount
-	 * @param string $content
-	 * @return string
+	 * Set currently rendering instance
+	 * @param mixed $instance
+	 * @return $this
 	 */
-	public function render($instance, $totalCount, $content = null)
+	public function setInstance($instance)
 	{
-		if (is_null($content))
+		$this->instance = $instance;
+		if ( ! is_null($this->append()) && ($this->append() instanceof ColumnInterface))
 		{
-			$content = $this->valueFromInstance($instance, $this->name);
+			$this->append()->setInstance($instance);
 		}
-		$content = $this->renderAppends($instance, $totalCount, $content);
-		return $this->htmlBuilder->tag('td', $this->getAttributesForCell($instance), $content);
-	}
-
-	/**
-	 * Get attributes for column cell tag
-	 *
-	 * @return array
-	 */
-	protected function getAttributesForCell($instance)
-	{
-		return [];
-	}
-
-	/**
-	 * Render column cells appends
-	 *
-	 * @param $instance
-	 * @param $totalCount
-	 * @param $content
-	 * @return string
-	 */
-	protected function renderAppends($instance, $totalCount, $content)
-	{
-		$appends = [$content];
-		foreach ($this->appends as $append)
-		{
-			$appends[] = $append->render($instance, $totalCount);
-		}
-		return implode(' ', $appends);
-	}
-
-	/**
-	 * Get value from $instance by $name
-	 * Use dot delimiter and search recursive
-	 *
-	 * @param $instance
-	 * @param string $name
-	 * @return mixed
-	 */
-	public function valueFromInstance($instance, $name)
-	{
-		$result = $instance;
-		$parts = explode('.', $name);
-		foreach ($parts as $part)
-		{
-			if ($result instanceof Collection)
-			{
-				$result = $result->lists($part);
-			} elseif (is_null($result))
-			{
-				$result = null;
-			} else
-			{
-				$result = $result->$part;
-			}
-		}
-		if (is_string($result))
-		{
-			$result = e($result);
-		}
-		return $result;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function isHidden()
-	{
-		return $this->hidden;
+		return $this;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getName()
+	function __toString()
 	{
-		return $this->name;
+		return (string)$this->render();
 	}
 
 }
