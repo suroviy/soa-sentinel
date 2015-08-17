@@ -35,11 +35,18 @@ It includes:
 
  1. Require this package in your composer.json and run composer update:
 
-		"pseudoagentur/soa-admin-sentinel": "dev-master"
+Develop Branch:
+
+	"pseudoagentur/soa-admin-sentinel": "dev-develop"
+
+Master Branch:
+
+        "pseudoagentur/soa-admin-sentinel": "dev-master"
+
 
  2. After composer update, add service providers to the `config/app.php`
 
-	    'Cartalyst\Sentinel\Laravel\SentinelServiceProvider',
+	'Cartalyst\Sentinel\Laravel\SentinelServiceProvider',
         'SleepingOwl\Admin\AdminServiceProvider',
 
  3. Add this to the facades in `config/app.php`:
