@@ -52,7 +52,7 @@ class Select extends NamedFormItem
 			}
 			$options = $this->options;
 			
-			if($sort)
+			if($sort) {
 				asort($options);
 			}
 			
