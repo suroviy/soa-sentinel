@@ -35,7 +35,18 @@ It includes:
 
  1. Require this package in your composer.json and run composer update:
 
+<<<<<<< HEAD
 		"pseudoagentur/soa-admin-sentinel": "dev-develop"
+=======
+Develop Branch:
+
+	"pseudoagentur/soa-admin-sentinel": "dev-develop"
+
+Master Branch:
+
+        "pseudoagentur/soa-admin-sentinel": "dev-master"
+
+>>>>>>> master
 
  2. After composer update, add service providers to the `config/app.php`
 
@@ -62,7 +73,11 @@ It includes:
 		$ php artisan admin:install
 
 		
+ 5. Login
 
+        Backend Url:    http://<your-host.tld>/admin/
+        E-Mail:         admin@soa.backend
+        Password:       password
 ## Documentation
 
 * SleepingOwl: Documentation can be found at [sleeping owl documentation](http://sleeping-owl.github.io/v3).

@@ -50,8 +50,8 @@ class AdminServiceProvider extends ServiceProvider
 
 
 		$this->publishes([
-			__DIR__ . '/../../../public/' => public_path('packages/sleeping-owl/admin-lte-template/'),
-		], 'assets-lte');
+			__DIR__ . '/../../../public/' => public_path('packages/sleeping-owl/admin/'),
+		], 'assets');
 
 
 		app('SleepingOwl\Admin\Helpers\StartSession')->run();
