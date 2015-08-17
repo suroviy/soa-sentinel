@@ -69,7 +69,11 @@ Master Branch:
 		$ php artisan admin:install
 
 		
+ 5. Login
 
+        Backend Url:    http://<your-host.tld>/admin/
+        E-Mail:         admin@soa.backend
+        Password:       password
 ## Documentation
 
 * SleepingOwl: Documentation can be found at [sleeping owl documentation](http://sleeping-owl.github.io/v3).
