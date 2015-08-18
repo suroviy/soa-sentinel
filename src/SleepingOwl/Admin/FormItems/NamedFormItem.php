@@ -11,6 +11,7 @@ abstract class NamedFormItem extends BaseFormItem
 	protected $label;
 	protected $defaultValue;
 	protected $readonly;
+	protected $isRequired;
 
 	function __construct($path, $label = null)
 	{
@@ -67,13 +68,25 @@ abstract class NamedFormItem extends BaseFormItem
 		return $this;
 	}
 
+	public function isRequired($isRequired = false)
+	{
+		if (is_null($isRequired))
+		{
+			return $this->isRequired;
+		}
+		$this->isRequired = $isRequired;
+		return $this;
+	}
+
 	public function getParams()
 	{
+		
 		return parent::getParams() + [
 			'name'      => $this->name(),
 			'label'     => $this->label(),
 			'readonly'  => $this->readonly(),
-			'value'     => $this->value()
+			'value'     => $this->value(),
+			'required'	=> $this->isRequired()
 		];
 	}
 
@@ -131,6 +144,7 @@ abstract class NamedFormItem extends BaseFormItem
 
 	public function required()
 	{
+		$this->isRequired(true);
 		return $this->validationRule('required');
 	}
 
