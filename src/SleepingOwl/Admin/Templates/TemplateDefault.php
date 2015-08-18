@@ -30,7 +30,7 @@ class TemplateDefault implements TemplateInterface
 
 	public function view($view)
 	{
-		$currentView = 'admin::default.' . $view;
+		$currentView = 'admin-lte::default.' . $view;
 		if (\View::exists($currentView))
 		{
 			return $currentView;
