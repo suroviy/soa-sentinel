@@ -35,6 +35,9 @@ It includes:
 
  1. Require this package in your composer.json and run composer update:
 
+<<<<<<< HEAD
+		"pseudoagentur/soa-admin-sentinel": "dev-develop"
+=======
 Develop Branch:
 
 	"pseudoagentur/soa-admin-sentinel": "dev-develop"
@@ -43,6 +46,7 @@ Master Branch:
 
         "pseudoagentur/soa-admin-sentinel": "dev-master"
 
+>>>>>>> master
 
  2. After composer update, add service providers to the `config/app.php`
 

@@ -6,4 +6,5 @@
 			@endforeach
 		</div>
 	@endforeach
+	
 </div>

@@ -9,7 +9,10 @@
     	<div class="{{ $field_size }}">
     @endif
 	<div>
-		<select id="{{ $name }}" name="{{ $name }}[]" class="form-control multiselect" multiple="multiple">
+		<select id="{{ $name }}" name="{{ $name }}" class="form-control multiselect" size="2" data-select-type="single" {!! ($nullable) ? 'data-nullable="true"' : '' !!}>
+			@if ($nullable)
+				<option value=""></option>
+			@endif
 			@foreach ($options as $optionValue => $optionLabel)
 				<option value="{{ $optionValue }}" {!! ($value == $optionValue) ? 'selected="selected"' : '' !!}>{{ $optionLabel }}</option>
 			@endforeach

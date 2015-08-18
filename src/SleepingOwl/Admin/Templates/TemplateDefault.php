@@ -15,6 +15,8 @@ class TemplateDefault implements TemplateInterface
 		AssetManager::addStyle('admin::default/css/custom.css');
 		AssetManager::addStyle('admin::default/css/dataTables.bootstrap.css');
 		AssetManager::addStyle('admin::default/plugins/iCheck/all.css');
+		AssetManager::addStyle('admin::default/css/required_field.css');
+
 
 		AssetManager::addScript(route('admin.lang'));
 		AssetManager::addScript('admin::default/js/jquery-1.11.0.js');
@@ -22,6 +24,8 @@ class TemplateDefault implements TemplateInterface
 		AssetManager::addScript('admin::default/js/app.js');
 		AssetManager::addScript('admin::default/js/admin.js');
 		AssetManager::addScript('admin::default/plugins/iCheck/icheck.min.js');
+		AssetManager::addScript('admin::default/js/required_field.js');
+
 	}
 
 	public function view($view)

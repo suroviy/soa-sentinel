@@ -2,6 +2,7 @@
 
 return [
 	'404'      => 'Page not found.',
+	'required_field'	=> 'Required',
 	'auth'     => [
 		'title'          => 'Authorization',
 		'username'       => 'Username',
