@@ -57,6 +57,10 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 	 */
 	protected $initialized = false;
 
+	protected $horizontal = false;
+	protected $label_size = "col-sm-2";
+	protected $field_size = "col-sm-10";
+
 	/**
 	 * Initialize form
 	 */
@@ -101,6 +105,36 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 		}
 	}
 
+	public function horizontal($horizontal = null)
+	{
+		if (is_null($horizontal))
+		{
+			return $this->horizontal;
+		}
+		$this->horizontal = $horizontal;
+		return $this;
+	}
+
+	public function label_size($label_size = null)
+	{
+		if (is_null($label_size))
+		{
+			return ($this->horizontal) ? $this->label_size : null;
+		}
+		$this->label_size = ($this->horizontal) ? $label_size : null;
+		return $this;
+	}
+
+	public function field_size($field_size = null)
+	{
+		if (is_null($field_size))
+		{
+			return ($this->horizontal) ? $this->field_size : null;
+		}
+		$this->field_size = ($this->horizontal) ? $field_size : null;
+		return $this;
+	}
+
 	/**
 	 * Get or set form items
 	 * @param FormInterface[]|null $items
@@ -133,6 +167,8 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 		{
 			if ($item instanceof FormItemInterface)
 			{
+				$item->setLabelSize($this->label_size());
+				$item->setFieldSize($this->field_size());
 				$item->setInstance($instance);
 			}
 		});
@@ -225,6 +261,9 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 			'instance' => $this->instance(),
 			'action'   => $this->action,
 			'backUrl'  => session('_redirectBack', URL::previous()),
+			'horizontal'	=> $this->horizontal(),
+			'label_size'	=> $this->label_size(),
+			'field_size'	=> $this->field_size(),
 		];
 		return view(AdminTemplate::view('form.' . $this->view), $params);
 	}

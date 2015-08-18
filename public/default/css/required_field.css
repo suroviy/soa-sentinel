@@ -28,7 +28,7 @@
 .required-field-block .required-icon {
     background-color: transparent;
     position: absolute;
-    top: 0em;
+    top: 25px;
     right: 0em;
     z-index: 10;
     margin: 0em;

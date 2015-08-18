@@ -13,7 +13,7 @@
 				<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 				<div class="form-group has-feedback <?=($errors->has('email')) ? 'has-error' : ''?>">
 					{!! $errors->first('email', '<label for="email" class="control-label">:message</label>') !!}
-					<input type="text" name="email" id="email" class="form-control" placeholder="{{ trans('sentinel::lang.auth.email') }}" autofocus />
+					<input type="text" name="email" id="email" class="form-control" placeholder="{{ trans('admin::lang.auth.email') }}" autofocus />
 					<span class="glyphicon glyphicon-user form-control-feedback"></span>
 				</div>
 				<div class="form-group has-feedback <?=($errors->has('password')) ? 'has-error' : ''?>">

@@ -10,6 +10,8 @@ abstract class BaseFormItem implements Renderable, FormItemInterface
 
 	protected $view;
 	protected $instance;
+	protected $label_size;
+	protected $field_size;
 	protected $validationRules = [];
 
 	public function initialize()
@@ -21,6 +23,17 @@ abstract class BaseFormItem implements Renderable, FormItemInterface
 		return $this->instance($instance);
 	}
 
+	public function setLabelSize($label_size)
+	{
+		return $this->label_size($label_size);
+	}
+
+	public function setFieldSize($field_size)
+	{
+		return $this->field_size($field_size);
+	}
+
+
 	public function instance($instance = null)
 	{
 		if (is_null($instance))
@@ -28,6 +41,26 @@ abstract class BaseFormItem implements Renderable, FormItemInterface
 			return $this->instance;
 		}
 		$this->instance = $instance;
+		return $this;
+	}
+
+	public function label_size($label_size = null)
+	{
+		if (is_null($label_size))
+		{
+			return $this->label_size;
+		}
+		$this->label_size = $label_size;
+		return $this;
+	}
+
+	public function field_size($field_size = null)
+	{
+		if (is_null($field_size))
+		{
+			return $this->field_size;
+		}
+		$this->field_size = $field_size;
 		return $this;
 	}
 
@@ -63,13 +96,16 @@ abstract class BaseFormItem implements Renderable, FormItemInterface
 	public function getParams()
 	{
 		return [
-			'instance' => $this->instance(),
+			'instance' 		=> $this->instance(),
+			'label_size'	=> $this->label_size(),
+			'field_size'	=> $this->field_size()
 		];
 	}
 
 	public function render()
 	{
 		$params = $this->getParams();
+		\Debugbar::info($params);
 		return view(AdminTemplate::view('formitem.' . $this->view), $params)->render();
 	}
 

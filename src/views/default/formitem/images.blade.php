@@ -1,5 +1,13 @@
 <div class="form-group {{ $errors->has($name) ? 'has-error' : '' }}">
-	<label for="{{ $name }}">{{ $label }}</label>
+	<label for="{{ $name }}" @if($label_size) class="{{ $label_size }}" @endif >
+		{{ $label }} 
+		@if($required_field)
+			@include(AdminTemplate::view('formitem.required'))
+    	@endif
+    </label>
+    @if($field_size)
+    	<div class="{{ $field_size }}">
+    @endif
 	<div class="imageUploadMultiple" data-target="{{ route('admin.formitems.image.uploadImage') }}" data-token="{{ csrf_token() }}">
 		<div class="row form-group images-group">
 			@foreach ($value as $image)
@@ -19,4 +27,7 @@
 			@include(AdminTemplate::view('formitem.errors'))
 		</div>
 	</div>
+	@if($field_size)
+    	</div>
+    @endif
 </div>

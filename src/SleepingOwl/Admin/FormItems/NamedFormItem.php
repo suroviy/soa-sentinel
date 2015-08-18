@@ -68,7 +68,7 @@ abstract class NamedFormItem extends BaseFormItem
 		return $this;
 	}
 
-	public function isRequired($isRequired = false)
+	public function isRequired($isRequired = null)
 	{
 		if (is_null($isRequired))
 		{
@@ -86,7 +86,7 @@ abstract class NamedFormItem extends BaseFormItem
 			'label'     => $this->label(),
 			'readonly'  => $this->readonly(),
 			'value'     => $this->value(),
-			'required'	=> $this->isRequired()
+			'required_field'	=> $this->isRequired()
 		];
 	}
 

@@ -1,9 +1,10 @@
-<form action="{{ $action }}" method="POST">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-    <input type="hidden" name="_redirectBack" value="{{ $backUrl }}" />
+<div class="box">
+    <form action="{{ $action }}" method="POST" @if($horizontal) class="form-horizontal" @endif>
+        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+        <input type="hidden" name="_redirectBack" value="{{ $backUrl }}" />
 
-    @foreach($items as $panelTitle => $formItems)
-        <div class="box">
+        @foreach($items as $panelTitle => $formItems)
+            
             <div class="box-header">
                 <div class="box-header with-border">
                     <h3 class="box-title">{{ $panelTitle  }}</h3>
@@ -14,10 +15,11 @@
                     {!! $item !!}
                 @endforeach
             </div>
+       
+        @endforeach
+        <div class="box-footer">
+            <input type="submit" value="{{ trans('admin::lang.table.save') }}" class="btn btn-primary flat"/>
+            <a href="{{ $backUrl }}" class="btn btn-default flat">{{ trans('admin::lang.table.cancel') }}</a>
         </div>
-    @endforeach
-    <div class="form-group">
-        <input type="submit" value="{{ trans('admin::lang.table.save') }}" class="btn btn-primary flat"/>
-        <a href="{{ $backUrl }}" class="btn btn-default flat">{{ trans('admin::lang.table.cancel') }}</a>
-    </div>
-</form>
+    </form>
+</div>
