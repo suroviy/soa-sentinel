@@ -82,9 +82,9 @@ class Select extends NamedFormItem
 		];
 	}
 
-	public function enum($values)
+	public function enum($values, $sort=true)
 	{
-		return $this->options(array_combine($values, $values));
+		return $this->options(array_combine($values, $values), $sort);
 	}
 
 	public function nullable($nullable = true)
