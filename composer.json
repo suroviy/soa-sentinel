@@ -1,7 +1,7 @@
 {
-	"name": "sleeping-owl/admin",
-	"description": "Aministrative interface builder for Laravel.",
-	"homepage": "http://sleeping-owl.github.io",
+	"name": "pseudoagentur/soa-sentinel",
+	"description": "Administrative interface builder for Laravel with Sentinel Integration",
+	"homepage": "http://docs.pseudoagentur.de",
 	"keywords": [
 		"laravel",
 		"admin",
@@ -13,6 +13,10 @@
 		{
 			"name": "Sleeping Owl",
 			"email": "owl.sleeping@yahoo.com"
+		},
+		{
+			"name": "Pseudoagentur",
+			"email": "hello@pseudoagentur.de"
 		}
 	],
 	"require": {
