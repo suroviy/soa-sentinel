@@ -30,7 +30,9 @@ class AdminController extends Controller
 
 	public function postStore($model)
 	{
+
 		$create = $model->create();
+
 		if (is_null($create))
 		{
 			abort(404);

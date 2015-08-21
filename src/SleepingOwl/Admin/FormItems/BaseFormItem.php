@@ -105,7 +105,6 @@ abstract class BaseFormItem implements Renderable, FormItemInterface
 	public function render()
 	{
 		$params = $this->getParams();
-		\Debugbar::info($params);
 		return view(AdminTemplate::view('formitem.' . $this->view), $params)->render();
 	}
 

@@ -203,10 +203,12 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 	 */
 	public function save($model)
 	{
+
 		if ($this->model() != $model)
 		{
 			return null;
 		}
+
 		$items = $this->items();
 		array_walk_recursive($items, function ($item)
 		{
