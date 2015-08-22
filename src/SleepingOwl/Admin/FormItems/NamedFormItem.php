@@ -146,10 +146,15 @@ abstract class NamedFormItem extends BaseFormItem
 			return $value;
 		}
 
-		if ( ! is_null($instance) && ! is_null($value = $instance->getAttribute($this->attribute())))
-		{
-			return $value;
-		}
+		$attribute = $this->attribute();
+
+        if ( !is_null($instance) && $this->lang() && !is_null($value = $instance->translate($this->lang()))) {
+            return $value->$attribute;
+        }
+
+        if (!is_null($instance) && !is_null($value = $instance->getAttribute($attribute))) {
+            return $value;
+        }
 
 		return $this->defaultValue();
 	}
