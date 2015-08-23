@@ -1,4 +1,11 @@
-<a href="#" class="logo">{{{ config('admin.title') }}}</a>
+<!-- Logo -->
+<a href="{!! route('admin.dashboard') !!}" class="logo">
+	<!-- mini logo for sidebar mini 50x50 pixels -->
+	<span class="logo-mini">{{{ config('admin.title-mini') }}}</span>
+	<!-- logo for regular state and mobile devices -->
+	<span class="logo-lg">{{{ config('admin.title') }}}</span>
+</a>
+
 <nav class="navbar navbar-static-top" role="navigation">
 	<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
 		<span class="sr-only">Toggle navigation</span>
