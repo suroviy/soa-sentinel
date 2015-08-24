@@ -17,6 +17,10 @@
 		{
 			"name": "Pseudoagentur",
 			"email": "hello@pseudoagentur.de"
+		},
+		{
+			"name": "Heiko Bihlmaier",
+			"email": "mail@heiko-bihlmaier.com"
 		}
 	],
 	"require": {
