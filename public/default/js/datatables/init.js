@@ -46,5 +46,11 @@ $(function ()
 			var type = $(this).data('type');
 			window.columnFilters[type](this, table);
 		});
+
+		var exportButtons = $this.data('soa-buttons');
+		console.log(exportButtons);
+		if ( exportButtons  ) {
+
+		}
 	});
 });

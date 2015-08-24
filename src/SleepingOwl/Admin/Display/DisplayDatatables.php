@@ -21,8 +21,10 @@ class DisplayDatatables extends DisplayTable
 			'asc'
 		]
 	];
-	protected $columnFilters = [];
-	protected $attributes = [];
+	protected $columnFilters 	= [];
+	protected $attributes 		= [];
+
+	protected $exportButtons	= [];
 
 	/**
 	 * Initialize display
@@ -82,6 +84,23 @@ class DisplayDatatables extends DisplayTable
 		return $this;
 	}
 
+	public function addButton($button=null, $buttonAttributes = []) {
+
+		$arrExtend = [
+			'extend'	=> $button
+		];
+
+		$arrButton = array_merge($arrExtend, $buttonAttributes);
+
+		$this->exportButtons[] = $arrButton;
+
+		return $this;
+	}
+
+	protected function exportButtons() {
+		return $this->exportButtons;
+	}
+
 	/**
 	 * Get view render parameters
 	 * @return array
@@ -92,6 +111,7 @@ class DisplayDatatables extends DisplayTable
 		$params['order'] = $this->order();
 		$params['columnFilters'] = $this->columnFilters();
 		$params['attributes'] = $this->attributes();
+		$params['exportButtons']	= $this->exportButtons();
 		return $params;
 	}
 
