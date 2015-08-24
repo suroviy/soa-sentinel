@@ -17,9 +17,8 @@
 			<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
 		<![endif]-->
 	</head>
-	<body>
 
-		<body class="skin-{!! Config::get('admintheme.skin') !!} @if( Config::get('admintheme.sidebar_mini') )sidebar-mini @endif @if( Config::get('admintheme.boxed_layout') ) layout-boxed @endif @if( Config::get('admintheme.fixed_layout') ) fixed @endif @if( Config::get('admintheme.toggle_sidebar') ) sidebar-collapse @endif">
+	<body class="skin-{!! Config::get('admintheme.skin') !!} @if( Config::get('admintheme.sidebar_mini') )sidebar-mini @endif @if( Config::get('admintheme.boxed_layout') ) layout-boxed @endif @if( Config::get('admintheme.fixed_layout') ) fixed @endif @if( Config::get('admintheme.toggle_sidebar') ) sidebar-collapse @endif @yield('body')">
 
 		@yield('content')
 
