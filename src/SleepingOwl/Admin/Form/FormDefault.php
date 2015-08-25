@@ -60,6 +60,7 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 	protected $horizontal = false;
 	protected $label_size = "col-sm-2";
 	protected $field_size = "col-sm-10";
+	protected $back_url;
 
 	/**
 	 * Initialize form
@@ -134,6 +135,25 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 		$this->field_size = ($this->horizontal) ? $field_size : null;
 		return $this;
 	}
+	
+	/**
+     * @param null $url URL or route name
+     * @param array $params optional url / route params
+     * @return mixed
+     */
+    public function back_url($url = null, $params = []) {
+        if (is_null($url)) {
+            return (is_null($this->back_url)) ? session('_redirectBack', URL::previous()) : $this->back_url;
+        }
+
+        if ( \Route::has($url)) {
+            $this->back_url = route($url, $params);
+        } else {
+            $this->back_url = url($url, $params);
+        }
+		
+		return $this;
+    }
 
 	/**
 	 * Get or set form items
@@ -262,7 +282,7 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 			'items'    => $this->items(),
 			'instance' => $this->instance(),
 			'action'   => $this->action,
-			'backUrl'  => session('_redirectBack', URL::previous()),
+			'backUrl'  => $this->back_url(),
 			'horizontal'	=> $this->horizontal(),
 			'label_size'	=> $this->label_size(),
 			'field_size'	=> $this->field_size(),

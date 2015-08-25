@@ -6,6 +6,7 @@ return [
 	 * Displays in page title and header
 	 */
 	'title'                   => 'SOA Backend',
+	'title-mini'              => 'SOA',
 
 	/*
 	 * Admin url prefix
