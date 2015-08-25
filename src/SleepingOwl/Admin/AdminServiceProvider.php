@@ -43,9 +43,11 @@ class AdminServiceProvider extends ServiceProvider
 		$this->loadViewsFrom(__DIR__ . '/../../views', 'admin-lte');
 		$this->loadTranslationsFrom(__DIR__ . '/../../lang', 'admin');
 		$this->mergeConfigFrom(__DIR__ . '/../../config/config.php', 'admin');
+		$this->mergeConfigFrom(__DIR__ . '/../../config/theme.php', 'admintheme');
 
 		$this->publishes([
 			__DIR__ . '/../../config/config.php' => config_path('admin.php'),
+			__DIR__ . '/../../config/theme.php' => config_path('admintheme.php'),
 		], 'config');
 
 

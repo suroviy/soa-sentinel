@@ -116,6 +116,7 @@ class AdminController extends Controller
 
 	public function getLang()
 	{
+		\Debugbar::info("getLang");
 		$lang = trans('admin::lang');
 		if ($lang == 'admin::lang')
 		{
@@ -136,6 +137,7 @@ class AdminController extends Controller
 			'Content-Type' => 'text/javascript',
 		]);
 
+		\Debugbar::info($response);
 		return $this->cacheResponse($response);
 	}
 
