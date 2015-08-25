@@ -151,6 +151,8 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
         } else {
             $this->back_url = url($url, $params);
         }
+		
+		return $this;
     }
 
 	/**
