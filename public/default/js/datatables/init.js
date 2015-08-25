@@ -1,5 +1,9 @@
+Array.prototype.clean=function(){return this.filter(function(e){return (typeof  e !=='undefined')&&(e!= null)&&(e!='')})}
+
+
 $(function ()
 {
+
 	$.fn.dataTable.ext.errMode = function ()
 	{
 		$.notify(window.admin.lang.table.error, 'error');
@@ -10,10 +14,13 @@ $(function ()
 		var params = {
 			language: window.admin.lang.table,
 			stateSave: true,
+
 			lengthMenu: [
 				[10, 25, 50, -1],
 				[10, 25, 50, window.admin.lang.table.all]
-			]
+			],
+			
+   			
 		};
 		params = $.extend(params, $this.data('attributes'));
 
@@ -47,10 +54,16 @@ $(function ()
 			window.columnFilters[type](this, table);
 		});
 
-		var exportButtons = $this.data('soa-buttons');
-		console.log(exportButtons);
-		if ( exportButtons  ) {
+		var exportButtons = [$this.data('soa-buttons')];
 
+		if ( exportButtons.clean().length > 0  ) {
+			new $.fn.dataTable.Buttons( table, {
+	   			buttons: exportButtons
+	    	} );
+
+	    	table.buttons( 0, null ).container().appendTo(
+		        $('.box-tools')
+		    );
 		}
 	});
 });
