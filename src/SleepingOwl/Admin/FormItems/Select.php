@@ -1,7 +1,6 @@
 <?php namespace SleepingOwl\Admin\FormItems;
 
 use Illuminate\Support\Collection;
-use SleepingOwl\Admin\AssetManager\AssetManager;
 use SleepingOwl\Admin\Repository\BaseRepository;
 
 class Select extends NamedFormItem
@@ -12,15 +11,8 @@ class Select extends NamedFormItem
 	protected $display = 'title';
 	protected $options = [];
 	protected $nullable = false;
-
-	public function initialize()
-	{
-		parent::initialize();
-
-		AssetManager::addStyle('admin::default/css/formitems/select/chosen.css');
-		AssetManager::addScript('admin::default/js/formitems/select/chosen.jquery.min.js');
-		AssetManager::addScript('admin::default/js/formitems/select/init.js');
-	}
+	protected $multi = false;
+	protected $plugin = null;
 
 	public function model($model = null)
 	{
@@ -51,11 +43,11 @@ class Select extends NamedFormItem
 				$this->loadOptions();
 			}
 			$options = $this->options;
-			
+
 			if($sort) {
 				asort($options);
 			}
-			
+
 			return $options;
 		}
 		$this->options = $options;
@@ -77,8 +69,10 @@ class Select extends NamedFormItem
 	public function getParams()
 	{
 		return parent::getParams() + [
-			'options'  => $this->options(),
-			'nullable' => $this->isNullable(),
+			'options'  	=> $this->options(),
+			'nullable' 	=> $this->isNullable(),
+			'multi' 	=> $this->multi(),
+			'plugin' 	=> $this->plugin
 		];
 	}
 
@@ -96,6 +90,30 @@ class Select extends NamedFormItem
 	public function isNullable()
 	{
 		return $this->nullable;
+	}
+
+	public function multi($multi = null)
+	{
+		if (is_null($multi))
+		{
+			return $this->multi;
+		}
+		$this->multi = $multi;
+		return $this;
+	}
+
+	public function value()
+	{
+		$value = parent::value();
+		if ($value instanceof Collection  && $value->count() > 0)
+		{
+			$value = $value->lists($value->first()->getKeyName());
+		}
+		if ($value instanceof Collection)
+		{
+			$value = $value->toArray();
+		}
+		return $value;
 	}
 
 }
