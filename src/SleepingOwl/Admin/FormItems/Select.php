@@ -13,6 +13,7 @@ class Select extends NamedFormItem
 	protected $nullable = false;
 	protected $multi = false;
 	protected $plugin = null;
+	protected $seperator = '-';
 
 	public function model($model = null)
 	{
@@ -31,6 +32,16 @@ class Select extends NamedFormItem
 			return $this->display;
 		}
 		$this->display = $display;
+		return $this;
+	}
+
+	public function seperator($seperator = null)
+	{
+		if (is_null($seperator))
+		{
+			return ' ' . trim($this->seperator) . ' ';
+		}
+		$this->seperator = $seperator;
 		return $this;
 	}
 
@@ -57,11 +68,32 @@ class Select extends NamedFormItem
 	protected function loadOptions()
 	{
 		$repository = new BaseRepository($this->model());
+		$display = explode('|', $this->display());
+
+		$model = $repository->query()->get($display);
 		$key = $repository->model()->getKeyName();
-		$options = $repository->query()->get()->lists($this->display(), $key);
-		if ($options instanceof Collection)
+		$options = [];
+		$value = "";
+
+		if ($model instanceof Collection)
 		{
-			$options = $options->all();
+			$datasets = $model->all();
+			foreach( $datasets as $dataset  ) {
+				$itemCount = count($display);
+				$count = 0;
+				foreach( $display as $item ) {
+					$count++;
+					$value .= $dataset->$item;
+					if ($count < $itemCount ) {
+						if ( $dataset->$item ) {
+							$value .= ($dataset->$item == $key) ? '#' : $this->seperator();
+						}
+					}
+				}
+
+				$options[$dataset->$key] = $value;
+			}
+
 		}
 		$this->options($options);
 	}
