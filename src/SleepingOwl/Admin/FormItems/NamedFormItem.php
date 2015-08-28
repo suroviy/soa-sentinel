@@ -12,6 +12,7 @@ abstract class NamedFormItem extends BaseFormItem
 	protected $defaultValue;
 	protected $readonly;
 	protected $isRequired;
+	protected $lang=false;
 
 	function __construct($path, $label = null)
 	{
@@ -32,7 +33,11 @@ abstract class NamedFormItem extends BaseFormItem
 	{
 		if (is_null($path))
 		{
-			return $this->path;
+			if( $this->lang() ) {
+				return $this->lang()."_".$this->path;
+			} else {
+				return $this->path;
+			}
 		}
 		$this->path = $path;
 		return $path;
@@ -42,7 +47,11 @@ abstract class NamedFormItem extends BaseFormItem
 	{
 		if (is_null($attribute))
 		{
-			return $this->attribute;
+			// if( $this->lang() ) {
+			// 	return $this->lang()."_".$this->attribute;
+			// } else {
+				return $this->attribute;
+			//}
 		}
 		$this->attribute = $attribute;
 		return $attribute;
@@ -68,6 +77,16 @@ abstract class NamedFormItem extends BaseFormItem
 		return $this;
 	}
 
+	public function lang($lang = null)
+	{
+		if (is_null($lang))
+		{
+			return $this->lang;
+		}
+		$this->lang = $lang;
+		return $this;
+	}
+
 	public function isRequired($isRequired = null)
 	{
 		if (is_null($isRequired))
@@ -86,7 +105,8 @@ abstract class NamedFormItem extends BaseFormItem
 			'label'     => $this->label(),
 			'readonly'  => $this->readonly(),
 			'value'     => $this->value(),
-			'required_field'	=> $this->isRequired()
+			'required_field'	=> $this->isRequired(),
+			'lang'		=> $this->lang()
 		];
 	}
 
@@ -115,6 +135,7 @@ abstract class NamedFormItem extends BaseFormItem
 	public function value()
 	{
 		$instance = $this->instance();
+
 		if ( ! is_null($value = old($this->path())))
 		{
 			return $value;
@@ -124,10 +145,17 @@ abstract class NamedFormItem extends BaseFormItem
 		{
 			return $value;
 		}
-		if ( ! is_null($instance) && ! is_null($value = $instance->getAttribute($this->attribute())))
-		{
-			return $value;
-		}
+
+		$attribute = $this->attribute();
+
+        if ( !is_null($instance) && $this->lang() && !is_null($value = $instance->translate($this->lang()))) {
+            return $value->$attribute;
+        }
+
+        if (!is_null($instance) && !is_null($value = $instance->getAttribute($attribute))) {
+            return $value;
+        }
+
 		return $this->defaultValue();
 	}
 
@@ -139,7 +167,16 @@ abstract class NamedFormItem extends BaseFormItem
 		} else {
 			$value = $this->value();
 		}
-		$this->instance()->$attribute = $value;
+		if(!$this->lang()) {
+			$this->instance()->$attribute = $value;
+		} else {
+
+			if( $this->instance()->translate() ) {
+				$this->instance()->translateOrNew($this->lang())->$attribute = $value;
+			} else {
+				$this->instance()->$attribute = $value;
+			}
+		}	
 	}
 
 	public function required()

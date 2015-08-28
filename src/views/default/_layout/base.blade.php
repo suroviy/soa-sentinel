@@ -20,8 +20,21 @@
 		@foreach (\SleepingOwl\Admin\AssetManager\AssetManager::scripts() as $script)
 			<script src="{{ $script }}"></script>
 		@endforeach
+
+		@if( Config::get('admintheme.sidebar_on_hover') )
+		<script type="text/javascript">
+	      	$(function () {
+	      		$.AdminLTE.pushMenu.expandOnHover();
+	      	});
+		</script>
+		@endif
+		
 	</head>
-	@yield('body', '<body class="skin-blue">')
+
+	<body class="skin-{!! Config::get('admintheme.skin') !!} @if( Config::get('admintheme.sidebar_mini') )sidebar-mini @endif @if( Config::get('admintheme.boxed_layout') ) layout-boxed @endif @if( Config::get('admintheme.fixed_layout') ) fixed @endif @if( Config::get('admintheme.toggle_sidebar') ) sidebar-collapse @endif @yield('body')">
+
 		@yield('content')
+
+		
 	</body>
 </html>

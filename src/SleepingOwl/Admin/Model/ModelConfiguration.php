@@ -12,6 +12,7 @@ class ModelConfiguration
 	protected $alias;
 	protected $title;
 	protected $permission;
+	protected $translate = false;
 	protected $display;
 	protected $create;
 	protected $edit;
@@ -62,6 +63,16 @@ class ModelConfiguration
 			return $this->permission;
 		}
 		$this->permission = $permission;
+		return $this;
+	}
+
+	public function translate($translate = null)
+	{
+		if (func_num_args() == 0)
+		{
+			return $this->translate;
+		}
+		$this->translate = $translate;
 		return $this;
 	}
 

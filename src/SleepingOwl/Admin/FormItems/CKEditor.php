@@ -18,7 +18,7 @@ class CKEditor extends NamedFormItem implements WithRoutesInterface
 	{
 		parent::initialize();
 
-		AssetManager::addScript('admin::default/js/formitems/ckeditor/ckeditor.js');
+		AssetManager::addScript('admin::default/plugins/ckeditor/ckeditor.js');
 	}
 
 	public static function registerRoutes()

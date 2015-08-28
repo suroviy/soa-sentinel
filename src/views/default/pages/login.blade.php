@@ -1,6 +1,6 @@
 @extends(AdminTemplate::view('_layout.base'))
 
-@section('body', '<body class="login-page">')
+@section('body', 'login-page')
 
 @section('content')
 	<div class="login-box">
