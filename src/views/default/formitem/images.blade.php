@@ -8,7 +8,7 @@
     @if($field_size)
     	<div class="{{ $field_size }}">
     @endif
-	<div class="imageUploadMultiple" data-target="{{ route('admin.upload.image') }}" data-upload-renew="false" data-target-delete="{{ route('admin.upload.delete.image') }}" data-token="{{ csrf_token() }}" data-path="{{ $path }}">
+	<div class="imageUploadMultiple" data-target="{{ route('admin.upload.image') }}" data-target-delete="{{ route('admin.upload.delete.image') }}" data-token="{{ csrf_token() }}" data-path="{{ $path }}">
 		<div class="row form-group images-group">
 			@foreach ($value as $image)
 				<div class="col-xs-6 col-md-3 imageThumbnail">
