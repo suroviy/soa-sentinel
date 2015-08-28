@@ -26,8 +26,14 @@ return [
 
 	/*
 	 * Directory to upload images to (relative to public directory)
+	 * OUTDATED: Use filemanagerDirectory instead
 	 */
 	'imagesUploadDirectory' => 'images/uploads',
+
+	/*
+	 * Directory for file manager  (relative to public directory)
+	 */
+	'filemanagerDirectory' =>  'files/',
 
 	/*
 	 * Authentication config

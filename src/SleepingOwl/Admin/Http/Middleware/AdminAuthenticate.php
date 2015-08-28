@@ -35,7 +35,7 @@ class AdminAuthenticate
 		if( count( $request->route()->parameters() ) == 0 ) {
 
 			//Dashboard or some custom page
-			if( $request->route()->getName() == "admin.dashboard" || starts_with($request->route()->getName(), "admin.formitems.image.")) {
+			if( $request->route()->getName() == "admin.dashboard" || starts_with($request->route()->getName(), "admin.upload.")) {
 				if (\Sentinel::hasAnyAccess(['superadmin', 'controlpanel']))
 				{
 					return $next($request);

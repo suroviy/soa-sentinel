@@ -4,7 +4,7 @@ class File extends Image
 {
 
 	protected $view = 'file';
-	protected static $route = 'uploadFile';
+	protected static $route = 'file';
 
 	protected static function uploadValidationRules()
 	{
@@ -13,4 +13,4 @@ class File extends Image
 		];
 	}
 
-} 
+}

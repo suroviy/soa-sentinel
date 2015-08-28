@@ -1,6 +1,6 @@
 <div class="form-group {{ $errors->has($name) ? 'has-error' : '' }}">
 	<label for="{{ $name }}" @if($label_size) class="{{ $label_size }}" @endif >
-		{{ $label }} 
+		{{ $label }}
 		@if($required_field)
 			@include(AdminTemplate::view('formitem.required'))
     	@endif
@@ -8,7 +8,7 @@
     @if($field_size)
     	<div class="{{ $field_size }}">
     @endif
-	<div class="imageUpload" data-target="{{ route('admin.formitems.image.uploadFile') }}" data-token="{{ csrf_token() }}">
+	<div class="imageUpload" data-target="{{ route('admin.upload.file') }}" data-token="{{ csrf_token() }}"  data-target-delete="{{ route('admin.upload.delete.image') }}" data-path="{{ $path }}">
 		<div>
 			<div class="thumbnail">
 				<div class="no-value {{ empty($value) ? '' : 'hidden' }}">
