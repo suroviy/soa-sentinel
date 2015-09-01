@@ -1,6 +1,6 @@
 <div class="form-group {{ $errors->has($name) ? 'has-error' : '' }}">
 	<label for="{{ $name }}" @if($label_size) class="{{ $label_size }}" @endif >
-		{{ $label }} 
+		{{ $label }}
 		@if($required_field)
 			@include(AdminTemplate::view('formitem.required'))
     	@endif
@@ -24,7 +24,8 @@
 		</div>
 		<input name="{{ $name }}" class="imageValue" type="hidden" value="{{ implode(',', $value) }}">
 		<div class="errors">
-			@include(AdminTemplate::view('formitem.errors'))
+			@include(AdminTemplate::view('formitem.help'))
+			@include(AdminTemplate::view('formitem.errors')))
 		</div>
 	</div>
 	@if($field_size)
