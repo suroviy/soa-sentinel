@@ -91,7 +91,7 @@ class DisplayDatatables extends DisplayTable
 		return $this;
 	}
 
-	public function addButton($button=null, $buttonAttributes = []) {
+	public function export($button=null, $buttonAttributes = []) {
 
 		$arrExtend = [
 			'extend'	=> $button
