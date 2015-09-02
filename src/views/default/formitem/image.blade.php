@@ -21,6 +21,7 @@
 		</div>
 		<input name="{{ $name }}" class="imageValue" type="hidden" value="{{ $value }}">
 		<div class="errors">
+			@include(AdminTemplate::view('formitem.help'))
 			@include(AdminTemplate::view('formitem.errors'))
 		</div>
 	</div>
