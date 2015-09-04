@@ -56,7 +56,7 @@ class AdminServiceProvider extends ServiceProvider
 		], 'assets');
 
 
-		app('SleepingOwl\Admin\Helpers\StartSession')->run();
+		//app('SleepingOwl\Admin\Helpers\StartSession')->run();
 
 		Admin::instance();
 		$this->registerTemplate();
