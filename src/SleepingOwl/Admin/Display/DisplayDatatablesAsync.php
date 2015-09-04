@@ -22,9 +22,10 @@ class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInte
 	/**
 	 * @param string|null $name
 	 */
-	function __construct($name = null)
+	function __construct($name = null, $distinct=null)
 	{
 		$this->name($name);
+		$this->distinct=$distinct;
 	}
 
 	/**
@@ -96,7 +97,14 @@ class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInte
 		$this->applySearch($query);
 		$this->applyColumnSearch($query);
 
-		$filteredCount = $query->count();
+		
+		if(!is_null($this->distinct)){
+			$filteredCount = $query->distinct()->count($this->distinct);
+		}
+
+		if(is_null($this->distinct)){
+			$filteredCount = $query->count();
+		}
 
 		$this->applyOrders($query);
 		$this->applyOffset($query);
