@@ -70,8 +70,8 @@ class Select extends NamedFormItem
 		$repository = new BaseRepository($this->model());
 		$display = explode('|', $this->display());
 
-		$model = $repository->query()->get($display);
 		$key = $repository->model()->getKeyName();
+		$model = $repository->query()->get(array_add($display, 'id', 'id'));
 		$options = [];
 		$value = "";
 
@@ -80,21 +80,26 @@ class Select extends NamedFormItem
 			$datasets = $model->all();
 			foreach( $datasets as $dataset  ) {
 				$itemCount = count($display);
-				$count = 0;
-				foreach( $display as $item ) {
-					$count++;
-					$value .= $dataset->$item;
-					if ($count < $itemCount ) {
-						if ( $dataset->$item ) {
-							$value .= ($dataset->$item == $key) ? '#' : $this->seperator();
+				if ( $itemCount > 1 ) {
+					$count = 0;
+					foreach( $display as $item ) {
+						$count++;
+						$value .= $dataset->$item;
+
+						if ($count <= $itemCount ) {
+							if ( $dataset->$item ) {
+								$value .= ($dataset->$item == $key) ? '#' : $this->seperator();
+							}
 						}
 					}
+				} else {
+					$value = $dataset->$display[0];
 				}
 
 				$options[$dataset->$key] = $value;
 			}
-
 		}
+
 		$this->options($options);
 	}
 
