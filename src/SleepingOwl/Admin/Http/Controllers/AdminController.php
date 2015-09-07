@@ -122,8 +122,6 @@ class AdminController extends Controller
 			$lang = trans('admin::lang', [], 'messages', 'en');
 		}
 
-		var_dump($lang);
-
 		$data = array(
 			'locale' => App::getLocale(),
 			'token'  => csrf_token(),
