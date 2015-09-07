@@ -32,6 +32,8 @@ class InstallCommand extends Command
 		$this->call('vendor:publish', ['--provider' => 'SleepingOwl\Admin\AdminServiceProvider']);
 		$this->call('vendor:publish', ['--provider' => 'Cartalyst\Sentinel\Laravel\SentinelServiceProvider']);
 		$this->call('vendor:publish', ['--provider' => 'Proengsoft\JsValidation\JsValidationServiceProvider']);
+		$this->call('elfinder:publish');
+		$this->call('vendor:publish', ['--provider' => 'Barryvdh\Elfinder\ElfinderServiceProvider', '--tag' => 'config']);
 		$this->removeLaravelAuth();
 		$this->publishDB();
 		$this->publishConfig($title);
