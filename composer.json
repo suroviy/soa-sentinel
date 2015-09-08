@@ -29,6 +29,7 @@
 		"doctrine/dbal": "~2.3",
 		"cartalyst/sentinel": "2.0.*",
 		"proengsoft/laravel-jsvalidation": "~1.1",
+		"dimsav/laravel-translatable": "5.0.*",
 		"barryvdh/laravel-elfinder" : "0.3.*"
 	},
 	"require-dev": {
