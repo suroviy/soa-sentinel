@@ -32,6 +32,7 @@ class AdminServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
+		$this->updateFilebrowserConfig();
 		$this->registerCommands();
 	}
 
@@ -56,7 +57,7 @@ class AdminServiceProvider extends ServiceProvider
 		], 'assets');
 
 
-		app('SleepingOwl\Admin\Helpers\StartSession')->run();
+		//app('SleepingOwl\Admin\Helpers\StartSession')->run();
 
 		Admin::instance();
 		$this->registerTemplate();
@@ -112,6 +113,17 @@ class AdminServiceProvider extends ServiceProvider
 		{
 			$this->commands('SleepingOwl\Admin\Commands\\' . $command);
 		}
+	}
+
+	/**
+	 * Config Replacement for the CK Editor,
+	 * because to use url() inside the config file generates an Error in the CLI
+	 */ 
+	protected function updateFilebrowserConfig() {
+		config([
+        	'admin.ckeditor.filebrowserBrowseUrl' 		=> call_user_func( config('admin.ckeditor.filebrowserBrowseUrl.type'), config('admin.ckeditor.filebrowserBrowseUrl.path') ),
+        	'admin.ckeditor.filebrowserImageBrowseUrl' 	=> call_user_func( config('admin.ckeditor.filebrowserImageBrowseUrl.type'), config('admin.ckeditor.filebrowserImageBrowseUrl.path') ),
+    	]);
 	}
 
 }
