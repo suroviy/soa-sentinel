@@ -66,7 +66,13 @@ return [
 	 * Checkout http://docs.ckeditor.com/#!/api/CKEDITOR.config for more information.
 	 */
 	'ckeditor' => [
-		'filebrowserBrowseUrl' 		=> url('elfinder/ckeditor'),
-		'filebrowserImageBrowseUrl' => url('elfinder/ckeditor')
+		'filebrowserBrowseUrl' 		=> [
+			"type" 	=> "url",
+			"path"	=> "elfinder/ckeditor" 
+		],
+		'filebrowserImageBrowseUrl' => [
+			"type" 	=> "url",
+			"path"	=> "elfinder/ckeditor" 
+		]
 	],
 ];
