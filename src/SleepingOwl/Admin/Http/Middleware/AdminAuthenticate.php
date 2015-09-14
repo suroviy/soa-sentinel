@@ -35,10 +35,13 @@ class AdminAuthenticate
 		if( count( $request->route()->parameters() ) == 0 ) {
 
 			//Dashboard or some custom page
-			if( $request->route()->getName() == "admin.dashboard" || starts_with($request->route()->getName(), "admin.upload.")) {
+			if( $request->route()->getName() == "admin.dashboard" || starts_with($request->route()->getName(), "admin.upload.") || starts_with($request->route()->getName(), "elfinder.")) {
 				if (\Sentinel::hasAnyAccess(['superadmin', 'controlpanel']))
 				{
 					return $next($request);
+				}
+				else {
+					return redirect()->guest(route('admin.login'));
 				}
 			}
 

@@ -48,7 +48,7 @@ class TinyMCE extends NamedFormItem
     public function getParams()
     {
         return parent::getParams() + [
-          'config' => json_encode($this->mce_config()),
+          'config' => str_replace('"elFinderBrowser"', 'elFinderBrowser', json_encode($this->mce_config() )),
           'selector' => $this->mce_selector(),
         ];
     }

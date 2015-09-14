@@ -6,6 +6,12 @@ class Custom extends BaseFormItem
 	protected $display;
 	protected $callback;
 
+	public function initialize()
+	{
+		parent::initialize();
+		$this->custom(true);
+	}
+
 	public function display($display = null)
 	{
 		if (is_null($display))

@@ -8,6 +8,7 @@ class Select extends NamedFormItem
 
 	protected $view = 'select';
 	protected $model;
+	protected $with;
 	protected $display = 'title';
 	protected $options = [];
 	protected $nullable = false;
@@ -22,6 +23,16 @@ class Select extends NamedFormItem
 			return $this->model;
 		}
 		$this->model = $model;
+		return $this;
+	}
+
+	public function with($with = null)
+	{
+		if (is_null($with))
+		{
+			return $this->with;
+		}
+		$this->with = $with;
 		return $this;
 	}
 
@@ -71,7 +82,13 @@ class Select extends NamedFormItem
 		$display = explode('|', $this->display());
 
 		$key = $repository->model()->getKeyName();
-		$model = $repository->query()->get(array_add($display, 'id', 'id'));
+
+		$model = $repository->query();
+		if ( !is_null($this->with())) {
+			$model = $model->with($this->with());
+		}
+		$model = $model->get();
+
 		$options = [];
 		$value = "";
 

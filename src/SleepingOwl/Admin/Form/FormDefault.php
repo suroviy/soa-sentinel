@@ -64,6 +64,7 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 	protected $ajax_validation = false;
 	protected $back_url;
 	protected $validation_rules = null;
+	protected $validation_messages = null;
 
 	/**
 	 * Initialize form
@@ -138,14 +139,14 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 		$this->field_size = ($this->horizontal) ? $field_size : null;
 		return $this;
 	}
-	
+
 	public function ajax_validation($ajax_validation = null)
 	{
 		if (is_null($ajax_validation)) {
 
 			if ($this->ajax_validation) {
 				AssetManager::addScript(asset('vendor/jsvalidation/js/jsvalidation.js'));
-				return \JsValidator::make($this->build_validation_rules());
+				return \JsValidator::make($this->build_validation_rules(), [], $this->build_validation_messages());
 			} else {
 				return false;
 			}
@@ -169,7 +170,7 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
         } else {
             $this->back_url = url($url, $params);
         }
-		
+
 		return $this;
     }
 
@@ -273,7 +274,7 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 		$data = Input::all();
 		$verifier = app('validation.presence');
 		$verifier->setConnection($this->instance()->getConnectionName());
-		$validator = Validator::make($data, $this->build_validation_rules());
+		$validator = Validator::make($data, $this->build_validation_rules(), [], $this->build_validation_messages());
 		$validator->setPresenceVerifier($verifier);
 		if ($validator->fails())
 		{
@@ -323,6 +324,23 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 		}
 
 		return $this->validation_rules;
+	}
+
+	private function build_validation_messages()
+	{
+		if (is_null($this->validation_messages)) {
+			$names = [];
+			$items = $this->items();
+			array_walk_recursive($items, function ($item) use (&$names) {
+				if ($item instanceof FormItemInterface && !$item->custom() ) {
+					$names = array_add($names, $item->path(), $item->label());
+				}
+			});
+
+			$this->validation_messages = $names;
+		}
+
+		return $this->validation_messages;
 	}
 
 }

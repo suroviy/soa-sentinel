@@ -57,6 +57,8 @@ class Columns extends BaseFormItem
 		{
 			$item->initialize();
 		});
+
+		$this->custom(true);
 	}
 
 	public function setInstance($instance)
