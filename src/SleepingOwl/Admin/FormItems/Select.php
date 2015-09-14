@@ -1,7 +1,6 @@
 <?php namespace SleepingOwl\Admin\FormItems;
 
 use Illuminate\Support\Collection;
-use SleepingOwl\Admin\AssetManager\AssetManager;
 use SleepingOwl\Admin\Repository\BaseRepository;
 
 class Select extends NamedFormItem
@@ -12,15 +11,9 @@ class Select extends NamedFormItem
 	protected $display = 'title';
 	protected $options = [];
 	protected $nullable = false;
-
-	public function initialize()
-	{
-		parent::initialize();
-
-		AssetManager::addStyle('admin::default/css/formitems/select/chosen.css');
-		AssetManager::addScript('admin::default/js/formitems/select/chosen.jquery.min.js');
-		AssetManager::addScript('admin::default/js/formitems/select/init.js');
-	}
+	protected $multi = false;
+	protected $plugin = null;
+	protected $seperator = '-';
 
 	public function model($model = null)
 	{
@@ -42,6 +35,16 @@ class Select extends NamedFormItem
 		return $this;
 	}
 
+	public function seperator($seperator = null)
+	{
+		if (is_null($seperator))
+		{
+			return ' ' . trim($this->seperator) . ' ';
+		}
+		$this->seperator = $seperator;
+		return $this;
+	}
+
 	public function options($options = null, $sort=true)
 	{
 		if (is_null($options))
@@ -51,11 +54,11 @@ class Select extends NamedFormItem
 				$this->loadOptions();
 			}
 			$options = $this->options;
-			
+
 			if($sort) {
 				asort($options);
 			}
-			
+
 			return $options;
 		}
 		$this->options = $options;
@@ -65,20 +68,48 @@ class Select extends NamedFormItem
 	protected function loadOptions()
 	{
 		$repository = new BaseRepository($this->model());
+		$display = explode('|', $this->display());
+
 		$key = $repository->model()->getKeyName();
-		$options = $repository->query()->get()->lists($this->display(), $key);
-		if ($options instanceof Collection)
+		$model = $repository->query()->get(array_add($display, 'id', 'id'));
+		$options = [];
+		$value = "";
+
+		if ($model instanceof Collection)
 		{
-			$options = $options->all();
+			$datasets = $model->all();
+			foreach( $datasets as $dataset  ) {
+				$itemCount = count($display);
+				if ( $itemCount > 1 ) {
+					$count = 0;
+					foreach( $display as $item ) {
+						$count++;
+						$value .= $dataset->$item;
+
+						if ($count <= $itemCount ) {
+							if ( $dataset->$item ) {
+								$value .= ($dataset->$item == $key) ? '#' : $this->seperator();
+							}
+						}
+					}
+				} else {
+					$value = $dataset->$display[0];
+				}
+
+				$options[$dataset->$key] = $value;
+			}
 		}
+
 		$this->options($options);
 	}
 
 	public function getParams()
 	{
 		return parent::getParams() + [
-			'options'  => $this->options(),
-			'nullable' => $this->isNullable(),
+			'options'  	=> $this->options(),
+			'nullable' 	=> $this->isNullable(),
+			'multi' 	=> $this->multi(),
+			'plugin' 	=> $this->plugin
 		];
 	}
 
@@ -96,6 +127,30 @@ class Select extends NamedFormItem
 	public function isNullable()
 	{
 		return $this->nullable;
+	}
+
+	public function multi($multi = null)
+	{
+		if (is_null($multi))
+		{
+			return $this->multi;
+		}
+		$this->multi = $multi;
+		return $this;
+	}
+
+	public function value()
+	{
+		$value = parent::value();
+		if ($value instanceof Collection  && $value->count() > 0)
+		{
+			$value = $value->lists($value->first()->getKeyName());
+		}
+		if ($value instanceof Collection)
+		{
+			$value = $value->toArray();
+		}
+		return $value;
 	}
 
 }

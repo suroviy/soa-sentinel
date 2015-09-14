@@ -15,6 +15,9 @@ class FormItemServiceProvider extends ServiceProvider
 		FormItem::register('timestamp', 'SleepingOwl\Admin\FormItems\Timestamp');
 		FormItem::register('textaddon', 'SleepingOwl\Admin\FormItems\TextAddon');
 		FormItem::register('select', 'SleepingOwl\Admin\FormItems\Select');
+		FormItem::register('choosen', 'SleepingOwl\Admin\FormItems\Choosen');
+		FormItem::register('bsselect', 'SleepingOwl\Admin\FormItems\BootstrapSelect');
+		FormItem::register('bsselect2', 'SleepingOwl\Admin\FormItems\Select2');
 		FormItem::register('multiselect', 'SleepingOwl\Admin\FormItems\MultiSelect');
 		FormItem::register('hidden', 'SleepingOwl\Admin\FormItems\Hidden');
 		FormItem::register('checkbox', 'SleepingOwl\Admin\FormItems\Checkbox');
@@ -27,6 +30,7 @@ class FormItemServiceProvider extends ServiceProvider
 		FormItem::register('images', 'SleepingOwl\Admin\FormItems\Images');
 		FormItem::register('file', 'SleepingOwl\Admin\FormItems\File');
 		FormItem::register('radio', 'SleepingOwl\Admin\FormItems\Radio');
+		FormItem::register('tinymce', 'SleepingOwl\Admin\FormItems\TinyMCE');
 	}
 
 }

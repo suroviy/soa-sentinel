@@ -1,6 +1,6 @@
 <div class="form-group {{ $errors->has($name) ? 'has-error' : '' }}">
 	<label for="{{ $name }}" @if($label_size) class="{{ $label_size }}" @endif >
-		{{ $label }} 
+		{{ $label }}
 		@if($required_field)
 			@include(AdminTemplate::view('formitem.required'))
     	@endif
@@ -17,6 +17,7 @@
 			<div class="input-group-addon">{!! $addon !!}</div>
 		@endif
 	</div>
+	@include(AdminTemplate::view('formitem.help'))
 	@include(AdminTemplate::view('formitem.errors'))
 	@if($field_size)
     	</div>

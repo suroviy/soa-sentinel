@@ -12,7 +12,8 @@ $(function ()
 			testChunks: false,
 			chunkSize: 1024 * 1024 * 1024,
 			query: {
-				_token: $item.data('token')
+				_token: $item.data('token'),
+				path: $item.data('path')
 			}
 		});
 		var updateValue = function ()
@@ -56,8 +57,16 @@ $(function ()
 		$item.on('click', '.imageRemove', function (e)
 		{
 			e.preventDefault();
-			$(this).closest('.imageThumbnail').remove();
-			updateValue();
+			var thumbnail = $(this).closest('.imageThumbnail');
+			$.ajax({
+				url: $item.data('target-delete'),
+				method: 'post',
+				data: { _token: $item.data('token'), filename: thumbnail.find('img').data('value') },
+				success: function (response) {
+					thumbnail.remove();
+					updateValue();
+				}
+			});
 		});
 
 		$innerGroup.sortable({

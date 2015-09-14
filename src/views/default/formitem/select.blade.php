@@ -1,6 +1,6 @@
 <div class="form-group {{ $errors->has($name) ? 'has-error' : '' }}">
 	<label for="{{ $name }}" @if($label_size) class="{{ $label_size }}" @endif >
-		{{ $label }} 
+		{{ $label }}
 		@if($required_field)
 			@include(AdminTemplate::view('formitem.required'))
     	@endif
@@ -9,7 +9,7 @@
     	<div class="{{ $field_size }}">
     @endif
 	<div>
-		<select id="{{ $name }}" name="{{ $name }}" class="form-control multiselect" size="2" data-select-type="single" {!! ($nullable) ? 'data-nullable="true"' : '' !!}>
+		<select id="{{ $name }}" @if($multi) multiple @endif name="{{ $name }}@if($multi)[]@endif" class="form-control @if(!is_null($plugin)){{ $plugin }}@endif" @if(is_null($plugin) && $multi) size="2" @endif {!! ($nullable) ? 'data-nullable="true"' : '' !!}>
 			@if ($nullable)
 				<option value=""></option>
 			@endif
@@ -18,6 +18,7 @@
 			@endforeach
 		</select>
 	</div>
+	@include(AdminTemplate::view('formitem.help'))
 	@include(AdminTemplate::view('formitem.errors'))
 	@if($field_size)
     	</div>

@@ -23,3 +23,7 @@
         </div>
     </form>
 </div>
+
+@if ( $ajax_validation )
+    {!! $ajax_validation !!}
+@endif
