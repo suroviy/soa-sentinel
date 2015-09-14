@@ -99,7 +99,7 @@ abstract class NamedFormItem extends BaseFormItem
 
 	public function getParams()
 	{
-		
+
 		return parent::getParams() + [
 			'name'      => $this->name(),
 			'label'     => $this->label(),
@@ -152,7 +152,7 @@ abstract class NamedFormItem extends BaseFormItem
             return $value->$attribute;
         }
 
-        if (!is_null($instance) && !is_null($value = $instance->getAttribute($attribute))) {
+        if (!is_null($instance) && !$this->lang() && !is_null($value = $instance->getAttribute($attribute))) {
             return $value;
         }
 
@@ -176,7 +176,7 @@ abstract class NamedFormItem extends BaseFormItem
 			} else {
 				$this->instance()->$attribute = $value;
 			}
-		}	
+		}
 	}
 
 	public function required()
@@ -206,7 +206,7 @@ abstract class NamedFormItem extends BaseFormItem
 			}
 		});
 		return [
-			$this->name() => $rules
+			$this->path() => $rules
 		];
 	}
 

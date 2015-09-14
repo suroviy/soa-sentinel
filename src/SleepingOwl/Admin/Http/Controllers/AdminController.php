@@ -129,7 +129,7 @@ class AdminController extends Controller
 			'lang'   => $lang,
 			'ckeditor_cfg' => config('admin.ckeditor')
 		);
-		
+
 		$content = 'window.admin = '.json_encode($data) . ';';
 
 		$response = new Response($content, 200, [
@@ -153,4 +153,4 @@ class AdminController extends Controller
 		abort(404);
 	}
 
-} 
+}
