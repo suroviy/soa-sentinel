@@ -14,6 +14,7 @@ abstract class BaseFormItem implements Renderable, FormItemInterface
 	protected $field_size;
 	protected $help_text;
 	protected $validationRules = [];
+	protected $custom = false;
 
 	public function initialize()
 	{
@@ -72,6 +73,16 @@ abstract class BaseFormItem implements Renderable, FormItemInterface
 			return $this->help_text;
 		}
 		$this->help_text = $help_text;
+		return $this;
+	}
+
+	public function custom($custom = null)
+	{
+		if (is_null($custom))
+		{
+			return $this->custom;
+		}
+		$this->custom = $custom;
 		return $this;
 	}
 
