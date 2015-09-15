@@ -41,6 +41,7 @@ class AdminAuthenticate
 					return $next($request);
 				}
 				else {
+					\Sentinel::logout(null, true);
 					return redirect()->guest(route('admin.login'));
 				}
 			}
