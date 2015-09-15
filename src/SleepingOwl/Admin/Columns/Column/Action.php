@@ -37,6 +37,8 @@ class Action extends NamedColumn
 	 */
 	protected $url;
 
+	protected $isBulk = false;
+
 	/**
 	 * @param string $name
 	 */
@@ -73,6 +75,21 @@ class Action extends NamedColumn
 			return $this->style;
 		}
 		$this->style = $style;
+		return $this;
+	}
+
+	public function bulk()
+	{
+		return $this->isBulk(true);
+	}
+
+	public function isBulk($isBulk = null)
+	{
+		if (is_null($isBulk))
+		{
+			return $this->isBulk;
+		}
+		$this->isBulk = $isBulk;
 		return $this;
 	}
 
@@ -134,7 +151,12 @@ class Action extends NamedColumn
 			'target' => $this->target(),
 			'url'    => $this->url(),
 		];
-		return view(AdminTemplate::view('column.action'), $params);
+
+		if( $this->isBulk() ) {
+			return view(AdminTemplate::view('column.bulkaction'), $params);
+		} else {
+			return view(AdminTemplate::view('column.action'), $params);
+		}
 	}
 
 	/**
