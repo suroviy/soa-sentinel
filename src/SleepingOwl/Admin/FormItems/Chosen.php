@@ -4,9 +4,9 @@ use Illuminate\Support\Collection;
 use SleepingOwl\Admin\AssetManager\AssetManager;
 use SleepingOwl\Admin\Repository\BaseRepository;
 
-class Choosen extends Select
+class Chosen extends Select
 {
-    protected $plugin = 'choosen';
+    protected $plugin = 'chosen';
 
 	public function initialize()
 	{
