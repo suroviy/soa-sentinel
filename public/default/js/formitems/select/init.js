@@ -12,6 +12,11 @@ $(function ()
 		});
 	});
 
+	//fix problem if you're using chosen in a tabbed view
+	$(function () {
+	    $('.chosen-container').width('100%');
+	});
+
 	$('.bsselect').each(function ()
 	{
 		var $this = $(this);
