@@ -12,7 +12,7 @@ $(function ()
 		{
 			selected.push($(this).val());
 		});
-		$('.tableActions .btnAction').each(function ()
+		$('.btnBulkAction').each(function ()
 		{
 			var $this = $(this);
 			var url = $this.data('href') + selected.join(',');

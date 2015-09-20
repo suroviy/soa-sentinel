@@ -121,9 +121,17 @@ class AdminServiceProvider extends ServiceProvider
 	 */ 
 	protected function updateFilebrowserConfig() {
 		config([
-        	'admin.ckeditor.filebrowserBrowseUrl' 		=> call_user_func( config('admin.ckeditor.filebrowserBrowseUrl.type'), config('admin.ckeditor.filebrowserBrowseUrl.path') ),
-        	'admin.ckeditor.filebrowserImageBrowseUrl' 	=> call_user_func( config('admin.ckeditor.filebrowserImageBrowseUrl.type'), config('admin.ckeditor.filebrowserImageBrowseUrl.path') ),
+        	'admin.ckeditor.filebrowserBrowseUrl' 		=> call_user_func( config('admin.ckeditor.filebrowserBrowseUrl.type', 'url'), config('admin.ckeditor.filebrowserBrowseUrl.path', 'elfinder/ckeditor') ),
+        	'admin.ckeditor.filebrowserImageBrowseUrl' 	=> call_user_func( config('admin.ckeditor.filebrowserImageBrowseUrl.type', 'url'), config('admin.ckeditor.filebrowserImageBrowseUrl.path', 'elfinder/ckeditor') ),
     	]);
+
+		//fix for #56 - if the default config is in use - we will set the middleware to null
+		//otherwise we will use the defined middleware
+    	if( config("elfinder.route.middleware", "replace-this-with-your-middleware") == "replace-this-with-your-middleware" ) {
+    		config([
+    			"elfinder.route.middleware" => null
+    		]);
+    	}
 	}
 
 }

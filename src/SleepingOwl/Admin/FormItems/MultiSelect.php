@@ -5,5 +5,5 @@ use Illuminate\Database\Eloquent\Collection;
 class MultiSelect extends Select
 {
 	protected $multi = true;
-	protected $plugin = 'choosen';
+	protected $plugin = 'chosen';
 }

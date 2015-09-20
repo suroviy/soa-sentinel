@@ -15,7 +15,7 @@ class FormItemServiceProvider extends ServiceProvider
 		FormItem::register('timestamp', 'SleepingOwl\Admin\FormItems\Timestamp');
 		FormItem::register('textaddon', 'SleepingOwl\Admin\FormItems\TextAddon');
 		FormItem::register('select', 'SleepingOwl\Admin\FormItems\Select');
-		FormItem::register('choosen', 'SleepingOwl\Admin\FormItems\Choosen');
+		FormItem::register('chosen', 'SleepingOwl\Admin\FormItems\Chosen');
 		FormItem::register('bsselect', 'SleepingOwl\Admin\FormItems\BootstrapSelect');
 		FormItem::register('bsselect2', 'SleepingOwl\Admin\FormItems\Select2');
 		FormItem::register('multiselect', 'SleepingOwl\Admin\FormItems\MultiSelect');

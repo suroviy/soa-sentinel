@@ -1,6 +1,6 @@
 $(function ()
 {
-	$('.choosen').each(function ()
+	$('.chosen').each(function ()
 	{
 		var $this = $(this);
 		var nullable = $this.data('nullable');
