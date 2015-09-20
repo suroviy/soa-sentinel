@@ -21,8 +21,10 @@ class DisplayDatatables extends DisplayTable
 			'asc'
 		]
 	];
-	protected $columnFilters = [];
-	protected $attributes = [];
+	protected $columnFilters 	= [];
+	protected $attributes 		= [];
+
+	protected $exportButtons	= [];
 
 	/**
 	 * Initialize display
@@ -41,9 +43,17 @@ class DisplayDatatables extends DisplayTable
 
 		AssetManager::addScript('admin::default/plugins/datatables/jquery.dataTables.min.js');
 		AssetManager::addScript('admin::default/plugins/datatables/dataTables.bootstrap.min.js');
+		AssetManager::addScript('admin::default/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js');
+		AssetManager::addScript('admin::default/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js');
+		AssetManager::addScript('admin::default/plugins/datatables/extensions/Buttons/js/buttons.flash.min.js');
+		AssetManager::addScript('admin::default/plugins/datatables/extensions/Buttons/js/buttons.print.min.js');
+		AssetManager::addScript('admin::default/plugins/datatables/extensions/Buttons/js/buttons.colVis.min.js');
+		AssetManager::addScript('admin::default/plugins/datatables/extensions/Buttons/js/buttons.bootstrap.min.js');
 		AssetManager::addScript('admin::default/js/datatables/init.js');
 
 		AssetManager::addStyle('admin::default/plugins/datatables/dataTables.bootstrap.css');
+		AssetManager::addStyle('admin::default/plugins/datatables/extensions/Buttons/css/buttons.bootstrap.min.css');
+
 	}
 
 	public function columnFilters($columnFilters = null)
@@ -81,6 +91,23 @@ class DisplayDatatables extends DisplayTable
 		return $this;
 	}
 
+	public function export($button=null, $buttonAttributes = []) {
+
+		$arrExtend = [
+			'extend'	=> $button
+		];
+
+		$arrButton = array_merge($arrExtend, $buttonAttributes);
+
+		$this->exportButtons[] = $arrButton;
+
+		return $this;
+	}
+
+	protected function exportButtons() {
+		return $this->exportButtons;
+	}
+
 	/**
 	 * Get view render parameters
 	 * @return array
@@ -91,6 +118,7 @@ class DisplayDatatables extends DisplayTable
 		$params['order'] = $this->order();
 		$params['columnFilters'] = $this->columnFilters();
 		$params['attributes'] = $this->attributes();
+		$params['exportButtons']	= $this->exportButtons();
 		return $params;
 	}
 

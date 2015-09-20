@@ -1,0 +1,1 @@
+<input class="form-control column-filter  form-filter input-sm" type="text" placeholder="{{ $placeholder }}" data-type="text" />

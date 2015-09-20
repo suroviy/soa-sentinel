@@ -11,7 +11,8 @@ class Image extends NamedFormItem implements WithRoutesInterface
 {
 
 	protected $view = 'image';
-	protected static $route = 'uploadImage';
+	protected $upload_path;
+	protected static $route = 'image';
 
 	public function initialize()
 	{
@@ -21,10 +22,28 @@ class Image extends NamedFormItem implements WithRoutesInterface
 		AssetManager::addScript('admin::default/js/formitems/image/flow.min.js');
 	}
 
+	public function upload_path($upload_path = null)
+	{
+		if (is_null($upload_path))
+		{
+			return $this->upload_path;
+		}
+
+		$this->upload_path = $upload_path;
+		return $this;
+	}
+
+	public function getParams()
+	{
+		return parent::getParams() + [
+			'path'  => $this->upload_path()
+		];
+	}
+
 	public static function registerRoutes()
 	{
-		Route::post('formitems/image/' . static::$route, [
-			'as' => 'admin.formitems.image.' . static::$route,
+		Route::post('upload/' . static::$route, [
+			'as' => 'admin.upload.' . static::$route,
 			function ()
 			{
 				$validator = Validator::make(Input::all(), static::uploadValidationRules());
@@ -33,15 +52,46 @@ class Image extends NamedFormItem implements WithRoutesInterface
 					return Response::make($validator->errors()->get('file'), 400);
 				}
 				$file = Input::file('file');
-				$filename = md5(time() . $file->getClientOriginalName()) . '.' . $file->getClientOriginalExtension();
-				$path = config('admin.imagesUploadDirectory');
-				$fullpath = public_path($path);
-				$file->move($fullpath, $filename);
-				$value = $path . '/' . $filename;
+				$upload_path = config('admin.filemanagerDirectory') . Input::get('path');
+
+				$orginalFilename = str_slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
+				$filename = $orginalFilename . '.' . $file->getClientOriginalExtension();
+
+				$fullpath = public_path($upload_path);
+
+				if ( !\File::isDirectory($fullpath) ) {
+					\File::makeDirectory($fullpath , 0755, true);
+				}
+
+				if ( $oldFilename = Input::get('filename') ) {
+					\File::delete($oldFilename);
+				}
+
+				if ( \File::exists($fullpath . '/' . $filename)) {
+					$filename = str_slug($orginalFilename . '-' . time()). '.' . $file->getClientOriginalExtension();
+				}
+
+				$filepath = $upload_path . '/' . $filename;
+
+				$file->move($fullpath, $filename );
+
 				return [
-					'url'   => asset($value),
-					'value' => $value,
+					'url'   => asset($filepath),
+					'value' => $filepath,
 				];
+			}
+		]);
+
+		Route::post('upload/delete/' . static::$route, [
+			'as' => 'admin.upload.delete.' . static::$route,
+			function ()
+			{
+				if ( $filename = Input::get('filename') ) {
+					\File::delete($filename);
+					return "Success";
+				}
+
+				return null;
 			}
 		]);
 	}

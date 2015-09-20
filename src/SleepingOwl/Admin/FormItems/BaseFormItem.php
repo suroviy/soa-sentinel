@@ -12,7 +12,9 @@ abstract class BaseFormItem implements Renderable, FormItemInterface
 	protected $instance;
 	protected $label_size;
 	protected $field_size;
+	protected $help_text;
 	protected $validationRules = [];
+	protected $custom = false;
 
 	public function initialize()
 	{
@@ -64,6 +66,26 @@ abstract class BaseFormItem implements Renderable, FormItemInterface
 		return $this;
 	}
 
+	public function help_text($help_text = null)
+	{
+		if (is_null($help_text))
+		{
+			return $this->help_text;
+		}
+		$this->help_text = $help_text;
+		return $this;
+	}
+
+	public function custom($custom = null)
+	{
+		if (is_null($custom))
+		{
+			return $this->custom;
+		}
+		$this->custom = $custom;
+		return $this;
+	}
+
 	public function validationRules($validationRules = null)
 	{
 		if (is_null($validationRules))
@@ -98,7 +120,8 @@ abstract class BaseFormItem implements Renderable, FormItemInterface
 		return [
 			'instance' 		=> $this->instance(),
 			'label_size'	=> $this->label_size(),
-			'field_size'	=> $this->field_size()
+			'field_size'	=> $this->field_size(),
+			'help_text'		=> $this->help_text()
 		];
 	}
 
@@ -119,4 +142,4 @@ abstract class BaseFormItem implements Renderable, FormItemInterface
 		}
 	}
 
-} 
+}

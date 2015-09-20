@@ -34,7 +34,7 @@ class TemplateDefault implements TemplateInterface
 		{
 			return $currentView;
 		}
-		return 'admin::default.' . $view;
+		abort(404);
 	}
 
 }

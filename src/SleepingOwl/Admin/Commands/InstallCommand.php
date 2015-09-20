@@ -27,10 +27,13 @@ class InstallCommand extends Command
 	public function fire()
 	{
 		$title = $this->option('title');
+		$path = $this->option('path');
 
 		$this->call('vendor:publish', ['--provider' => 'SleepingOwl\Admin\AdminServiceProvider']);
 		$this->call('vendor:publish', ['--provider' => 'Cartalyst\Sentinel\Laravel\SentinelServiceProvider']);
-		
+		$this->call('vendor:publish', ['--provider' => 'Proengsoft\JsValidation\JsValidationServiceProvider']);
+		$this->call('elfinder:publish');
+		$this->call('vendor:publish', ['--provider' => 'Barryvdh\Elfinder\ElfinderServiceProvider']);
 		$this->removeLaravelAuth();
 		$this->publishDB();
 		$this->publishConfig($title);
@@ -41,7 +44,7 @@ class InstallCommand extends Command
 		$this->createRoutesFile();
 		$this->createUserAndRoleFile();
 
-		$this->createPublicDefaultStructure();
+		$this->createPublicDefaultStructure($path);
 
 		$this->createAdminUserAndRole();
 	}
@@ -139,14 +142,25 @@ class InstallCommand extends Command
 	/**
 	 * Create public default structure
 	 */
-	protected function createPublicDefaultStructure()
+	protected function createPublicDefaultStructure($path = null)
 	{
-		$uploadsDirectory = public_path('images/uploads');
+		if (is_null($path)) {
+			$path = config('admin.filemanagerDirectory');
+		} else {
+			$file = config_path('admin.php');
+			$contents = $this->laravel['files']->get($file);
+			$search = "'filemanagerDirectory' =>  'files/'";
+			$replace = "'filemanagerDirectory' =>  '" . $path . "/'";
+			$contents = str_replace($search, $replace, $contents);
+			$this->laravel['files']->put($file, $contents);
+		}
+
+		$uploadsDirectory = public_path($path);
 		if ( ! is_dir($uploadsDirectory))
 		{
 			$this->laravel['files']->makeDirectory($uploadsDirectory, 0755, true, true);
 		}
-		
+
 
 	}
 
@@ -189,12 +203,12 @@ class InstallCommand extends Command
 			$role->permissions = [
 			    'superadmin' 			=> true,
 			    'controlpanel' 			=> true,
-			    
+
 			    'admin.users.view' 		=> true,
 			    'admin.users.create' 	=> true,
 			    'admin.users.edit' 		=> true,
 			    'admin.users.destroy' 	=> true,
-			    
+
 			    'admin.roles.view' 		=> true,
 			    'admin.roles.create' 	=> true,
 			    'admin.roles.edit' 		=> true,
@@ -216,7 +230,7 @@ class InstallCommand extends Command
 			$activation = \Activation::create($user);
 
 			$activation_complete = \Activation::complete($user, $activation->code);
-			
+
 			$this->info('Admin Role and User created successfully.');
 
 		} catch (\Exception $e)
@@ -238,6 +252,12 @@ class InstallCommand extends Command
 				null,
 				InputOption::VALUE_REQUIRED,
 				'Title for admin module.'
+			],
+			[
+				'path',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'Path for filemanager directory relative to public directory. Please set no / at the end!'
 			],
 		];
 	}

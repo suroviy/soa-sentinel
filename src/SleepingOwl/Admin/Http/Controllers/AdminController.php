@@ -116,7 +116,6 @@ class AdminController extends Controller
 
 	public function getLang()
 	{
-		\Debugbar::info("getLang");
 		$lang = trans('admin::lang');
 		if ($lang == 'admin::lang')
 		{
@@ -130,14 +129,13 @@ class AdminController extends Controller
 			'lang'   => $lang,
 			'ckeditor_cfg' => config('admin.ckeditor')
 		);
-		
+
 		$content = 'window.admin = '.json_encode($data) . ';';
 
 		$response = new Response($content, 200, [
 			'Content-Type' => 'text/javascript',
 		]);
 
-		\Debugbar::info($response);
 		return $this->cacheResponse($response);
 	}
 
@@ -155,4 +153,4 @@ class AdminController extends Controller
 		abort(404);
 	}
 
-} 
+}

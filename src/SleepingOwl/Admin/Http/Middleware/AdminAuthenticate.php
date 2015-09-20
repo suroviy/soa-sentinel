@@ -35,10 +35,14 @@ class AdminAuthenticate
 		if( count( $request->route()->parameters() ) == 0 ) {
 
 			//Dashboard or some custom page
-			if( $request->route()->getName() == "admin.dashboard" || starts_with($request->route()->getName(), "admin.formitems.image.")) {
+			if( $request->route()->getName() == "admin.dashboard" || starts_with($request->route()->getName(), "admin.upload.") || starts_with($request->route()->getName(), "elfinder.")) {
 				if (\Sentinel::hasAnyAccess(['superadmin', 'controlpanel']))
 				{
 					return $next($request);
+				}
+				else {
+					\Sentinel::logout(null, true);
+					return redirect()->guest(route('admin.login'));
 				}
 			}
 
@@ -46,13 +50,22 @@ class AdminAuthenticate
 
 			//use dynamic permissions
 			$route_alias = explode(".",$request->route()->getName());
-			$route_alias[2] = (!isset($route_alias[2])) ? "view" : $route_alias[2];
+
+			if ( !isset($route_alias[2]) ) {
+				$route_alias[2] = 'view';
+			} elseif ( $route_alias[2] == 'update' ) {
+				$route_alias[2] = 'edit';
+			}  elseif ( $route_alias[2] == 'store' ) {
+				$route_alias[2] = 'create';
+			} else {
+				$route_alias[2];
+			}
 
 			if ( is_null( $request->route()->parameters()['adminModel']->permission() ) ) {
 
 				if( $route_alias[2] == "view" ) {
 					$model_permissions = [
-						"admin.".$request->route()->parameters()['adminModel']->alias().".*"
+						"admin.".$request->route()->parameters()['adminModel']->alias().".view"
 					];
 				} else {
 					$model_permissions = [
@@ -63,7 +76,7 @@ class AdminAuthenticate
 				$model_permissions 		= explode(",", $request->route()->parameters()['adminModel']->permission() );
 
 				if( $route_alias[2] == "view" ) {
-					$model_permissions[] 	= "admin.".$request->route()->parameters()['adminModel']->alias().".*";
+					$model_permissions[] 	= "admin.".$request->route()->parameters()['adminModel']->alias().".view";
 				} else {
 					$model_permissions[] 	= "admin.".$request->route()->parameters()['adminModel']->alias().".".$route_alias[2];
 				}

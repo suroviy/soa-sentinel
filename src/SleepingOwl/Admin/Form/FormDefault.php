@@ -5,6 +5,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\View\View;
 use Input;
 use SleepingOwl\Admin\Admin;
+use SleepingOwl\Admin\AssetManager\AssetManager;
 use SleepingOwl\Admin\Interfaces\DisplayInterface;
 use SleepingOwl\Admin\Interfaces\FormInterface;
 use SleepingOwl\Admin\Interfaces\FormItemInterface;
@@ -60,7 +61,10 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 	protected $horizontal = false;
 	protected $label_size = "col-sm-2";
 	protected $field_size = "col-sm-10";
+	protected $ajax_validation = false;
 	protected $back_url;
+	protected $validation_rules = null;
+	protected $validation_messages = null;
 
 	/**
 	 * Initialize form
@@ -135,7 +139,22 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 		$this->field_size = ($this->horizontal) ? $field_size : null;
 		return $this;
 	}
-	
+
+	public function ajax_validation($ajax_validation = null)
+	{
+		if (is_null($ajax_validation)) {
+
+			if ($this->ajax_validation) {
+				AssetManager::addScript(asset('vendor/jsvalidation/js/jsvalidation.js'));
+				return \JsValidator::make($this->build_validation_rules(), [], $this->build_validation_messages());
+			} else {
+				return false;
+			}
+		}
+		$this->ajax_validation = $ajax_validation;
+		return $this;
+	}
+
 	/**
      * @param null $url URL or route name
      * @param array $params optional url / route params
@@ -151,7 +170,7 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
         } else {
             $this->back_url = url($url, $params);
         }
-		
+
 		return $this;
     }
 
@@ -252,19 +271,10 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 			return null;
 		}
 
-		$rules = [];
-		$items = $this->items();
-		array_walk_recursive($items, function ($item) use (&$rules)
-		{
-			if ($item instanceof FormItemInterface)
-			{
-				$rules += $item->getValidationRules();
-			}
-		});
 		$data = Input::all();
 		$verifier = app('validation.presence');
 		$verifier->setConnection($this->instance()->getConnectionName());
-		$validator = Validator::make($data, $rules);
+		$validator = Validator::make($data, $this->build_validation_rules(), [], $this->build_validation_messages());
 		$validator->setPresenceVerifier($verifier);
 		if ($validator->fails())
 		{
@@ -286,6 +296,7 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 			'horizontal'	=> $this->horizontal(),
 			'label_size'	=> $this->label_size(),
 			'field_size'	=> $this->field_size(),
+			'ajax_validation' => $this->ajax_validation(),
 		];
 		return view(AdminTemplate::view('form.' . $this->view), $params);
 	}
@@ -296,6 +307,40 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 	function __toString()
 	{
 		return (string)$this->render();
+	}
+
+	private function build_validation_rules()
+	{
+		if (is_null($this->validation_rules)) {
+			$rules = [];
+			$items = $this->items();
+			array_walk_recursive($items, function ($item) use (&$rules) {
+				if ($item instanceof FormItemInterface) {
+					$rules += $item->getValidationRules();
+				}
+			});
+
+			$this->validation_rules = $rules;
+		}
+
+		return $this->validation_rules;
+	}
+
+	private function build_validation_messages()
+	{
+		if (is_null($this->validation_messages)) {
+			$names = [];
+			$items = $this->items();
+			array_walk_recursive($items, function ($item) use (&$names) {
+				if ($item instanceof FormItemInterface && !$item->custom() ) {
+					$names = array_add($names, $item->path(), $item->label());
+				}
+			});
+
+			$this->validation_messages = $names;
+		}
+
+		return $this->validation_messages;
 	}
 
 }

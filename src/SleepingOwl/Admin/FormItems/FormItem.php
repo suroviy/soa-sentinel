@@ -15,6 +15,9 @@ use SleepingOwl\Admin\Base\AliasBinder;
  * @method static \SleepingOwl\Admin\FormItems\TextAddon textaddon($name, $label = null)
  * @method static \SleepingOwl\Admin\FormItems\Password password($name, $label = null)
  * @method static \SleepingOwl\Admin\FormItems\Select select($name, $label = null)
+ * @method static \SleepingOwl\Admin\FormItems\Choosen choosen ($name, $label = null)
+ * @method static \SleepingOwl\Admin\FormItems\BootstrapSelect bsselect($name, $label = null)
+ * @method static \SleepingOwl\Admin\FormItems\Select2 bsselect2($name, $label = null)
  * @method static \SleepingOwl\Admin\FormItems\MultiSelect multiselect($name, $label = null)
  * @method static \SleepingOwl\Admin\FormItems\Columns columns()
  * @method static \SleepingOwl\Admin\FormItems\Hidden hidden($name)
@@ -22,6 +25,7 @@ use SleepingOwl\Admin\Base\AliasBinder;
  * @method static \SleepingOwl\Admin\FormItems\View view($view)
  * @method static \SleepingOwl\Admin\FormItems\Checkbox checkbox($name, $label = null)
  * @method static \SleepingOwl\Admin\FormItems\CKEditor ckeditor($name, $label = null)
+ * @method static \SleepingOwl\Admin\FormItems\TinyMCE tinymce($name, $label = null)
  * @method static \SleepingOwl\Admin\FormItems\Textarea textarea($name, $label = null)
  * @method static \SleepingOwl\Admin\FormItems\Radio radio($name, $label = null)
  */

@@ -14,7 +14,8 @@ $(function ()
 			testChunks: false,
 			chunkSize: 1024 * 1024 * 1024,
 			query: {
-				_token: $item.data('token')
+				_token: $item.data('token'),
+				path: $item.data('path')
 			}
 		});
 		flow.assignBrowse($item.find('.imageBrowse'), false, true);
@@ -31,6 +32,8 @@ $(function ()
 			$thumbnail.attr('src', result.url);
 			$hasValue.find('span').text(result.value);
 			$input.val(result.value);
+			flow.opts.query.filename = result.value;
+
 			$noValue.addClass('hidden');
 			$hasValue.removeClass('hidden');
 		});
@@ -48,9 +51,16 @@ $(function ()
 		});
 		$item.find('.imageRemove').click(function ()
 		{
-			$input.val('');
-			$noValue.removeClass('hidden');
-			$hasValue.addClass('hidden');
+			$.ajax({
+				url: $item.data('target-delete'),
+				method: 'post',
+				data: { _token: $item.data('token'), filename: $input.val() },
+				success: function (response) {
+					$input.val('');
+					$noValue.removeClass('hidden');
+					$hasValue.addClass('hidden');
+				}
+			});
 		});
 	});
 });
