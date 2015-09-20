@@ -15,7 +15,7 @@
       <br>
     </div>
 
-    <div class="box-body table-responsive">
+    <div class="box-body">
 
 		<table class="table table-striped datatables" data-url="{{ $url }}" data-order="{{ json_encode($order) }}" data-attributes="{{ json_encode($attributes, JSON_FORCE_OBJECT) }}" @if( count($exportButtons) > 0) data-soa-buttons="{{ json_encode($exportButtons) }}" @endif>
 		<thead>
