@@ -31,11 +31,21 @@ class AdminAuthenticate
 		if( $request->route()->getName() == "admin.logout" ) {
 			return $next($request);
 		}
-
+		/*
+			changed:
+			to use FormItem::filemanager() elfinde.popup route has parameters (input id)
+		*/
+		if(starts_with($request->route()->getName(), "elfinder.")){
+			if (\Sentinel::hasAnyAccess(['superadmin', 'controlpanel'])){
+				return $next($request);
+			}else {
+				return redirect()->guest(route('admin.login'));
+			}
+		}
 		if( count( $request->route()->parameters() ) == 0 ) {
 
 			//Dashboard or some custom page
-			if( $request->route()->getName() == "admin.dashboard" || starts_with($request->route()->getName(), "admin.upload.") || starts_with($request->route()->getName(), "elfinder.")) {
+			if( $request->route()->getName() == "admin.dashboard" || starts_with($request->route()->getName(), "admin.upload.")) {
 				if (\Sentinel::hasAnyAccess(['superadmin', 'controlpanel']))
 				{
 					return $next($request);
