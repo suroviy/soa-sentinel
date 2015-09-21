@@ -123,6 +123,7 @@ class AdminServiceProvider extends ServiceProvider
 		config([
         	'admin.ckeditor.filebrowserBrowseUrl' 		=> call_user_func( config('admin.ckeditor.filebrowserBrowseUrl.type', 'url'), config('admin.ckeditor.filebrowserBrowseUrl.path', 'elfinder/ckeditor') ),
         	'admin.ckeditor.filebrowserImageBrowseUrl' 	=> call_user_func( config('admin.ckeditor.filebrowserImageBrowseUrl.type', 'url'), config('admin.ckeditor.filebrowserImageBrowseUrl.path', 'elfinder/ckeditor') ),
+        	'admin.elfinderPopupUrl' 	=> call_user_func( config('admin.elfinderPopupUrl.type', 'url'), config('elfinderPopupUrl.path', 'elfinder/popup') ),
     	]);
 
 		//fix for #56 - if the default config is in use - we will set the middleware to null

@@ -36,6 +36,15 @@ return [
 	'filemanagerDirectory' =>  'files/',
 
 	/*
+	 * Popup elfinder file manager url 
+	 * 
+	 */
+	'elfinderPopupUrl' => [
+		"type" 	=> "url",
+		"path"	=> "elfinder/popup" 
+	],
+
+	/*
 	 * Authentication config
 	 */
 	'auth'                    => [

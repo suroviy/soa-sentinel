@@ -127,7 +127,8 @@ class AdminController extends Controller
 			'token'  => csrf_token(),
 			'prefix' => config('admin.prefix'),
 			'lang'   => $lang,
-			'ckeditor_cfg' => config('admin.ckeditor')
+			'ckeditor_cfg' => config('admin.ckeditor'),
+			'elfinder_url' => config('admin.elfinderPopupUrl'),
 		);
 
 		$content = 'window.admin = '.json_encode($data) . ';';

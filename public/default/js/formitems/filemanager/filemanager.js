@@ -1,8 +1,8 @@
 $(document).on('click','.popupBrowse',function (event) {
 	event.preventDefault();
 	var id = $(this).attr('data-inputid');
-	var elfinderUrl = '/elfinder/popup/';
-	var url = elfinderUrl + id;
+	var elfinderUrl = window.admin.elfinder_url;
+	var url = elfinderUrl +"/"+id;
 	$.colorbox({
 	    href: url,
 	    fastIframe: true,
