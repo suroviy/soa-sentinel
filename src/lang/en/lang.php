@@ -73,6 +73,7 @@ return [
 		'browse'         => 'Select Image',
 		'browseMultiple' => 'Select Images',
 		'remove'         => 'Remove Image',
+		'clear'	         => 'Clear',
 	],
 	'file'     => [
 		'browse' => 'Select File',

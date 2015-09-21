@@ -31,6 +31,7 @@ class FormItemServiceProvider extends ServiceProvider
 		FormItem::register('file', 'SleepingOwl\Admin\FormItems\File');
 		FormItem::register('radio', 'SleepingOwl\Admin\FormItems\Radio');
 		FormItem::register('tinymce', 'SleepingOwl\Admin\FormItems\TinyMCE');
+		FormItem::register('filemanager', 'SleepingOwl\Admin\FormItems\Filemanager');
 	}
 
 }
