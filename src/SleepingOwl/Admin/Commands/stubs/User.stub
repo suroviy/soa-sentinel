@@ -6,7 +6,8 @@
 	$display->columns([
 		Column::checkbox(),
 		Column::string('id')->label('#'),
-		Column::string('name')->label('Name'),
+		Column::string('first_name')->label('First Name'),
+		Column::string('last_name')->label('Last Name'),
 		Column::string('email')->label('Email'),
 	]);
 	return $display;
@@ -14,7 +15,8 @@
 {
 	$form = AdminForm::form();
 	$form->items([
-		FormItem::text('name', 'Name')->required(),
+		FormItem::text('first_name', 'First Name')->required(),
+		FormItem::text('last_name', 'Last Name')->required(),
 		FormItem::text('email', 'Email')->required()->unique(),
 	]);
 	return $form;
