@@ -62,6 +62,8 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 	protected $label_size = "col-sm-2";
 	protected $field_size = "col-sm-10";
 	protected $ajax_validation = false;
+	protected $storable = true;
+	protected $event_handler = null;
 	protected $back_url;
 	protected $validation_rules = null;
 	protected $validation_messages = null;
@@ -152,6 +154,28 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 			}
 		}
 		$this->ajax_validation = $ajax_validation;
+		return $this;
+	}
+
+	public function storable($storable = null)
+	{
+		if (is_null($storable))
+		{
+			return $this->storable;
+		}
+		$this->storable = $storable;
+		return $this;
+	}
+
+	public function event_handler($eventHandler = null)
+	{
+
+		if (is_null($eventHandler))
+		{
+			return $this->event_handler;
+		}
+
+		$this->event_handler = $eventHandler;
 		return $this;
 	}
 

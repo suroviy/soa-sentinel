@@ -11,6 +11,7 @@ abstract class NamedFormItem extends BaseFormItem
 	protected $label;
 	protected $defaultValue;
 	protected $readonly;
+	protected $storable=true;
 	protected $isRequired;
 	protected $lang=false;
 
@@ -84,6 +85,16 @@ abstract class NamedFormItem extends BaseFormItem
 			return $this->lang;
 		}
 		$this->lang = $lang;
+		return $this;
+	}
+
+	public function storable($storable = null)
+	{
+		if (is_null($storable))
+		{
+			return $this->storable;
+		}
+		$this->storable = $storable;
 		return $this;
 	}
 
@@ -162,19 +173,23 @@ abstract class NamedFormItem extends BaseFormItem
 	public function save()
 	{
 		$attribute = $this->attribute();
-		if (Input::get($this->path()) === null) {
-			$value = null;
-		} else {
-			$value = $this->value();
-		}
-		if(!$this->lang()) {
-			$this->instance()->$attribute = $value;
-		} else {
 
-			if( $this->instance()->translate() ) {
-				$this->instance()->translateOrNew($this->lang())->$attribute = $value;
+		if ( $this->storable() ) {
+			if (Input::get($this->path()) === null) {
+				$value = null;
 			} else {
+				$value = $this->value();
+			}
+
+			if(!$this->lang()) {
 				$this->instance()->$attribute = $value;
+			} else {
+
+				if( $this->instance()->translate() ) {
+					$this->instance()->translateOrNew($this->lang())->$attribute = $value;
+				} else {
+					$this->instance()->$attribute = $value;
+				}
 			}
 		}
 	}

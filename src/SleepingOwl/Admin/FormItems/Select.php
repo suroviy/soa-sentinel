@@ -15,6 +15,7 @@ class Select extends NamedFormItem
 	protected $multi = false;
 	protected $plugin = null;
 	protected $seperator = '-';
+	protected $scopes = [];
 
 	public function model($model = null)
 	{
@@ -23,6 +24,16 @@ class Select extends NamedFormItem
 			return $this->model;
 		}
 		$this->model = $model;
+		return $this;
+	}
+
+	public function scope($scope = null)
+	{
+		if (is_null($scope))
+		{
+			return $this->scopes;
+		}
+		$this->scopes[] = func_get_args();
 		return $this;
 	}
 
@@ -50,7 +61,7 @@ class Select extends NamedFormItem
 	{
 		if (is_null($seperator))
 		{
-			return ' ' . trim($this->seperator) . ' ';
+			return $this->seperator;
 		}
 		$this->seperator = $seperator;
 		return $this;
@@ -80,6 +91,7 @@ class Select extends NamedFormItem
 	{
 		$repository = new BaseRepository($this->model());
 		$display = explode('|', $this->display());
+		$seperator = explode('|', $this->seperator());
 
 		$key = $repository->model()->getKeyName();
 
@@ -87,6 +99,11 @@ class Select extends NamedFormItem
 		if ( !is_null($this->with())) {
 			$model = $model->with($this->with());
 		}
+
+		if ( count($this->scope())) {
+			$this->modifyQuery($model);
+		}
+
 		$model = $model->get();
 
 		$options = [];
@@ -99,13 +116,25 @@ class Select extends NamedFormItem
 				$itemCount = count($display);
 				if ( $itemCount > 1 ) {
 					$count = 0;
+					$value = null;
 					foreach( $display as $item ) {
 						$count++;
-						$value .= $dataset->$item;
+					    $valueTmp = $dataset->$item;
 
-						if ($count <= $itemCount ) {
-							if ( $dataset->$item ) {
-								$value .= ($dataset->$item == $key) ? '#' : $this->seperator();
+						if ( is_null ( $valueTmp  ) && !is_null($with = $this->with()) ) {
+							$valueTmp = $dataset->$with->$item;
+						}
+
+						$value .= $valueTmp;
+						if ($count < $itemCount ) {
+							if ( $valueTmp ) {
+								if (array_has($seperator, $count - 1)) {
+									$sep = $seperator[$count - 1];
+								} else {
+									$sep = '-';
+								}
+
+								$value .= ($dataset->$item == $key) ? '#' : ' ' . $sep . ' ';
 							}
 						}
 					}
@@ -168,6 +197,21 @@ class Select extends NamedFormItem
 			$value = $value->toArray();
 		}
 		return $value;
+	}
+
+	protected function modifyQuery($query)
+	{
+		foreach ($this->scope() as $scope)
+		{
+			if ( ! is_null($scope))
+			{
+				$method = array_shift($scope);
+				call_user_func_array([
+					$query,
+					$method
+				], $scope);
+			}
+		}
 	}
 
 }
