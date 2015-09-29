@@ -16,6 +16,7 @@ class Select extends NamedFormItem
 	protected $plugin = null;
 	protected $seperator = '-';
 	protected $scopes = [];
+	protected $optionValue = null;
 
 	public function model($model = null)
 	{
@@ -54,6 +55,16 @@ class Select extends NamedFormItem
 			return $this->display;
 		}
 		$this->display = $display;
+		return $this;
+	}
+
+	public function optionValue($optionValue = null)
+	{
+		if (is_null($optionValue))
+		{
+			return $this->optionValue;
+		}
+		$this->optionValue = $optionValue;
 		return $this;
 	}
 
@@ -119,7 +130,7 @@ class Select extends NamedFormItem
 					$value = null;
 					foreach( $display as $item ) {
 						$count++;
-					    $valueTmp = $dataset->$item;
+						$valueTmp = $dataset->$item;
 
 						if ( is_null ( $valueTmp  ) && !is_null($with = $this->with()) ) {
 							$valueTmp = $dataset->$with->$item;
@@ -142,7 +153,9 @@ class Select extends NamedFormItem
 					$value = $dataset->$display[0];
 				}
 
-				$options[$dataset->$key] = $value;
+				$optionValue = $this->optionValue();
+
+				$options[(is_null($optionValue)) ? $dataset->$key : $dataset->$optionValue] = $value;
 			}
 		}
 

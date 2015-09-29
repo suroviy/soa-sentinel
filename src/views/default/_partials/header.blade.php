@@ -18,7 +18,7 @@
 			<li class="dropdown user user-menu">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					<i class="fa fa-user fa-fw"></i>
-					{{ \Sentinel::check()->first_name ?: 'admin' }}
+					{{ \Sentinel::check()->first_name ?: 'admin' }} {{ \Sentinel::check()->last_name ?: '' }}
 				</a>
 				<ul class="dropdown-menu">
 					<li class="user-footer">
