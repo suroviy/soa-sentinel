@@ -1,5 +1,5 @@
-<div class="form-group {{ $errors->has($name) ? 'has-error' : '' }}">
-	<label for="{{ $name }}" @if($label_size) class="{{ $label_size }}" @endif >
+<div class="form-group {{ $errors->has($name) || $errors->has($lang . '_' . $name) ? 'has-error' : '' }}">
+	<label for="@if($lang){{ $lang }}{{'_'}}@endif{{$name}}" @if($label_size) class="{{ $label_size }}" @endif >
 		{{ $label }}
 		@if($required_field)
 			@include(AdminTemplate::view('formitem.required'))
@@ -11,7 +11,7 @@
 	@if ($nullable)
 		<div class="radio">
 			<label>
-				<input type="radio" name="{{ $name }}" value="" {!! ($value == null) ? 'checked' : '' !!}/>
+				<input type="radio" name="@if($lang){{ $lang }}{{'_'}}@endif{{$name}}" value="" {!! ($value == null) ? 'checked' : '' !!}/>
 				{{ trans('admin::lang.select.nothing') }}
 			</label>
 		</div>
@@ -19,7 +19,7 @@
 	@foreach ($options as $optionValue => $optionLabel)
 		<div class="radio">
 			<label>
-				<input type="radio" name="{{ $name }}" value="{{ $optionValue }}" {!! ($value == $optionValue) ? 'checked' : '' !!}/>
+				<input type="radio" name="@if($lang){{ $lang }}{{'_'}}@endif{{$name}}" value="{{ $optionValue }}" {!! ($value == $optionValue) ? 'checked' : '' !!}/>
 				{{ $optionLabel }}
 			</label>
 		</div>

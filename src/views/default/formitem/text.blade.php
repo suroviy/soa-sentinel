@@ -1,5 +1,5 @@
 <div class="form-group {{ $errors->has($name) || $errors->has($lang . '_' . $name) ? 'has-error' : '' }}">
-	<label for="@if($lang){{ $lang }}.@endif{{ $name }}" @if($label_size) class="{{ $label_size }}" @endif >
+	<label for="@if($lang){{ $lang }}{{'_'}}@endif{{$name}}" @if($label_size) class="{{ $label_size }}" @endif >
 		{{ $label }}
 		@if($required_field)
 			@include(AdminTemplate::view('formitem.required'))
