@@ -160,18 +160,25 @@ class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInte
 			return;
 		}
 
-		$query->where(function ($query) use ($search)
+		$dtColumns = Input::get('columns', []);
+
+		$query->where(function ($query) use ($search, $dtColumns)
 		{
+
 			$columns = $this->columns();
-			foreach ($columns as $column)
+			foreach ($columns as $key => $column)
 			{
 				if ($column instanceof String)
 				{
-					$name = $column->name();
+					$searchable = array_get($dtColumns[$key], 'searchable');	
+					$name 		= $column->name();
+					
 					if ($this->repository->hasColumn($name))
 					{
-						$query->orWhere($name, 'like', '%' . $search . '%');
-					}
+						if( $searchable == "true" ) {
+							$query->orWhere($name, 'like', '%' . $search . '%');
+						}
+					}	
 				}
 			}
 		});
@@ -184,10 +191,10 @@ class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInte
 		{
 			$search = array_get($queryColumn, 'search.value');
 			$fullSearch = array_get($queryColumn, 'search');
-
+			$searchable = array_get($queryColumn, 'searchable');
 			$column = array_get($this->columns(), $index);
 			$columnFilter = array_get($this->columnFilters(), $index);
-			if ( ! is_null($columnFilter))
+			if ( ! is_null($columnFilter) && $searchable == "true" )
 			{
 				$columnFilter->apply($this->repository, $column, $query, $search, $fullSearch);
 			}

@@ -17,7 +17,7 @@
 
     <div class="box-body">
 
-		<table class="table table-striped datatables" data-url="{{ $url }}" data-order="{{ json_encode($order) }}" data-attributes="{{ json_encode($attributes, JSON_FORCE_OBJECT) }}" @if( count($exportButtons) > 0) data-soa-buttons="{{ json_encode($exportButtons) }}" @endif>
+		<table class="table table-striped datatables" data-url="{{ $url }}" data-soa-excludesearch="{{ json_encode($excludeSearch) }}" data-order="{{ json_encode($order) }}" data-attributes="{{ json_encode($attributes, JSON_FORCE_OBJECT) }}" @if( count($exportButtons) > 0) data-soa-buttons="{{ json_encode($exportButtons) }}" @endif>
 		<thead>
 			<tr>
 				@foreach ($columns as $column)
