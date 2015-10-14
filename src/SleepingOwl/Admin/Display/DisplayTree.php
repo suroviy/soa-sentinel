@@ -23,6 +23,8 @@ class DisplayTree implements Renderable, DisplayInterface, WithRoutesInterface
 	protected $parentField = 'parent_id';
 	protected $orderField = 'order';
 	protected $rootParentId = null;
+	protected $apply;
+	protected $scopes;
 
 	public function setClass($class)
 	{
@@ -54,6 +56,8 @@ class DisplayTree implements Renderable, DisplayInterface, WithRoutesInterface
 
 		$this->repository = new TreeRepository($this->class);
 		$this->repository->with($this->with());
+		$this->repository->apply($this->apply());
+		$this->repository->scope($this->scope());
 
 		Column::treeControl()->initialize();
 	}
@@ -156,6 +160,26 @@ class DisplayTree implements Renderable, DisplayInterface, WithRoutesInterface
 			return $this->rootParentId;
 		}
 		$this->rootParentId = $rootParentId;
+		return $this;
+	}
+
+	public function apply($apply = null)
+	{
+		if (is_null($apply))
+		{
+			return $this->apply;
+		}
+		$this->apply = $apply;
+		return $this;
+	}
+
+	public function scope($scope = null)
+	{
+		if (is_null($scope))
+		{
+			return $this->scopes;
+		}
+		$this->scopes[] = func_get_args();
 		return $this;
 	}
 
