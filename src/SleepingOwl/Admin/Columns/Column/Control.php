@@ -30,8 +30,8 @@ class Control extends BaseColumn
 	{
 		parent::initialize();
 
-		AssetManager::addScript('admin::default/js/bootbox.js');
-		AssetManager::addScript('admin::default/js/columns/control.js');
+		AssetManager::addScript('admin::default/plugins/bootbox/bootbox.js');
+		AssetManager::addScript('admin::default/scripts/columns/control.js');
 	}
 
 	/**

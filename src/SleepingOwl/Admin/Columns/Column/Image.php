@@ -13,10 +13,7 @@ class Image extends NamedColumn
 	public function initialize()
 	{
 		parent::initialize();
-
-		AssetManager::addStyle('admin::default/css/ekko-lightbox.min.css');
-		AssetManager::addScript('admin::default/js/ekko-lightbox.min.js');
-		AssetManager::addScript('admin::default/js/columns/image.js');
+		AssetManager::addScript('admin::default/scripts/columns/image.js');
 	}
 
 	/**

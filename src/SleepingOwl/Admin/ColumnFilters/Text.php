@@ -15,7 +15,7 @@ class Text extends BaseColumnFilter
 	{
 		parent::initialize();
 
-		AssetManager::addScript('admin::default/js/columnfilters/text.js');
+		AssetManager::addScript('admin::default/scripts/column-filters/text.js');
 	}
 
 	public function placeholder($placeholder = null)

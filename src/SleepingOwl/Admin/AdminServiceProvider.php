@@ -53,7 +53,7 @@ class AdminServiceProvider extends ServiceProvider
 
 
 		$this->publishes([
-			__DIR__ . '/../../../public/' => public_path('packages/sleeping-owl/admin/'),
+			__DIR__ . '/../../../public/' => public_path('vendor/sleeping-owl/admin/'),
 		], 'assets');
 
 
@@ -118,7 +118,7 @@ class AdminServiceProvider extends ServiceProvider
 	/**
 	 * Config Replacement for the CK Editor,
 	 * because to use url() inside the config file generates an Error in the CLI
-	 */ 
+	 */
 	protected function updateFilebrowserConfig() {
 		config([
         	'admin.ckeditor.filebrowserBrowseUrl' 		=> call_user_func( config('admin.ckeditor.filebrowserBrowseUrl.type', 'url'), config('admin.ckeditor.filebrowserBrowseUrl.path', 'elfinder/ckeditor') ),

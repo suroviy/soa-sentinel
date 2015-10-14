@@ -25,7 +25,7 @@ class Checkbox extends BaseColumn
 	{
 		parent::initialize();
 
-		AssetManager::addScript('admin::default/js/columns/checkbox.js');
+		AssetManager::addScript('admin::default/scripts/columns/checkbox.js');
 	}
 
 	/**

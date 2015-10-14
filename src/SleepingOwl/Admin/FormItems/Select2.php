@@ -14,7 +14,7 @@ class Select2 extends Select
 
 		AssetManager::addStyle('admin::default/plugins/select2/select2.min.css');
 		AssetManager::addScript('admin::default/plugins/select2/select2.min.js');
-		AssetManager::addScript('admin::default/js/formitems/select/init.js');
+		AssetManager::addScript('admin::default/scripts/select/init.js');
 	}
 
 }

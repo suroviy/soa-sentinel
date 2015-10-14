@@ -49,7 +49,7 @@ class DisplayDatatables extends DisplayTable
 		AssetManager::addScript('admin::default/plugins/datatables/extensions/Buttons/js/buttons.print.min.js');
 		AssetManager::addScript('admin::default/plugins/datatables/extensions/Buttons/js/buttons.colVis.min.js');
 		AssetManager::addScript('admin::default/plugins/datatables/extensions/Buttons/js/buttons.bootstrap.min.js');
-		AssetManager::addScript('admin::default/js/datatables/init.js');
+		AssetManager::addScript('admin::default/scripts/datatables/init.js');
 
 		AssetManager::addStyle('admin::default/plugins/datatables/dataTables.bootstrap.css');
 		AssetManager::addStyle('admin::default/plugins/datatables/extensions/Buttons/css/buttons.bootstrap.min.css');
