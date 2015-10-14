@@ -16,7 +16,7 @@ class Range extends BaseColumnFilter
 	{
 		parent::initialize();
 
-		AssetManager::addScript('admin::default/js/columnfilters/range.js');
+		AssetManager::addScript('admin::default/scripts/column-filters/range.js');
 
 		$this->from()->initialize();
 		$this->to()->initialize();

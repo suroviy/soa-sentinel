@@ -12,7 +12,7 @@ class Filemanager extends NamedFormItem{
 
 		AssetManager::addStyle('admin::default/plugins/colorbox/colorbox.css');
 		AssetManager::addScript('admin::default/plugins/colorbox/jquery.colorbox-min.js');
-		AssetManager::addScript('admin::default/js/formitems/filemanager/filemanager.js');
+		AssetManager::addScript('admin::default/scripts/filemanager/init.js');
 	}
 
 }

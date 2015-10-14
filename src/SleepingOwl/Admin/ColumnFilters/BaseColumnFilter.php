@@ -16,7 +16,7 @@ abstract class BaseColumnFilter implements Renderable, ColumnFilterInterface
 	 */
 	public function initialize()
 	{
-		AssetManager::addScript('admin::default/js/columnfilters/base.js');
+		AssetManager::addScript('admin::default/scripts/column-filters/base.js');
 	}
 
 
@@ -45,4 +45,4 @@ abstract class BaseColumnFilter implements Renderable, ColumnFilterInterface
 		}
 	}
 
-} 
+}

@@ -14,7 +14,7 @@ class BootstrapSelect extends Select
 
 		AssetManager::addStyle('admin::default/plugins/bootstrap-select/css/bootstrap-select.min.css');
 		AssetManager::addScript('admin::default/plugins/bootstrap-select/js/bootstrap-select.min.js');
-		AssetManager::addScript('admin::default/js/formitems/select/init.js');
+		AssetManager::addScript('admin::default/scripts/select/init.js');
 	}
 
 }
