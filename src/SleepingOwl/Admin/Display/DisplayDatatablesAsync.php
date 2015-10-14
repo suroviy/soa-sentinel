@@ -97,7 +97,7 @@ class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInte
 		$this->applySearch($query);
 		$this->applyColumnSearch($query);
 
-		
+
 		if(!is_null($this->distinct)){
 			$filteredCount = $query->distinct()->count($this->distinct);
 		}

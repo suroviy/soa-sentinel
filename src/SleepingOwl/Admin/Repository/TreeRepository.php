@@ -41,6 +41,9 @@ class TreeRepository extends BaseRepository
 	 */
 	protected $rootParentId = null;
 
+	protected $apply;
+	protected $scopes = [];
+
 	/**
 	 * @param string $class
 	 */
@@ -74,7 +77,10 @@ class TreeRepository extends BaseRepository
 	 */
 	public function tree()
 	{
-		$collection = $this->query()->get();
+		$collection = $this->query();
+
+		$this->modifyQuery($collection);
+		$collection = $collection->get();
 		switch ($this->type())
 		{
 			case static::TreeTypeBaum:
@@ -324,6 +330,48 @@ class TreeRepository extends BaseRepository
 		}
 		$this->rootParentId = $rootParentId;
 		return $this;
+	}
+
+	public function apply($apply = null)
+	{
+		if (is_null($apply))
+		{
+			return $this->apply;
+		}
+		$this->apply = $apply;
+		return $this;
+	}
+
+	public function scope($scope = null)
+	{
+		if (is_null($scope))
+		{
+			return $this->scopes;
+		}
+		$this->scopes[] = func_get_args();
+		return $this;
+	}
+
+	protected function modifyQuery($query)
+	{
+		foreach ($this->scope() as $scope)
+		{
+			if ( ! is_null($scope))
+			{
+				$method = array_shift($scope);
+				call_user_func_array([
+					$query,
+					$method
+				], $scope);
+			}
+		}
+
+		$apply = $this->apply();
+
+		if ( ! is_null($apply))
+		{
+			call_user_func($apply, $query);
+		}
 	}
 
 }
