@@ -23,6 +23,7 @@ $(function ()
    			
 		};
 		params = $.extend(params, $this.data('attributes'));
+		params = $.extend(params, $this.data('soa-excludesearch'));
 
 		var url;
 		if (url = $this.data('url'))
