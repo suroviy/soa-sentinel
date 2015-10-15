@@ -1,5 +1,5 @@
 $(function(){
-  	$('.bsselect').each(function () {
+  	$('.soa-colorpicker').each(function () {
 		var $this = $(this);
 		var nullable = $this.data('nullable');
 		var maxOptions = false;
