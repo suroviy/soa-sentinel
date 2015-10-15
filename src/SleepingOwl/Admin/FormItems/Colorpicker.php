@@ -1,14 +1,27 @@
 <?php namespace SleepingOwl\Admin\FormItems;
 
+use Illuminate\Support\Collection;
+use SleepingOwl\Admin\AssetManager\AssetManager;
+use SleepingOwl\Admin\Repository\BaseRepository;
+
 class Colorpicker extends NamedFormItem
 {
 
-	protected $view = 'colorpicker';
-	protected $placement = null;
-	protected $format = "hex";
-	protected $align = "right";
-	protected $colorSelectors = [];
-	protected $horizontal = false;
+	protected $view 			= 'colorpicker';
+	protected $placement		= null;
+	protected $format 			= "hex";
+	protected $align 			= "right";
+	protected $colorSelectors	= [];
+	protected $horizontal 		= false;
+
+	public function initialize()
+	{
+		parent::initialize();
+
+		AssetManager::addStyle('admin::default/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css');
+		AssetManager::addScript('admin::default/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js');
+		AssetManager::addScript('admin::default/scripts/bootstrap-colorpicker/init.js');
+	}
 
 	public function placement($placement = null)
 	{
@@ -20,7 +33,8 @@ class Colorpicker extends NamedFormItem
 		return $this;
 	}
 
-	public function format($format) {
+	public function format($format=null) {
+		
 		if (is_null($format))
 		{
 			return $this->format;
@@ -29,7 +43,7 @@ class Colorpicker extends NamedFormItem
 		return $this;
 	}
 
-	public function align($align)
+	public function align($align=null)
 	{
 		if (is_null($align))
 		{
@@ -44,13 +58,13 @@ class Colorpicker extends NamedFormItem
 		return $this;
 	}
 
-	public function colorSelectors($colorSelectors)
+	public function colorSelectors($colorSelectors=null)
 	{
 		if (is_null($colorSelectors))
 		{
-			return $this->$colorSelectors;
+			return $this->colorSelectors;
 		}
-		$this->$colorSelectors = $colorSelectors;
+		$this->colorSelectors = $colorSelectors;
 		return $this;	
 	}
 
