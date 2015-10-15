@@ -64,7 +64,7 @@ class Colorpicker extends NamedFormItem
 		{
 			return $this->colorSelectors;
 		}
-		$this->colorSelectors = $colorSelectors;
+		$this->colorSelectors = array_merge($colorSelectors, $this->colorSelectors);
 		return $this;	
 	}
 
@@ -72,7 +72,7 @@ class Colorpicker extends NamedFormItem
 	public function attributes()
 	{
 		$attributes = [
-
+			'color'				=> $this->value(),
 			'format'			=> $this->format(),
 			'horizontal'		=> $this->horizontal,
 			'align'				=> $this->align(),

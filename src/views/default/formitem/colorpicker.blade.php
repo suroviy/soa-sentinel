@@ -12,13 +12,13 @@
 
     @if( !is_null($placement) )
 
-	    <div class="input-group">
+	    <div class="input-group soa-colorpicker">
 			@if ($placement == 'before')
-				<div class="input-group-addon"><i></i></div>
+				<span class="input-group-addon"><i></i></span>
 			@endif
-			<input class="form-control soa-colorpicker" @if($readonly) readonly disabled @endif name="@if($lang){{ $lang }}{{'_'}}@endif{{$name}}" type="text" id="@if($lang){{ $lang }}{{'_'}}@endif{{$name}}" value="{{ $value }}" data-soa-colorpicker="{{ json_encode($attributes, JSON_FORCE_OBJECT) }}">
+			<input class="form-control" @if($readonly) readonly disabled @endif name="@if($lang){{ $lang }}{{'_'}}@endif{{$name}}" type="text" id="@if($lang){{ $lang }}{{'_'}}@endif{{$name}}" value="{{ $value }}" data-soa-colorpicker="{{ json_encode($attributes, JSON_FORCE_OBJECT) }}">
 			@if ($placement == 'after')
-				<div class="input-group-addon"><i></i></div>
+				<span class="input-group-addon"><i></i></span>
 			@endif
 		</div>
 
