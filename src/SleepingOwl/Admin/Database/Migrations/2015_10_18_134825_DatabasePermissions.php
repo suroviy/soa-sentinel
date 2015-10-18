@@ -17,6 +17,7 @@ class DatabasePermissions extends Migration
             $table->increments('id');
             $table->string('value');
             $table->string('description');
+            $table->timestamps();
         });
     }
 

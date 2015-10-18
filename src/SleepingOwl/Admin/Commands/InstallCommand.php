@@ -4,6 +4,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 use Symfony\Component\Console\Input\InputOption;
 use Illuminate\Filesystem\Filesystem;
+use SleepingOwl\Admin\Model\Permission as PermissionModel;
 
 
 class InstallCommand extends Command
@@ -191,8 +192,82 @@ class InstallCommand extends Command
 	}
 
 	protected function createAdminUserAndRole() {
+		
+		$permissions = [
+
+			'superadmin'	=> [
+				'default'		=> true,
+				'description'	=> ''
+			],
+			'controlpanel'	=> [
+				'default'		=> true,
+				'description'	=> ''
+			],
+			'admin.users.view'	=> [
+				'default'		=> true,
+				'description'	=> ''
+			],
+			'admin.users.create'	=> [
+				'default'		=> true,
+				'description'	=> ''
+			],
+			'admin.users.edit'	=> [
+				'default'		=> true,
+				'description'	=> ''
+			],
+			'admin.users.destroy'	=> [
+				'default'		=> true,
+				'description'	=> ''
+			],
+			'admin.roles.view'	=> [
+				'default'		=> true,
+				'description'	=> ''
+			],
+			'admin.roles.create'	=> [
+				'default'		=> true,
+				'description'	=> ''
+			],
+			'admin.roles.edit'	=> [
+				'default'		=> true,
+				'description'	=> ''
+			],
+			'admin.roles.destroy'	=> [
+				'default'		=> true,
+				'description'	=> ''
+			],
+			'admin.permissions.view'	=> [
+				'default'		=> true,
+				'description'	=> ''
+			],
+			'admin.permissions.create'	=> [
+				'default'		=> true,
+				'description'	=> ''
+			],
+			'admin.permissions.edit'	=> [
+				'default'		=> true,
+				'description'	=> ''
+			],
+			'admin.permissions.destroy'	=> [
+				'default'		=> true,
+				'description'	=> ''
+			]
+
+		];
+
 		try
 		{
+			
+			//create admin user
+			$credentials = [
+			    'email'    => 'admin@soa.backend',
+			    'password' => 'password',
+			];
+
+			$user = \Sentinel::create($credentials);
+			$activation = \Activation::create($user);
+			$activation_complete = \Activation::complete($user, $activation->code);
+
+			//create admin role
 			$role = \Sentinel::getRoleRepository()->createModel()->create([
 			    'name' => 'Administrator',
 			    'slug' => 'administrator',
@@ -200,43 +275,38 @@ class InstallCommand extends Command
 
 			$role = \Sentinel::findRoleByName('Administrator');
 
-			$role->permissions = [
-			    'superadmin' 			=> true,
-			    'controlpanel' 			=> true,
-
-			    'admin.users.view' 		=> true,
-			    'admin.users.create' 	=> true,
-			    'admin.users.edit' 		=> true,
-			    'admin.users.destroy' 	=> true,
-
-			    'admin.roles.view' 		=> true,
-			    'admin.roles.create' 	=> true,
-			    'admin.roles.edit' 		=> true,
-			    'admin.roles.destroy' 	=> true,
-			];
+			//add permissions to role
+			foreach ($permissions as $key => $permission) {
+				$role->addPermission($key, $permission['default']);
+			}
 
 			$role->save();
 
-
-			$credentials = [
-			    'email'    => 'admin@soa.backend',
-			    'password' => 'password',
-			];
-
-			$user = \Sentinel::create($credentials);
-
-			$role->users()->attach($user);
-
-			$activation = \Activation::create($user);
-
-			$activation_complete = \Activation::complete($user, $activation->code);
+			//attach admin user to admin role
+			$role->users()->attach($user);			
 
 			$this->info('Admin Role and User created successfully.');
+
+			$this->addPermissions($permissions);
 
 		} catch (\Exception $e)
 		{
 			$this->info('Something went wrong while creating Admin Role and User.');
 		}
+
+	}
+
+	protected function addPermissions($permissions) {
+
+		//add permissions to role
+		foreach ($permissions as $key => $permission) {
+			PermissionModel::create([
+				'value' => $key, 
+				'description' =>$permission['description']
+			]);
+		}
+
+		$this->info('Default Permissions created successfully.');
 
 	}
 

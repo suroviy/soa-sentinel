@@ -1,5 +1,7 @@
 <?php namespace SleepingOwl\Admin\Model;
 
+use Illuminate\Database\Eloquent\Model;
+
 class Permission extends Model
 {
 

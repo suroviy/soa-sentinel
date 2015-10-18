@@ -12,10 +12,17 @@
 	return $display;
 })->createAndEdit(function ()
 {
-	$form = AdminForm::form();
-	$form->items([
-		FormItem::text('name', 'Name')->required(),
-		FormItem::text('slug', 'Slug')->required()->unique(),
-	]);
-	return $form;
+
+    $form = AdminForm::tabbed();
+    $form->items([
+        'Details' => [
+            FormItem::text('name', 'Name')->required(),
+			FormItem::text('slug', 'Slug')->required()->unique(),
+        ],
+        'Permissions' => [
+            // form items
+        ],
+    ]);
+    return $form;
+
 });
