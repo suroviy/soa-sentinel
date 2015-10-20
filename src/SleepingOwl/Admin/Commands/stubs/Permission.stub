@@ -2,7 +2,8 @@
 
 \Admin::model('SleepingOwl\Admin\Model\Permission')->title('Permissions')->alias('permissions')->display(function ()
 {
-	$display = AdminDisplay::table();
+	$display = AdminDisplay::datatables();
+
 	$display->columns([
 		Column::checkbox(),
 		Column::string('id')->label('#'),

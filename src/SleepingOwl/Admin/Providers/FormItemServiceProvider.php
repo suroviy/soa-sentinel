@@ -34,6 +34,8 @@ class FormItemServiceProvider extends ServiceProvider
 		FormItem::register('tinymce', 'SleepingOwl\Admin\FormItems\TinyMCE');
 		FormItem::register('filemanager', 'SleepingOwl\Admin\FormItems\Filemanager');
 		FormItem::register('colorpicker', 'SleepingOwl\Admin\FormItems\Colorpicker');
+		FormItem::register('permissions', 'SleepingOwl\Admin\FormItems\Permissions');
+		FormItem::register('roles', 'SleepingOwl\Admin\FormItems\Roles');
 	}
 
 }

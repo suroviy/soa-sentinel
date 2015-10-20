@@ -17,6 +17,8 @@ class AdminServiceProvider extends ServiceProvider
 		'SleepingOwl\Admin\Providers\FilterServiceProvider',
 		'SleepingOwl\Admin\Providers\BootstrapServiceProvider',
 		'SleepingOwl\Admin\Providers\RouteServiceProvider',
+		'SleepingOwl\Admin\Providers\EventServiceProvider',
+
 	];
 
 	/**

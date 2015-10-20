@@ -4,7 +4,7 @@
 {
 	$display = AdminDisplay::datatables();
 	$display->with('roles');
-
+	
 	$display->columns([
 		Column::checkbox(),
 		Column::string('id')->label('#'),
@@ -31,6 +31,9 @@
 {
 
 	$form = AdminForm::tabbed();
+	$form->storable(false);
+    $form->event_handler('SleepingOwl\Admin\Events\UserEvent');
+
     $form->items([
         'Details' => [
             FormItem::text('first_name', 'Firstname')->required(),
@@ -40,16 +43,11 @@
 			FormItem::password('password', 'Password')->sentinel()->required()
 			
         ],
-        'Roles' => [
-            /**
-             * @TODO: Role Definition
-             */
-        ],
-        'Permissions' => [
-            /**
-             * @TODO: Permission Definition
-             */
-        ],
+        'Roles & Permissions' => [
+            FormItem::roles('roles', 'Roles')->model('Cartalyst\Sentinel\Roles\EloquentRole')->display('name'),
+           	FormItem::permissions('permissions', 'Permissions')->model('SleepingOwl\Admin\Model\Permission')->display('description')->optionValue('value')
+        ]
+        
     ]);
     return $form;
 })->edit(function ($id)
@@ -65,16 +63,10 @@
 			FormItem::password('password', 'Password')->sentinel()
 			
         ],
-        'Roles' => [
-            /**
-             * @TODO: Role Definition
-             */
-        ],
-        'Permissions' => [
-            /**
-             * @TODO: Permission Definition
-             */
-        ],
+        'Roles & Permissions' => [
+            FormItem::roles('roles', 'Roles')->model('Cartalyst\Sentinel\Roles\EloquentRole')->display('name'),
+            FormItem::permissions('permissions', 'Permissions')->model('SleepingOwl\Admin\Model\Permission')->display('description')->optionValue('value')
+        ]
     ]);
     return $form;
 });
