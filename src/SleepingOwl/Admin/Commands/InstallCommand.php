@@ -55,6 +55,7 @@ class InstallCommand extends Command
 	 */
 	protected function publishDB()
 	{
+
 		$this->call('migrate');
 
 		/*$this->call('db:seed', [
@@ -137,6 +138,14 @@ class InstallCommand extends Command
 			$contents = $this->laravel['files']->get(__DIR__ . '/stubs/Role.stub');
 			$this->laravel['files']->put($roleFile, $contents);
 			$this->line('<info>Role file was created:</info> ' . str_replace(base_path(), '', $roleFile));
+		}
+
+		$permissionFile = config('admin.bootstrapDirectory') . '/Permission.php';
+		if ( ! file_exists($permissionFile))
+		{
+			$contents = $this->laravel['files']->get(__DIR__ . '/stubs/Permission.stub');
+			$this->laravel['files']->put($permissionFile, $contents);
+			$this->line('<info>Permission file was created:</info> ' . str_replace(base_path(), '', $permissionFile));
 		}
 	}
 
@@ -292,6 +301,7 @@ class InstallCommand extends Command
 		} catch (\Exception $e)
 		{
 			$this->info('Something went wrong while creating Admin Role and User.');
+			$this->error($e);
 		}
 
 	}

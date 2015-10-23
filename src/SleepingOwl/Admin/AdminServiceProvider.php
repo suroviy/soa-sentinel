@@ -54,6 +54,13 @@ class AdminServiceProvider extends ServiceProvider
 		], 'config');
 
 
+		// Publish migrations
+        $migrations = realpath(__DIR__.'/Database/Migrations');
+
+        $this->publishes([
+            $migrations => $this->app->databasePath().'/migrations',
+        ], 'migrations');
+
 		$this->publishes([
 			__DIR__ . '/../../../public/' => public_path('vendor/sleeping-owl/admin/'),
 		], 'assets');
