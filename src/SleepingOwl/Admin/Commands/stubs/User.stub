@@ -1,23 +1,72 @@
 <?php
 
-\Admin::model('Cartalyst\Sentinel\Users\EloquentUser')->title('Users')->alias('users')->permission("xyz")->display(function ()
+\Admin::model('Cartalyst\Sentinel\Users\EloquentUser')->title('Users')->alias('users')->display(function ()
 {
-	$display = AdminDisplay::table();
+	$display = AdminDisplay::datatables();
+	$display->with('roles');
+	
 	$display->columns([
 		Column::checkbox(),
 		Column::string('id')->label('#'),
-		Column::string('first_name')->label('First Name'),
-		Column::string('last_name')->label('Last Name'),
+		Column::custom()->label('Name')->callback(function ($instance)
+		{
+		    return $instance->first_name.' '.$instance->last_name;
+		}),
 		Column::string('email')->label('Email'),
+		Column::custom()->label('Roles')->callback(function ($instance)
+		{
+			$user_roles 	= $instance->roles->lists('name');
+			$str_roles 		= implode("<br>",$user_roles->toArray());
+			$tooltip 		= '<a data-toggle="tooltip" data-html="true" data-placement="top" title="'.$str_roles.'">Show all Roles</button>';
+			$hidden_roles	= '<span style="display:none;">'.$str_roles.'</span>';
+			return ($user_roles->count()>0) ? $tooltip.$hidden_roles : '';
+		}),
+		Column::custom()->label('Custom Permissions')->callback(function ($instance)
+		{
+		    return (count($instance->permissions)>0) ? 'Yes' : 'No';
+		}),
 	]);
 	return $display;
-})->createAndEdit(function ()
+})->create(function ()
 {
-	$form = AdminForm::form();
-	$form->items([
-		FormItem::text('first_name', 'First Name')->required(),
-		FormItem::text('last_name', 'Last Name')->required(),
-		FormItem::text('email', 'Email')->required()->unique(),
-	]);
-	return $form;
+
+	$form = AdminForm::tabbed();
+	$form->storable(false);
+    $form->event_handler('SleepingOwl\Admin\Events\UserEvent');
+
+    $form->items([
+        'Details' => [
+            FormItem::text('first_name', 'Firstname')->required(),
+            FormItem::text('last_name', 'Lastname')->required(),
+			FormItem::text('email', 'Email')->required()->unique(),
+			//FormItem::sentinelpassword('password')
+			FormItem::password('password', 'Password')->sentinel()->required()
+			
+        ],
+        'Roles & Permissions' => [
+            FormItem::roles('roles', 'Roles')->model('Cartalyst\Sentinel\Roles\EloquentRole')->display('name'),
+           	FormItem::permissions('permissions', 'Permissions')->inherited()
+        ]
+        
+    ]);
+    return $form;
+})->edit(function ($id)
+{
+
+	$form = AdminForm::tabbed();
+    $form->items([
+        'Details' => [
+            FormItem::text('first_name', 'Firstname')->required(),
+            FormItem::text('last_name', 'Lastname')->required(),
+			FormItem::text('email', 'Email')->required()->unique(),
+			//FormItem::sentinelpassword('password')
+			FormItem::password('password', 'Password')->sentinel()
+			
+        ],
+        'Roles & Permissions' => [
+            FormItem::roles('roles', 'Roles')->model('Cartalyst\Sentinel\Roles\EloquentRole')->display('name'),
+            FormItem::permissions('permissions', 'Permissions')->inherited()
+        ]
+    ]);
+    return $form;
 });

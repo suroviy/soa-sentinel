@@ -17,6 +17,8 @@ class AdminServiceProvider extends ServiceProvider
 		'SleepingOwl\Admin\Providers\FilterServiceProvider',
 		'SleepingOwl\Admin\Providers\BootstrapServiceProvider',
 		'SleepingOwl\Admin\Providers\RouteServiceProvider',
+		'SleepingOwl\Admin\Providers\EventServiceProvider',
+
 	];
 
 	/**
@@ -51,6 +53,13 @@ class AdminServiceProvider extends ServiceProvider
 			__DIR__ . '/../../config/theme.php' => config_path('admintheme.php'),
 		], 'config');
 
+
+		// Publish migrations
+        $migrations = realpath(__DIR__.'/Database/Migrations');
+
+        $this->publishes([
+            $migrations => $this->app->databasePath().'/migrations',
+        ], 'migrations');
 
 		$this->publishes([
 			__DIR__ . '/../../../public/' => public_path('vendor/sleeping-owl/admin/'),

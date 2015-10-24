@@ -16,6 +16,9 @@
 					@endif
 
 					@foreach ($options as $optionValue => $optionLabel)
+
+						
+
 						@if ( is_array($value ))
 							<option value="{{ $optionValue }}" {!! (in_array($optionValue, $value)) ? 'selected="selected"' : '' !!}>{{ $optionLabel }}</option>
 						@else

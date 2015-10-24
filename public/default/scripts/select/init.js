@@ -12,6 +12,10 @@ $(function ()
 		});
 	});
 
+	$(function () {
+	    $('.chosen-container').width('100%');
+	});
+
 	$('.bsselect').each(function ()
 	{
 		var $this = $(this);
