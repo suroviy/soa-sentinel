@@ -206,59 +206,59 @@ class InstallCommand extends Command
 
 			'superadmin'	=> [
 				'default'		=> true,
-				'description'	=> ''
+				'description'	=> 'Super Admin'
 			],
 			'controlpanel'	=> [
 				'default'		=> true,
-				'description'	=> ''
+				'description'	=> 'Access to the Control Panel'
 			],
 			'admin.users.view'	=> [
 				'default'		=> true,
-				'description'	=> ''
+				'description'	=> 'View Users'
 			],
 			'admin.users.create'	=> [
 				'default'		=> true,
-				'description'	=> ''
+				'description'	=> 'Create Users'
 			],
 			'admin.users.edit'	=> [
 				'default'		=> true,
-				'description'	=> ''
+				'description'	=> 'Edit Users'
 			],
 			'admin.users.destroy'	=> [
 				'default'		=> true,
-				'description'	=> ''
+				'description'	=> 'Delete Users'
 			],
 			'admin.roles.view'	=> [
 				'default'		=> true,
-				'description'	=> ''
+				'description'	=> 'View Roles'
 			],
 			'admin.roles.create'	=> [
 				'default'		=> true,
-				'description'	=> ''
+				'description'	=> 'Create Roles'
 			],
 			'admin.roles.edit'	=> [
 				'default'		=> true,
-				'description'	=> ''
+				'description'	=> 'Edit Roles'
 			],
 			'admin.roles.destroy'	=> [
 				'default'		=> true,
-				'description'	=> ''
+				'description'	=> 'Delete Roles'
 			],
 			'admin.permissions.view'	=> [
 				'default'		=> true,
-				'description'	=> ''
+				'description'	=> 'View Permissions'
 			],
 			'admin.permissions.create'	=> [
 				'default'		=> true,
-				'description'	=> ''
+				'description'	=> 'Create Permissions'
 			],
 			'admin.permissions.edit'	=> [
 				'default'		=> true,
-				'description'	=> ''
+				'description'	=> 'Edit Permissions'
 			],
 			'admin.permissions.destroy'	=> [
 				'default'		=> true,
-				'description'	=> ''
+				'description'	=> 'Delete Permissions'
 			]
 
 		];
