@@ -20,7 +20,7 @@
             FormItem::text('slug', 'Slug')->required()->unique(),
         ],
         'Permissions' => [
-            FormItem::permissions('permissions', 'Permissions')->model('SleepingOwl\Admin\Model\Permission')->display('description')->optionValue('value')
+            FormItem::permissions('permissions', 'Permissions')
         ],
     ]);
     return $form;

@@ -45,7 +45,7 @@
         ],
         'Roles & Permissions' => [
             FormItem::roles('roles', 'Roles')->model('Cartalyst\Sentinel\Roles\EloquentRole')->display('name'),
-           	FormItem::permissions('permissions', 'Permissions')->model('SleepingOwl\Admin\Model\Permission')->display('description')->optionValue('value')
+           	FormItem::permissions('permissions', 'Permissions')->inherited()
         ]
         
     ]);
@@ -65,7 +65,7 @@
         ],
         'Roles & Permissions' => [
             FormItem::roles('roles', 'Roles')->model('Cartalyst\Sentinel\Roles\EloquentRole')->display('name'),
-            FormItem::permissions('permissions', 'Permissions')->model('SleepingOwl\Admin\Model\Permission')->display('description')->optionValue('value')
+            FormItem::permissions('permissions', 'Permissions')->inherited()
         ]
     ]);
     return $form;
