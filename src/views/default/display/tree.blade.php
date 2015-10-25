@@ -3,11 +3,7 @@
 		@if ( ! empty($title) )
 			<h3>{{ $title }}</h3>
 		@endif
-      	<div class="box-tools">
-        	@if ($creatable)
-				<a class="btn btn-primary flat" href="{{ $createUrl }}"><i class="fa fa-plus"></i> {{ trans('admin::lang.table.new-entry') }}</a>
-			@endif
-      </div>
+      	@include(AdminTemplate::view('_partials.displayactions'))
       <br>
     </div>
 

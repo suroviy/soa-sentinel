@@ -16,6 +16,8 @@ class Action extends NamedColumn
 	 * @var string
 	 */
 	protected $style = 'long';
+
+	protected $color = 'default';
 	/**
 	 * Button submit action
 	 * @var Closure
@@ -38,6 +40,7 @@ class Action extends NamedColumn
 	protected $url;
 
 	protected $isBulk = false;
+	protected $isLine = false;
 
 	/**
 	 * @param string $name
@@ -60,6 +63,16 @@ class Action extends NamedColumn
 			return $this->icon;
 		}
 		$this->icon = $icon;
+		return $this;
+	}
+
+	public function color($color = null)
+	{
+		if (is_null($color))
+		{
+			return $this->color;
+		}
+		$this->color = $color;
 		return $this;
 	}
 
@@ -93,6 +106,21 @@ class Action extends NamedColumn
 		return $this;
 	}
 
+	public function line()
+	{
+		return $this->isLine(true);
+	}
+
+	public function isLine($isLine = null)
+	{
+		if (is_null($isLine))
+		{
+			return $this->isLine;
+		}
+		$this->isLine = $isLine;
+		return $this;
+	}
+
 	/**
 	 * Get or set action callback
 	 * @param Closure|null $callback
@@ -100,6 +128,7 @@ class Action extends NamedColumn
 	 */
 	public function callback($callback = null)
 	{
+
 		if (is_null($callback))
 		{
 			return $this->callback;
@@ -150,10 +179,13 @@ class Action extends NamedColumn
 			'value'  => $this->value(),
 			'target' => $this->target(),
 			'url'    => $this->url(),
+			'color'	 => $this->color()
 		];
 
 		if( $this->isBulk() ) {
 			return view(AdminTemplate::view('column.bulkaction'), $params);
+		}elseif ($this->isLine()) {
+			return view(AdminTemplate::view('column.lineaction'), $params);
 		} else {
 			return view(AdminTemplate::view('column.action'), $params);
 		}
@@ -195,6 +227,7 @@ class Action extends NamedColumn
 	 */
 	public function call($instance)
 	{
+		debug("call");
 		$callback = $this->callback();
 		call_user_func($callback, $instance);
 	}
