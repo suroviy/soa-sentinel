@@ -1,0 +1,25 @@
+<div class="box-tools">
+	@if ($creatable)
+		<a class="btn btn-primary flat" href="{{ $createUrl }}"><i class="fa fa-plus"></i> {{ trans('admin::lang.table.new-entry') }}</a>
+	@endif
+
+	@foreach ($actions as $action)
+		{!! $action !!}
+	@endforeach
+
+	@foreach ($dropdowns as $label => $dropdown)
+		<div class="btn-group">
+			<button type="button" class="btn btn-default dropdown-toggle flat" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			{{ $label }} <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu pull-right">
+			
+				@foreach ($dropdown as $item)
+					{!! $item !!}
+				@endforeach
+			
+			</ul>
+		</div>
+	@endforeach
+	
+</div>
