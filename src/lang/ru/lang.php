@@ -2,6 +2,7 @@
 
 return [
 	'404'      => 'Страница не найдена.',
+	'required_field'	=> 'Required',
 	'auth'     => [
 		'title'          => 'Авторизация',
 		'username'       => 'Логин',
@@ -76,4 +77,13 @@ return [
 		'browse' => 'Выбор файла',
 		'remove' => 'Удалить',
 	],
+	'menu'		=> [
+		'dashboard'	=> 'Dashboard',
+		'user'	=> [
+			'category'		=> 'User Management',
+			'users'			=> 'Users',
+			'roles'			=> 'Roles',
+			'permissions'	=> 'Permissions'
+		]
+	]
 ];

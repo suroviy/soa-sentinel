@@ -79,4 +79,14 @@ return [
 		'browse' => 'Select File',
 		'remove' => 'Remove File',
 	],
+	'menu'		=> [
+		'dashboard'	=> 'Dashboard',
+		'user'	=> [
+			'category'		=> 'User Management',
+			'users'			=> 'Users',
+			'roles'			=> 'Roles',
+			'permissions'	=> 'Permissions'
+		]
+	],
+
 ];

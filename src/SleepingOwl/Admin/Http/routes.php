@@ -15,6 +15,9 @@ Route::get('assets/lang', [
 	'uses' => 'AdminController@getLang',
 ]);
 
+Route::get('lang/{lang}', ['as'=>'admin.language', 'uses'=>'AdminController@switchLang']);
+
+
 Route::group([
 	'middleware' => config('admin.middleware'),
 ], function ()

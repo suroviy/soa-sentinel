@@ -31,6 +31,7 @@ class AdminAuthenticate
 		if( $request->route()->getName() == "admin.logout" ) {
 			return $next($request);
 		}
+
 		/*
 			changed:
 			to use FormItem::filemanager() elfinde.popup route has parameters (input id)

@@ -79,4 +79,13 @@ return [
 		'browse' => 'Datei auswählen',
 		'remove' => 'Datei löschen',
 	],
+	'menu'		=> [
+		'dashboard'	=> '&Uuml;bersicht',
+		'user'	=> [
+			'category'		=> 'Benutzerverwaltung',
+			'users'			=> 'Benutzer',
+			'roles'			=> 'Rollen',
+			'permissions'	=> 'Berechtigungen'
+		]
+	],
 ];

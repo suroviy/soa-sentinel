@@ -1,7 +1,7 @@
 @if( Sentinel::hasAnyAccess($permission) )
 <li {!! (count($items) > 0) ? 'class="treeview"' : '' !!}>
 	<a href="{{ $url }}">
-		<i class="fa fa-fw {{ $icon }}"></i> <span>{{ $label }}</span>
+		<i class="fa fa-fw {{ $icon }}"></i> <span>{!! trans($label) !!}</span>
 		@if (count($items) > 0)
 			<i class="fa fa-angle-left pull-right"></i>
 		@endif

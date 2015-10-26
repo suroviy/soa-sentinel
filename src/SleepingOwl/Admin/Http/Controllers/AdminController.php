@@ -160,6 +160,15 @@ class AdminController extends Controller
 		return $this->cacheResponse($response);
 	}
 
+	public function switchLang($lang)
+    {
+        if (array_key_exists($lang, \Config::get('admin.languages'))) {
+            \Session::set('applocale', $lang);
+        }
+        
+        return Redirect::back();	    
+    }
+
 	protected function cacheResponse(Response $response)
 	{
 		$response->setSharedMaxAge(31536000);

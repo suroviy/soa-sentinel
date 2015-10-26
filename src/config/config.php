@@ -16,7 +16,7 @@ return [
 	/*
 	 * Middleware to use in admin routes
 	 */
-	'middleware'              => ['admin.auth'],
+	'middleware'              => ['admin.language','admin.auth'],
 
 	/*
 	 * Path to admin bootstrap files directory
@@ -53,6 +53,25 @@ return [
 			'email' => 'required',
 			'password' => 'required',
 		]
+	],
+
+	/*
+	 * Is language switcher present?
+	 */
+	'language_switcher'	=> true,
+
+	/*
+	 * Available languages
+	 */
+	'languages'	=> [
+
+		'de'	=> "German",
+		'en'	=> "English",
+		'es'	=> "Spanish",
+		'pt_BR'	=> "Portoguese",
+		'ru'	=> "Russian",
+		'uk'	=> "Ukrainian"
+
 	],
 
 	/*
