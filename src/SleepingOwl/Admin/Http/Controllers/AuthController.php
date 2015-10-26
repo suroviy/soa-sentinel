@@ -57,10 +57,10 @@ class AuthController extends Controller
 		
 
 		$message = new MessageBag([
-			'email' => trans('sentinel::lang.auth.wrong-email'),
-			'password' => trans('sentinel::lang.auth.wrong-password')
+			'email' => trans('admin::lang.auth.wrong-email'),
+			'password' => trans('admin::lang.auth.wrong-password')
 		]);
-		
+
 		return \Redirect::back()->withInput()->withErrors($message);
 	}
 
