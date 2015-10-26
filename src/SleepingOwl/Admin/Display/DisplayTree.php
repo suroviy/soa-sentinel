@@ -26,6 +26,12 @@ class DisplayTree implements Renderable, DisplayInterface, WithRoutesInterface
 	protected $apply;
 	protected $scopes;
 
+	public function __construct($class=null) {
+		if ( !is_null ( $class ) ) {
+			$this->setClass($class);
+		}
+	}
+
 	public function setClass($class)
 	{
 		if (is_null($this->class))
