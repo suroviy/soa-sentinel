@@ -2,6 +2,7 @@
 
 return [
 	'404'      => 'Página no encontrada.',
+	'required_field'	=> 'Required',
 	'auth'     => [
 		'title'          => 'Autorización',
 		'username'       => 'Usuario',
@@ -62,5 +63,14 @@ return [
 	'select'   => [
 		'nothing'  => 'No hay nada seleccionado',
 		'selected' => 'seleccionados'
-	]
+	],
+	'menu'		=> [
+		'dashboard'	=> 'Dashboard',
+		'user'	=> [
+			'category'		=> 'User Management',
+			'users'			=> 'Users',
+			'roles'			=> 'Roles',
+			'permissions'	=> 'Permissions'
+		]
+	],
 ];

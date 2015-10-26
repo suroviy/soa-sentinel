@@ -1,6 +1,7 @@
 <?php
 return [
 	'404'      => 'Сторінка не знайдена.',
+	'required_field'	=> 'Required',
 	'auth'     => [
 		'title'          => 'Авторизація',
 		'username'       => 'Логін',
@@ -74,5 +75,14 @@ return [
 	'file'     => [
 		'browse' => 'Вибір файлу',
 		'remove' => 'Видалити',
+	],
+	'menu'		=> [
+		'dashboard'	=> 'Dashboard',
+		'user'	=> [
+			'category'		=> 'User Management',
+			'users'			=> 'Users',
+			'roles'			=> 'Roles',
+			'permissions'	=> 'Permissions'
+		]
 	],
 ];
