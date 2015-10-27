@@ -3,7 +3,7 @@
 		@if ( ! empty($title) )
 			<h3>{{ $title }}</h3>
 		@endif
-      	@include(AdminTemplate::view('_partials.displayactions'))
+      	@include(AdminTemplate::view('_partials.displayactions'), ['show_actions' => false])
       <br>
     </div>
 
