@@ -272,7 +272,7 @@ class DisplayTable implements Renderable, DisplayInterface
 		return [
 			'title'     => $this->title(),
 			'columns'   => $this->allColumns(),
-			'creatable' => ! is_null($this->model()->create()),
+			'creatable' => ! is_null($this->model()->create()) && \Sentinel::hasAnyAccess(['admin.' . $this->model()->alias() . '.create' ]),
 			'createUrl' => $this->model()->createUrl($this->parameters() + Input::all()),
 			'actions'   => $this->actions(),
 			'dropdowns' => $this->dropdowns(),

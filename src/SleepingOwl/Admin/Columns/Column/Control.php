@@ -53,7 +53,7 @@ class Control extends BaseColumn
 	 */
 	protected function editable()
 	{
-		return ! $this->trashed() && ! is_null($this->model()->edit($this->instance->getKey()));
+		return ! $this->trashed() && ! is_null($this->model()->edit($this->instance->getKey())) && \Sentinel::hasAnyAccess(['admin.' . $this->model()->alias() . '.edit' ]);
 	}
 
 	/**
@@ -71,7 +71,7 @@ class Control extends BaseColumn
 	 */
 	protected function deletable()
 	{
-		return ! $this->trashed() && ! is_null($this->model()->delete($this->instance->getKey()));
+		return ! $this->trashed() && ! is_null($this->model()->delete($this->instance->getKey())) && \Sentinel::hasAnyAccess(['admin.' . $this->model()->alias() . '.destroy' ]);
 	}
 
 	/**
