@@ -45,25 +45,6 @@ return [
 			'password' => 'required',
 		]
 	],
-	
-	/*
-	 * Is language switcher present?
-	 */
-	'language_switcher'	=> true,
-
-	/*
-	 * Available languages
-	 */
-	'languages'	=> [
-
-		'de'	=> "German",
-		'en'	=> "English",
-		'es'	=> "Spanish",
-		'pt_BR'	=> "Portoguese",
-		'ru'	=> "Russian",
-		'uk'	=> "Ukrainian"
-
-	],
 
 	/*
 	 * Template to use
