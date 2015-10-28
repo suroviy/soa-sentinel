@@ -63,7 +63,7 @@ $(function ()
 	    	} );
 
 	    	table.buttons( 0, null ).container().appendTo(
-		        $('.box-tools')
+		        $this.parents('.box').find('.box-tools')
 		    );
 		}
 	});
