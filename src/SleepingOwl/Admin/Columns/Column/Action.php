@@ -227,7 +227,6 @@ class Action extends NamedColumn
 	 */
 	public function call($instance)
 	{
-		debug("call");
 		$callback = $this->callback();
 		call_user_func($callback, $instance);
 	}
