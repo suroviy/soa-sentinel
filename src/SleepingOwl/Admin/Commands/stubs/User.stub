@@ -27,46 +27,29 @@
 		}),
 	]);
 	return $display;
-})->create(function ()
+})->createAndEdit(function ($id)
 {
-
 	$form = AdminForm::tabbed();
-	$form->storable(false);
-    $form->event_handler('SleepingOwl\Admin\Events\UserEvent');
-
-    $form->items([
-        'Details' => [
-            FormItem::text('first_name', 'Firstname')->required(),
-            FormItem::text('last_name', 'Lastname')->required(),
-			FormItem::text('email', 'Email')->required()->unique(),
-			//FormItem::sentinelpassword('password')
-			FormItem::password('password', 'Password')->sentinel()->required()
-			
-        ],
-        'Roles & Permissions' => [
-            FormItem::roles('roles', 'Roles')->model('Cartalyst\Sentinel\Roles\EloquentRole')->display('name'),
-           	FormItem::permissions('permissions', 'Permissions')->inherited()
-        ]
-        
+	
+	if ( is_null($id) )
+	{
+		$form->storable(false);
+    		$form->event_handler('SleepingOwl\Admin\Events\UserEvent');
+	}
+	
+    	$form->items([
+	        'Details' => [
+	            	FormItem::text('first_name', 'Firstname')->required(),
+	            	FormItem::text('last_name', 'Lastname')->required(),
+				FormItem::text('email', 'Email')->required()->unique(),
+				//FormItem::sentinelpassword('password')
+				FormItem::password('password', 'Password')->sentinel()->required()
+	        ],
+	        'Roles & Permissions' => [
+	            	FormItem::roles('roles', 'Roles')->model('Cartalyst\Sentinel\Roles\EloquentRole')->display('name'),
+	           	FormItem::permissions('permissions', 'Permissions')->inherited()
+	        ]
     ]);
-    return $form;
-})->edit(function ($id)
-{
-
-	$form = AdminForm::tabbed();
-    $form->items([
-        'Details' => [
-            FormItem::text('first_name', 'Firstname')->required(),
-            FormItem::text('last_name', 'Lastname')->required(),
-			FormItem::text('email', 'Email')->required()->unique(),
-			//FormItem::sentinelpassword('password')
-			FormItem::password('password', 'Password')->sentinel()
-			
-        ],
-        'Roles & Permissions' => [
-            FormItem::roles('roles', 'Roles')->model('Cartalyst\Sentinel\Roles\EloquentRole')->display('name'),
-            FormItem::permissions('permissions', 'Permissions')->inherited()
-        ]
-    ]);
+    
     return $form;
 });
