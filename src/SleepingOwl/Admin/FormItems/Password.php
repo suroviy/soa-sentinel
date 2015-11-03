@@ -27,7 +27,7 @@ class Password extends NamedFormItem
 				parent::save();		
 			} else {
 				parent::save();
-			}	
-		} 
+			}
+		}
 	}
 }

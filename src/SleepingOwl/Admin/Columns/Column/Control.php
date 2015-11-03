@@ -53,7 +53,7 @@ class Control extends BaseColumn
 	 */
 	protected function editable()
 	{
-		return ! $this->trashed() && ! is_null($this->model()->edit($this->instance->getKey())) && \Sentinel::hasAnyAccess(['admin.' . $this->model()->alias() . '.edit' ]);
+		return ! $this->trashed() && ! is_null($this->model()->edit($this->instance->getKey())) && \Sentinel::hasAnyAccess($this->getPermissions('edit'));
 	}
 
 	/**
@@ -71,7 +71,7 @@ class Control extends BaseColumn
 	 */
 	protected function deletable()
 	{
-		return ! $this->trashed() && ! is_null($this->model()->delete($this->instance->getKey())) && \Sentinel::hasAnyAccess(['admin.' . $this->model()->alias() . '.destroy' ]);
+		return ! $this->trashed() && ! is_null($this->model()->delete($this->instance->getKey())) && \Sentinel::hasAnyAccess($this->getPermissions('destroy'));
 	}
 
 	/**
@@ -115,6 +115,16 @@ class Control extends BaseColumn
 			'restoreUrl' => $this->restoreUrl(),
 		];
 		return view(AdminTemplate::view('column.' . $this->view), $params);
+	}
+
+	private function getPermissions($action) {
+		$permissions[] = 'admin.' . $this->model()->alias() . '.' . $action;
+		if (!is_null($this->model()->permission())) {
+			$permissions = array_merge($permissions, explode(",", $this->model()->permission()));
+			$permissions[] = "superadmin";
+		};
+
+		return $permissions;
 	}
 
 }
