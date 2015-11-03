@@ -17,7 +17,7 @@ class Permissions  extends NamedFormItem
 	}
 
 	public function getAllPermissions() {
-		return PermissionModel::all();	
+		return PermissionModel::orderBy('value')->get();
 	}
 
 	public function inherited()
@@ -37,7 +37,7 @@ class Permissions  extends NamedFormItem
 			'permissions'		=> $this->instance()->permissions,
 			'all_permissions'	=> $this->getAllPermissions(),
 			'withInherited'		=> $this->withInherited()
-			
+
 		];
 	}
 
@@ -52,7 +52,7 @@ class Permissions  extends NamedFormItem
 		if( $selected_permissions === null ) {
 			$selected_permissions = [];
 		}
-		
+
 		//remove all permissions
 		foreach ($this->instance()->permissions as $key => $value) {
 			$this->instance()->removePermission($key);
@@ -60,7 +60,7 @@ class Permissions  extends NamedFormItem
 
 		//add only the new selected
  		foreach ($selected_permissions as $key => $value) {
-	 		
+
 	 		if( $value == 1) {
 	 			$this->instance()->addPermission($key);
 	 		}

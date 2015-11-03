@@ -15,7 +15,7 @@ use SleepingOwl\Admin\Base\AliasBinder;
  * @method static \SleepingOwl\Admin\FormItems\TextAddon textaddon($name, $label = null)
  * @method static \SleepingOwl\Admin\FormItems\Password password($name, $label = null)
  * @method static \SleepingOwl\Admin\FormItems\Select select($name, $label = null)
- * @method static \SleepingOwl\Admin\FormItems\Choosen choosen ($name, $label = null)
+ * @method static \SleepingOwl\Admin\FormItems\Chosen chosen ($name, $label = null)
  * @method static \SleepingOwl\Admin\FormItems\BootstrapSelect bsselect($name, $label = null)
  * @method static \SleepingOwl\Admin\FormItems\Select2 bsselect2($name, $label = null)
  * @method static \SleepingOwl\Admin\FormItems\MultiSelect multiselect($name, $label = null)

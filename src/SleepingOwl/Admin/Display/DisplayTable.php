@@ -269,10 +269,16 @@ class DisplayTable implements Renderable, DisplayInterface
 
 	protected function getParams()
 	{
+		$permissions[] = 'admin.' . $this->model()->alias() . '.create';
+		if (!is_null($this->model()->permission())) {
+			$permissions = array_merge($permissions, explode(",", $this->model()->permission()));
+			$permissions[] = "superadmin";
+		};
+
 		return [
 			'title'     => $this->title(),
 			'columns'   => $this->allColumns(),
-			'creatable' => ! is_null($this->model()->create()) && \Sentinel::hasAnyAccess(['admin.' . $this->model()->alias() . '.create' ]),
+			'creatable' => ! is_null($this->model()->create()) && \Sentinel::hasAnyAccess($permissions),
 			'createUrl' => $this->model()->createUrl($this->parameters() + Input::all()),
 			'actions'   => $this->actions(),
 			'dropdowns' => $this->dropdowns(),

@@ -54,7 +54,7 @@ class AuthController extends Controller
 				return $this->getLogout();
 			}
 		}
-		
+
 
 		$message = new MessageBag([
 			'email' => trans('admin::lang.auth.wrong-email'),
