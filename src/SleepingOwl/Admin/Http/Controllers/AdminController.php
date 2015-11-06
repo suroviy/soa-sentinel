@@ -58,6 +58,7 @@ class AdminController extends Controller
 				abort(500, 'Please define form storable as true or set the event handler for storage.');
 			};
 		}
+		flash()->success(trans('admin::lang.save.create'));
 		return Redirect::to(Input::get('_redirectBack', $model->displayUrl()));
 	}
 
@@ -97,6 +98,7 @@ class AdminController extends Controller
 				abort(500, 'Please define form storable as true or set the event handler for storage.');
 			};
 		}
+		flash()->success(trans('admin::lang.save.edit'));
 		return Redirect::to(Input::get('_redirectBack', $model->displayUrl()));
 	}
 
@@ -108,6 +110,7 @@ class AdminController extends Controller
 			abort(404);
 		}
 		$model->repository()->delete($id);
+		flash()->success(trans('admin::lang.save.destroy'));
 		return Redirect::back();
 	}
 
@@ -119,6 +122,7 @@ class AdminController extends Controller
 			abort(404);
 		}
 		$model->repository()->restore($id);
+		flash()->success(trans('admin::lang.save.restore'));
 		return Redirect::back();
 	}
 

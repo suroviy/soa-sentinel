@@ -19,6 +19,14 @@ return [
 	'middleware'              => ['admin.language','admin.auth'],
 
 	/*
+	 * Default Permissions to Check
+	 */
+	'defaultPermission' => [
+		'superadmin',
+		'controlpanel'
+	],
+
+	/*
 	 * Path to admin bootstrap files directory
 	 * Default: app_path('Admin')
 	 */
@@ -58,7 +66,7 @@ return [
 	/*
 	 * Is language switcher present?
 	 */
-	'language_switcher'	=> true,
+	'language_switcher'	=> false,
 
 	/*
 	 * Available languages
@@ -103,4 +111,13 @@ return [
 			"path"	=> "elfinder/ckeditor" 
 		]
 	],
+
+	/**
+	 * Define here your custom route with permissions, so that we can handle them
+	 * Format: route_name => permission
+	 * When you leave permission empty, we default using the defaultPermission array in this config
+	 */
+	'custom_routes' => [
+			'admin.dashboard' => ''
+	]
 ];

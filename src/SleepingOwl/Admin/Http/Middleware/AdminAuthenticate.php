@@ -17,6 +17,11 @@ class AdminAuthenticate
 	 */
 	public function handle($request, Closure $next)
 	{
+		$custom_routes = config('admin.custom_routes');
+		$system_route = false;
+		$route_name = $request->route()->getName();
+		$route_parameters = $request->route()->parameters();
+		
 		if (!\Sentinel::check())
 		{
 			if ($request->ajax())
@@ -28,39 +33,29 @@ class AdminAuthenticate
 			}
 		}
 
-		if( $request->route()->getName() == "admin.logout" ) {
+		if( $route_name == "admin.logout" ) {
 			return $next($request);
 		}
+		if(starts_with($route_name, "elfinder.") || starts_with($route_name, "admin.upload.") ){
+			$system_route = true;
+		}
 
-		/*
-			changed:
-			to use FormItem::filemanager() elfinde.popup route has parameters (input id)
-		*/
-		if(starts_with($request->route()->getName(), "elfinder.")){
-			if (\Sentinel::hasAnyAccess(['superadmin', 'controlpanel'])){
+		if( array_key_exists($route_name, $custom_routes ) || $system_route ) {
+			$config_permissions = (!$system_route) ? $custom_routes[$route_name] : null;
+			$check_permissions = (!empty($config_permissions)) ? $config_permissions : config('admin.defaultPermission');
+
+			if (\Sentinel::hasAnyAccess($check_permissions))
+			{
 				return $next($request);
-			}else {
+			}
+			else {
+				\Sentinel::logout(null, true);
 				return redirect()->guest(route('admin.login'));
 			}
-		}
-		if( count( $request->route()->parameters() ) == 0 ) {
-
-			//Dashboard or some custom page
-			if( $request->route()->getName() == "admin.dashboard" || starts_with($request->route()->getName(), "admin.upload.")) {
-				if (\Sentinel::hasAnyAccess(['superadmin', 'controlpanel']))
-				{
-					return $next($request);
-				}
-				else {
-					\Sentinel::logout(null, true);
-					return redirect()->guest(route('admin.login'));
-				}
-			}
-
 		} else {
 
 			//use dynamic permissions
-			$route_alias = explode(".",$request->route()->getName());
+			$route_alias = explode(".",$route_name);
 
 			if ( !isset($route_alias[2]) ) {
 				$route_alias[2] = 'view';
@@ -72,24 +67,24 @@ class AdminAuthenticate
 				$route_alias[2];
 			}
 
-			if ( is_null( $request->route()->parameters()['adminModel']->permission() ) ) {
+			if ( is_null( $route_parameters['adminModel']->permission() ) ) {
 
 				if( $route_alias[2] == "view" ) {
 					$model_permissions = [
-						"admin.".$request->route()->parameters()['adminModel']->alias().".view"
+						"admin.".$route_parameters['adminModel']->alias().".view"
 					];
 				} else {
 					$model_permissions = [
-						"admin.".$request->route()->parameters()['adminModel']->alias().".".$route_alias[2]
+						"admin.".$route_parameters['adminModel']->alias().".".$route_alias[2]
 					];
 				}
 			} else {
-				$model_permissions 		= explode(",", $request->route()->parameters()['adminModel']->permission() );
+				$model_permissions 		= explode(",", $route_parameters['adminModel']->permission() );
 
 				if( $route_alias[2] == "view" ) {
-					$model_permissions[] 	= "admin.".$request->route()->parameters()['adminModel']->alias().".view";
+					$model_permissions[] 	= "admin.".$route_parameters['adminModel']->alias().".view";
 				} else {
-					$model_permissions[] 	= "admin.".$request->route()->parameters()['adminModel']->alias().".".$route_alias[2];
+					$model_permissions[] 	= "admin.".$route_parameters['adminModel']->alias().".".$route_alias[2];
 				}
 			}
 
@@ -100,7 +95,7 @@ class AdminAuthenticate
 				return $next($request);
 			}
 		}
-
-		return redirect()->route('admin.dashboard')->withErrors('Permission denied.');
+		flash()->error(trans('admin::lang.permission.denied'));
+		return redirect()->route('admin.dashboard');
 	}
 }

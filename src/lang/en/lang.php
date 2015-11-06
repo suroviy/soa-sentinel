@@ -88,5 +88,14 @@ return [
 			'permissions'	=> 'Permissions'
 		]
 	],
+	'permission' => [
+		'denied' => 'Permission denied'
+	],
+	'save' => [
+		'edit' => 'Entry was successfully saved.',
+		'create' => 'Entry was successfully created.',
+		'destroy' => 'Entry was successfully deleted.',
+		'restore' => 'Entry was successfully restored.'
+	]
 
 ];

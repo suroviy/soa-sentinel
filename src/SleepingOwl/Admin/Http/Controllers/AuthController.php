@@ -48,7 +48,7 @@ class AuthController extends Controller
 		if (\Sentinel::authenticate($data))
 		{
 
-			if( \Sentinel::hasAnyAccess(['superadmin', 'controlpanel']) ){
+			if( \Sentinel::hasAnyAccess(config('admin.defaultPermission')) ){
 				return \Redirect::intended(route('admin.wildcard', '/'));
 			} else {
 				return $this->getLogout();
