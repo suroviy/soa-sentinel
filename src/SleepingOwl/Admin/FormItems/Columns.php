@@ -60,8 +60,6 @@ class Columns extends BaseFormItem
 			$item->setFieldSize($this->field_size);
 			$item->setLabelSize($this->label_size);
 		});
-
-		$this->custom(true);
 	}
 
 	public function setInstance($instance)

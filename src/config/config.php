@@ -111,6 +111,14 @@ return [
 			"path"	=> "elfinder/ckeditor" 
 		]
 	],
+	
+	/**
+	 * If you are using tinymce as WYSIWYG editor you can enable here the elfinder javascript to use elfinder with tinymce.
+	 */
+	
+	'tinymce' => [
+		'enable_elfinder' => false
+	],
 
 	/**
 	 * Define here your custom route with permissions, so that we can handle them
@@ -118,6 +126,6 @@ return [
 	 * When you leave permission empty, we default using the defaultPermission array in this config
 	 */
 	'custom_routes' => [
-			'admin.dashboard' => ''
+		'admin.dashboard' => ''
 	]
 ];

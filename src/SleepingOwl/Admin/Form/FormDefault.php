@@ -6,6 +6,7 @@ use Illuminate\View\View;
 use Input;
 use SleepingOwl\Admin\Admin;
 use SleepingOwl\Admin\AssetManager\AssetManager;
+use SleepingOwl\Admin\FormItems\Columns;
 use SleepingOwl\Admin\Interfaces\DisplayInterface;
 use SleepingOwl\Admin\Interfaces\FormInterface;
 use SleepingOwl\Admin\Interfaces\FormItemInterface;
@@ -357,7 +358,21 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 			$items = $this->items();
 			array_walk_recursive($items, function ($item) use (&$names) {
 				if ($item instanceof FormItemInterface && !$item->custom() ) {
-					$names = array_add($names, $item->path(), $item->label());
+					if ( $item instanceof Columns ) {
+
+						foreach ($item->columns() as $columnItems)
+						{
+							foreach ($columnItems as $columnItem)
+							{
+								if ($columnItem instanceof FormItemInterface)
+								{
+									$names = array_add($names, $columnItem->path(), $columnItem->label());
+								}
+							}
+						}
+					} else {
+						$names = array_add($names, $item->path(), $item->label());
+					}
 				}
 			});
 
