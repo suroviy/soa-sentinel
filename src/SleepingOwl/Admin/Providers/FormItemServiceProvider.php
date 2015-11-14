@@ -36,6 +36,9 @@ class FormItemServiceProvider extends ServiceProvider
 		FormItem::register('colorpicker', 'SleepingOwl\Admin\FormItems\Colorpicker');
 		FormItem::register('permissions', 'SleepingOwl\Admin\FormItems\Permissions');
 		FormItem::register('roles', 'SleepingOwl\Admin\FormItems\Roles');
+
+		FormItem::register('icheckbox', 'SleepingOwl\Admin\FormItems\ICheckbox');
+		FormItem::register('iradio', 'SleepingOwl\Admin\FormItems\IRadio');
 	}
 
 }
