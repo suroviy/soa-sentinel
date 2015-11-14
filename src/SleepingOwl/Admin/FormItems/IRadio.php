@@ -1,6 +1,9 @@
 <?php namespace SleepingOwl\Admin\FormItems;
 
 use Input;
+use Illuminate\Support\Collection;
+use SleepingOwl\Admin\AssetManager\AssetManager;
+use SleepingOwl\Admin\Repository\BaseRepository;
 
 class IRadio extends Radio
 {
