@@ -19,7 +19,7 @@ class AdminController extends Controller
 	{
 		//added redirect to redirect back to the last model
 		if( !is_null( \Request::input('_action') ) ) {
-			//return back();
+			$model->display();
 			return redirect()->route('admin.model', ['adminModel' => $model->alias()]);
 		}
 		return $this->render($model->title(), $model->display());
