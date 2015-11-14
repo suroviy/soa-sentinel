@@ -8,16 +8,17 @@ use SleepingOwl\Admin\Repository\BaseRepository;
 class IRadio extends Radio
 {
 
-	protected $view 		= 'icheckbox';
-	protected $skin			= '';
-	protected $color		= '';
+	protected $view 		= 'iradio';
+	protected $skin			= 'minimal';
+	protected $color		= 'blue';
 	protected $increase		= '20%';
 
 	public function initialize()
 	{
 		parent::initialize();
 
-		AssetManager::addStyle('admin::default/plugins/icheck/all.css');
+		AssetManager::addStyle('admin::default/plugins/icheck/css/all.css');
+		AssetManager::addStyle('admin::default/css/form-items/icheck.css');
 		AssetManager::addScript('admin::default/plugins/icheck/js/icheck.min.js');
 		AssetManager::addScript('admin::default/scripts/icheck/init.js');
 	}
