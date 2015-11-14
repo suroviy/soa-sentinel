@@ -9,8 +9,8 @@ class ICheckbox extends Checkbox
 {
 
 	protected $view 		= 'icheckbox';
-	protected $skin			= '';
-	protected $color		= '';
+	protected $skin			= 'minimal';
+	protected $color		= 'blue';
 	protected $increase		= '20%';
 
 	public function initialize()
@@ -18,6 +18,7 @@ class ICheckbox extends Checkbox
 		parent::initialize();
 
 		AssetManager::addStyle('admin::default/plugins/icheck/css/all.css');
+		AssetManager::addStyle('admin::default/css/form-items/icheck.css');
 		AssetManager::addScript('admin::default/plugins/icheck/js/icheck.min.js');
 		AssetManager::addScript('admin::default/scripts/icheck/init.js');
 	}
@@ -69,6 +70,4 @@ class ICheckbox extends Checkbox
 			'attributes'     => $this->attributes(),
 		];
 	}
-
-
 }
