@@ -17,7 +17,7 @@ class ICheckbox extends Checkbox
 	{
 		parent::initialize();
 
-		AssetManager::addStyle('admin::default/plugins/icheck/all.css');
+		AssetManager::addStyle('admin::default/plugins/icheck/css/all.css');
 		AssetManager::addScript('admin::default/plugins/icheck/js/icheck.min.js');
 		AssetManager::addScript('admin::default/scripts/icheck/init.js');
 	}
