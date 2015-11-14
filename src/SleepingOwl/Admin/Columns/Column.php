@@ -4,6 +4,8 @@ use SleepingOwl\Admin\Base\AliasBinder;
 
 /**
  * @method static \SleepingOwl\Admin\Columns\Column\Action action($name)
+ * @method static \SleepingOwl\Admin\Columns\Column\Bulk bulk($name)
+ * @method static \SleepingOwl\Admin\Columns\Column\Line line($name)
  * @method static \SleepingOwl\Admin\Columns\Column\Checkbox checkbox()
  * @method static \SleepingOwl\Admin\Columns\Column\Control control()
  * @method static \SleepingOwl\Admin\Columns\Column\Count count($name)

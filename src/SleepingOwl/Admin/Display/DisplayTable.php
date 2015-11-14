@@ -149,6 +149,7 @@ class DisplayTable implements Renderable, DisplayInterface
 						$param = $this->repository->findMany($ids);
 					}
 					$column->call($param);
+					return redirect('/');
 				}
 			}
 		}

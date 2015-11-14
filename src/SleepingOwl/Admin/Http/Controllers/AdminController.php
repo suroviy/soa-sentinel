@@ -17,6 +17,11 @@ class AdminController extends Controller
 
 	public function getDisplay($model)
 	{
+		//added redirect to redirect back to the last model
+		if( !is_null( \Request::input('_action') ) ) {
+			//return back();
+			return redirect()->route('admin.model', ['adminModel' => $model->alias()]);
+		}
 		return $this->render($model->title(), $model->display());
 	}
 
