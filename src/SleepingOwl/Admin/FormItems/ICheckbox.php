@@ -52,13 +52,15 @@ class ICheckbox extends Checkbox
 		return $this;	
 	}
 
-	public function getParams()
+	public function attributes()
 	{
-		return parent::getParams() + [
+		$attributes = [
 			'skin'			=> $this->skin(),
 			'color'			=> $this->color(),
 			'increase'		=> $this->increase()
 		];
+		
+		return $attributes;
 	}
 
 	public function getParams()

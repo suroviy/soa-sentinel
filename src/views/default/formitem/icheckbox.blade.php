@@ -6,7 +6,7 @@
     @endif
 	<div class="checkbox">
 		<label>
-			<input type="checkbox" data-soa-icheck-skin="{{ $skin }}" data-soa-icheck-color="{{ $color }}" data-soa-icheck-increase="{{ $increase }}" name="{{ $name }}" value="1" {!! $value ? 'checked="checked"' : '' !!} />{{ $label }}
+			<input type="checkbox" data-soa-icheck-skin="{{ $attributes['skin'] }}" data-soa-icheck-color="{{ $attributes['color'] }}" data-soa-icheck-increase="{{ $attributes['increase'] }}" name="{{ $name }}" value="1" {!! $value ? 'checked="checked"' : '' !!} />{{ $label }}
 			@if($required_field)
 				@include(AdminTemplate::view('formitem.required'))
     		@endif
