@@ -39,6 +39,9 @@ class FormItemServiceProvider extends ServiceProvider
 
 		FormItem::register('icheckbox', 'SleepingOwl\Admin\FormItems\ICheckbox');
 		FormItem::register('iradio', 'SleepingOwl\Admin\FormItems\IRadio');
+
+		FormItem::register('switchradio', 'SleepingOwl\Admin\FormItems\SwitchRadio');
+		FormItem::register('switchcheckbox', 'SleepingOwl\Admin\FormItems\SwitchCheckbox');
 	}
 
 }
