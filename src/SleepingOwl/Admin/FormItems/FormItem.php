@@ -36,6 +36,7 @@ use SleepingOwl\Admin\Base\AliasBinder;
  * @method static \SleepingOwl\Admin\FormItems\View view($name, $label = null)
  * @method static \SleepingOwl\Admin\FormItems\ICheckbox icheckbox($name, $label = null)
  * @method static \SleepingOwl\Admin\FormItems\IRadio iradio($name, $label = null)
+ * @method static \SleepingOwl\Admin\FormItems\typeahead typeahead($name, $label = null)
  */
 class FormItem extends AliasBinder
 {
