@@ -161,7 +161,19 @@ class MenuItem implements Renderable
 	public function permission()
 	{
 		if ( is_null( $this->getModelItem()->permission() ) ) {
-			return ["*"];
+
+			if( count( $this->items() ) > 0 ) 
+			{
+				$permissions = [];
+				foreach ($this->items() as $key => $item) {
+					$permissions = array_merge($item->permission(), $permissions);
+				}
+			} else 
+			{
+				$permissions = ["*"];
+			}
+
+			return array_unique($permissions);
 		} else {
 			$model_permissions = explode(",", $this->getModelItem()->permission());
 			$model_permissions[] = "superadmin";
