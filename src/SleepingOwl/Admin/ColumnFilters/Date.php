@@ -21,7 +21,7 @@ class Date extends Text
 		AssetManager::addStyle('admin::default/plugins/bootstrap-datetime-picker/css/bootstrap-datetimepicker-custom.min.css');
 
 		AssetManager::addScript('admin::default/plugins/bootstrap-datetime-picker/js/moment-with-locales.min.js');
-		AssetManager::addScript('admin::default/plugins/bootstrap-datetime-picker/js/datetime/s_bootstrap-datetimepicker.min.js');
+		AssetManager::addScript('admin::default/plugins/bootstrap-datetime-picker/js/bootstrap-datetimepicker.min.js');
 		AssetManager::addScript('admin::default/scripts/bootstrap-datetime-picker/init.js');
 	}
 
