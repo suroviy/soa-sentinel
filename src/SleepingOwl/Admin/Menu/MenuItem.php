@@ -158,26 +158,47 @@ class MenuItem implements Renderable
 	 * @param string|null $label
 	 * @return $this|string
 	 */
-	public function permission()
+	public function permission($permission=null)
 	{
-		if ( is_null( $this->getModelItem()->permission() ) ) {
+		if( is_null($permission) )
+		{
 
-			if( count( $this->items() ) > 0 ) 
+			if( !is_null($this->permission) ) 
 			{
-				$permissions = [];
-				foreach ($this->items() as $key => $item) {
-					$permissions = array_merge($item->permission(), $permissions);
-				}
-			} else 
-			{
-				$permissions = ["*"];
+				return $this->permission;
 			}
 
-			return array_unique($permissions);
+			if ( is_null( $this->getModelItem()->permission() ) ) {
+
+				if( count( $this->items() ) > 0 ) 
+				{
+					$permissions = [];
+					foreach ($this->items() as $key => $item) {
+						$permissions = array_merge($item->permission(), $permissions);
+					}
+				} else 
+				{
+					$permissions = ["*"];
+				}
+
+				return array_unique($permissions);
+			} else {
+				$model_permissions = explode(",", $this->getModelItem()->permission());
+				$model_permissions[] = "superadmin";
+				return $model_permissions;
+			}
 		} else {
-			$model_permissions = explode(",", $this->getModelItem()->permission());
-			$model_permissions[] = "superadmin";
-			return $model_permissions;
+
+			if( gettype($permission) == "string" ) 
+			{
+				$custom_permissions = explode("|", $permission);
+			} else {
+				$custom_permissions = $permission;
+			}
+
+			$custom_permissions[] = "superadmin";
+			$this->permission = $custom_permissions;
+			return $this;
 		}
 	}
 
