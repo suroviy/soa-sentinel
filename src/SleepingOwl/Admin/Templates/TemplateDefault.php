@@ -17,7 +17,7 @@ class TemplateDefault implements TemplateInterface
 
 
 		AssetManager::addScript(route('admin.lang'));
-		AssetManager::addScript('admin::default/plugins/jquery/jquery-2.1.4.min.js');
+		AssetManager::addScript('admin::default/plugins/jQuery/jQuery-2.1.4.min.js');
 		AssetManager::addScript('admin::default/plugins/bootstrap/js/bootstrap.min.js');
 		if( \Config::get('admintheme.fixed_layout') ) {
 			AssetManager::addScript('admin::default/plugins/jquery-slimscroll/jquery.slimscroll.min.js');

@@ -119,9 +119,9 @@ class Control extends BaseColumn
 
 	private function getPermissions($action) {
 		$permissions[] = 'admin.' . $this->model()->alias() . '.' . $action;
+		$permissions[] = "superadmin";
 		if (!is_null($this->model()->permission())) {
 			$permissions = array_merge($permissions, explode(",", $this->model()->permission()));
-			$permissions[] = "superadmin";
 		};
 
 		return $permissions;
