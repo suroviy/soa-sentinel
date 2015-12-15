@@ -1,6 +1,7 @@
 <?php namespace SleepingOwl\Admin;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Session;
 
 class AdminServiceProvider extends ServiceProvider
 {
@@ -66,7 +67,16 @@ class AdminServiceProvider extends ServiceProvider
 		], 'assets');
 
 
-		//app('SleepingOwl\Admin\Helpers\StartSession')->run();
+		//we need this, otherwise we have no access to existing session values
+		//like the applocale which will be used to set the app language correctly
+		app('SleepingOwl\Admin\Helpers\StartSession')->run();
+
+		if (\Config::get('admin.language_switcher') && \Session::has('applocale') && array_key_exists(\Session::get('applocale'), \Config::get('admin.languages'))) {
+            \App::setLocale(\Session::get('applocale'));
+        }
+        else { // This is optional as Laravel will automatically set the fallback language if there is none specified
+            \App::setLocale(\Config::get('app.fallback_locale'));
+        }
 
 		Admin::instance();
 		$this->registerTemplate();
