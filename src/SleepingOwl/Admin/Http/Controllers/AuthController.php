@@ -8,6 +8,7 @@ use Input;
 use Redirect;
 use SleepingOwl\AdminAuth\Facades\AdminAuth;
 use Validator;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -30,16 +31,19 @@ class AuthController extends Controller
 		]);
 	}
 
-	public function postLogin()
+	public function postLogin(Request $request)
 	{
-		$rules = config('admin.auth.rules');
-		$data = \Input::only(array_keys($rules));
-		$lang = trans('admin::validation');
+		$rules 	= config('admin.auth.rules');
+		$data 	= $request->only( array_keys($rules) );
+		$lang 	= trans('admin::validation');
+		
 		if ($lang == 'admin::validation')
 		{
 			$lang = [];
 		}
+		
 		$validator = \Validator::make($data, $rules, $lang);
+		
 		if ($validator->fails())
 		{
 			return \Redirect::back()->withInput()->withErrors($validator);
@@ -47,9 +51,8 @@ class AuthController extends Controller
 
 		if (\Sentinel::authenticate($data))
 		{
-
-			if( \Sentinel::hasAnyAccess(config('admin.defaultPermission')) ){
-				return \Redirect::intended(route('admin.wildcard', '/'));
+			if( \Sentinel::hasAnyAccess( config('admin.defaultPermission') ) ){
+				return \Redirect::intended( route('admin.wildcard', '/') );
 			} else {
 				return $this->getLogout();
 			}

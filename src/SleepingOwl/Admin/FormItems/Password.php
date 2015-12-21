@@ -1,5 +1,8 @@
 <?php namespace SleepingOwl\Admin\FormItems;
 
+
+use Illuminate\Http\Request;
+
 class Password extends NamedFormItem
 {
 
@@ -17,13 +20,13 @@ class Password extends NamedFormItem
 		return $this->useSentinel;
 	}
 
-	public function save()
+	public function save(Request $request)
 	{
 		$name = $this->name();
-		if ( \Input::has($name))
+		if ( $request->has($name))
 		{
 			if( $this->useSentinel() ) {
-				\Input::merge(array($name => password_hash($this->value(), PASSWORD_BCRYPT)));
+				$request->merge(array($name => password_hash($this->value(), PASSWORD_BCRYPT)));
 				parent::save();		
 			} else {
 				parent::save();

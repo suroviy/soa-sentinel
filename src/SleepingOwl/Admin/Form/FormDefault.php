@@ -3,6 +3,7 @@
 use AdminTemplate;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
 use Input;
 use SleepingOwl\Admin\Admin;
 use SleepingOwl\Admin\AssetManager\AssetManager;
@@ -289,14 +290,14 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 	 * @param mixed $model
 	 * @return Validator|null
 	 */
-	public function validate($model)
+	public function validate(Request $request, $model)
 	{
 		if ($this->model() != $model)
 		{
 			return null;
 		}
 
-		$data = Input::all();
+		$data = $request->all();
 		$verifier = app('validation.presence');
 		$verifier->setConnection($this->instance()->getConnectionName());
 		$validator = Validator::make($data, $this->build_validation_rules(), [], $this->build_validation_messages());

@@ -2,6 +2,7 @@
 
 use AdminTemplate;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\Request;
 use Input;
 use SleepingOwl\Admin\Admin;
 use SleepingOwl\Admin\Columns\Column;
@@ -125,11 +126,11 @@ class DisplayTable implements Renderable, DisplayInterface
 		}
 	}
 
-	protected function initializeAction()
+	protected function initializeAction(Request $request)
 	{
-		$action = Input::get('_action');
-		$id = Input::get('_id');
-		$ids = Input::get('_ids');
+		$action = $request->input('_action');
+		$id = $request->input('_id');
+		$ids = $request->input('_ids');
 		if ( ! is_null($action) && ( ! is_null($id) || ! is_null($ids)))
 		{
 			$columns = array_merge($this->columns(), $this->actions(), array_flatten($this->dropdowns()) );
@@ -268,7 +269,7 @@ class DisplayTable implements Renderable, DisplayInterface
 		return $this;
 	}
 
-	protected function getParams()
+	protected function getParams(Request $request)
 	{
 		$permissions[] = 'admin.' . $this->model()->alias() . '.create';
 		$permissions[] = "superadmin";
@@ -281,7 +282,7 @@ class DisplayTable implements Renderable, DisplayInterface
 			'title'     => $this->title(),
 			'columns'   => $this->allColumns(),
 			'creatable' => ! is_null($this->model()->create()) && \Sentinel::hasAnyAccess($permissions),
-			'createUrl' => $this->model()->createUrl($this->parameters() + Input::all()),
+			'createUrl' => $this->model()->createUrl($this->parameters() + $request->all()),
 			'actions'   => $this->actions(),
 			'dropdowns' => $this->dropdowns(),
 		];

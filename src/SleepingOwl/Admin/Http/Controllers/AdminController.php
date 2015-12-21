@@ -11,14 +11,16 @@ use ReflectionClass;
 use SleepingOwl\Admin\Form\FormDefault;
 use SleepingOwl\Admin\Interfaces\FormInterface;
 use SleepingOwl\Admin\Repository\BaseRepository;
+use Illuminate\Http\Request;
+
 
 class AdminController extends Controller
 {
 
-	public function getDisplay($model)
+	public function getDisplay(Request $request, $model)
 	{
 		//added redirect to redirect back to the last model
-		if( !is_null( \Request::input('_action') ) ) {
+		if( !is_null( $request->input('_action') ) ) {
 			$model->display();
 			return redirect()->route('admin.model', ['adminModel' => $model->alias()]);
 		}
@@ -35,7 +37,7 @@ class AdminController extends Controller
 		return $this->render($model->title(), $create);
 	}
 
-	public function postStore($model)
+	public function postStore(Request $request, $model)
 	{
 
 		$create = $model->create();
@@ -49,7 +51,7 @@ class AdminController extends Controller
 			if ($validator = $create->validate($model))
 			{
 				return Redirect::back()->withErrors($validator)->withInput()->with([
-					'_redirectBack' => Input::get('_redirectBack'),
+					'_redirectBack' => $request->input('_redirectBack'),
 				]);
 			}
 
@@ -57,14 +59,14 @@ class AdminController extends Controller
 				$create->save($model);
 			} elseif ( !$create->storable() && !is_null($create->event_handler())) {
 				$reflect  = new ReflectionClass($create->event_handler());
-				$instance = $reflect->newInstance($create, \Input::all());
+				$instance = $reflect->newInstance($create, $request->all());
 				\Event::fire($instance);
 			} else {
 				abort(500, 'Please define form storable as true or set the event handler for storage.');
 			};
 		}
 		flash()->success(trans('admin::lang.save.create'));
-		return Redirect::to(Input::get('_redirectBack', $model->displayUrl()));
+		return Redirect::to($request->input('_redirectBack', $model->displayUrl()));
 	}
 
 	public function getEdit($model, $id)
@@ -77,7 +79,7 @@ class AdminController extends Controller
 		return $this->render($model->title(), $edit);
 	}
 
-	public function postUpdate($model, $id)
+	public function postUpdate(Request $request, $model, $id)
 	{
 		$edit = $model->fullEdit($id);
 		if (is_null($edit))
@@ -89,7 +91,7 @@ class AdminController extends Controller
 			if ($validator = $edit->validate($model))
 			{
 				return Redirect::back()->withErrors($validator)->withInput()->with([
-					'_redirectBack' => Input::get('_redirectBack'),
+					'_redirectBack' => $request->input('_redirectBack'),
 				]);
 			}
 
@@ -97,14 +99,14 @@ class AdminController extends Controller
 				$edit->save($model);
 			} elseif ( !$edit->storable() && !is_null($edit->event_handler())) {
 				$reflect  = new ReflectionClass($edit->event_handler());
-				$instance = $reflect->newInstance($edit, \Input::all());
+				$instance = $reflect->newInstance($edit, $request->all());
 				\Event::fire($instance);
 			} else {
 				abort(500, 'Please define form storable as true or set the event handler for storage.');
 			};
 		}
 		flash()->success(trans('admin::lang.save.edit'));
-		return Redirect::to(Input::get('_redirectBack', $model->displayUrl()));
+		return Redirect::to($request->input('_redirectBack', $model->displayUrl()));
 	}
 
 	public function postDestroy($model, $id)

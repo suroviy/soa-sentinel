@@ -1,18 +1,19 @@
 <?php namespace SleepingOwl\Admin\FormItems;
 
 use Input;
+use Illuminate\Http\Request;
 
 class Checkbox extends NamedFormItem
 {
 
 	protected $view = 'checkbox';
 
-	public function save()
+	public function save(Request $request)
 	{
 		$name = $this->name();
-		if ( ! Input::has($name))
+		if ( ! $request->has($name))
 		{
-			Input::merge([$name => 0]);
+			$request->merge([$name => 0]);
 		}
 		parent::save();
 	}

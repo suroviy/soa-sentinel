@@ -3,6 +3,7 @@
 use Exception;
 use Input;
 use Route;
+use Illuminate\Http\Request;
 use SleepingOwl\Admin\AssetManager\AssetManager;
 use SleepingOwl\Admin\Interfaces\WithRoutesInterface;
 use SplFileInfo;
@@ -61,7 +62,7 @@ class CKEditor extends NamedFormItem implements WithRoutesInterface
 		return $obj;
 	}
 
-	protected static function postUpload()
+	protected static function postUpload(Request $request)
 	{
 		$path = config('admin.imagesUploadDirectory') . '/';
 		$upload_dir = public_path($path);
@@ -80,7 +81,7 @@ class CKEditor extends NamedFormItem implements WithRoutesInterface
 		$minwidth = 10;
 		$minheight = 10;
 
-		$file = Input::file('upload');
+		$file = $request->file('upload');
 		$errors = [];
 
 		$extension = null;
@@ -133,7 +134,7 @@ class CKEditor extends NamedFormItem implements WithRoutesInterface
 
 		$finalFilename = $file->getClientOriginalName();
 		$file = $file->move($upload_dir, $finalFilename);
-		$CKEditorFuncNum = Input::get('CKEditorFuncNum');
+		$CKEditorFuncNum = $request->input('CKEditorFuncNum');
 		$url = asset($path . $finalFilename);
 		$message = trans('admin::lang.ckeditor.upload.success', [
 			'size'   => number_format($file->getSize() / 1024, 3, '.', ''),

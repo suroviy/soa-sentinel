@@ -1,5 +1,6 @@
 <?php namespace SleepingOwl\Admin\FormItems;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use SleepingOwl\Admin\Model\Permission as PermissionModel;
 use SleepingOwl\Admin\AssetManager\AssetManager;
@@ -41,12 +42,12 @@ class Permissions  extends NamedFormItem
 		];
 	}
 
-    public function save()
+    public function save(Request $request)
 	{
 		$name = $this->name();
 
 		//fetch the selected permissions from the temporary form field
-		$input = \Input::all();
+		$input = $request->all();
 
 		$selected_permissions = array_get($input, $name);
 		if( $selected_permissions === null ) {
