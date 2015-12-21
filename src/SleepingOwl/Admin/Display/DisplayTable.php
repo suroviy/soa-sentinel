@@ -25,6 +25,7 @@ class DisplayTable implements Renderable, DisplayInterface
 	protected $controlActive = true;
 	protected $parameters = [];
 	protected $actions = [];
+	protected $dropdowns = [];
 
 	public function setClass($class)
 	{
@@ -109,6 +110,7 @@ class DisplayTable implements Renderable, DisplayInterface
 
 	public function initialize()
 	{
+
 		$this->repository = new BaseRepository($this->class);
 		$this->repository->with($this->with());
 
@@ -130,7 +132,7 @@ class DisplayTable implements Renderable, DisplayInterface
 		$ids = Input::get('_ids');
 		if ( ! is_null($action) && ( ! is_null($id) || ! is_null($ids)))
 		{
-			$columns = array_merge($this->columns(), $this->actions());
+			$columns = array_merge($this->columns(), $this->actions(), array_flatten($this->dropdowns()) );
 			foreach ($columns as $column)
 			{
 				if ( ! $column instanceof Column\NamedColumn) continue;
@@ -147,6 +149,7 @@ class DisplayTable implements Renderable, DisplayInterface
 						$param = $this->repository->findMany($ids);
 					}
 					$column->call($param);
+					return redirect('/');
 				}
 			}
 		}
@@ -206,6 +209,28 @@ class DisplayTable implements Renderable, DisplayInterface
 		return $this;
 	}
 
+	public function dropdowns($dropdowns = null)
+	{
+		if (is_null($dropdowns))
+		{
+			foreach ($this->dropdowns as $label => $dropdown)
+			{
+				foreach ($dropdown as $item) {
+					$item->url(
+						$this->model()->displayUrl([
+							'_action' => $item->name(),
+							'_ids'    => '',
+						])
+					);
+				}
+			}
+
+			return $this->dropdowns;
+		}
+		$this->dropdowns = $dropdowns;
+		return $this;
+	}
+
 	public function controlActive($controlActive = null)
 	{
 		if (is_null($controlActive))
@@ -245,12 +270,20 @@ class DisplayTable implements Renderable, DisplayInterface
 
 	protected function getParams()
 	{
+		$permissions[] = 'admin.' . $this->model()->alias() . '.create';
+		$permissions[] = "superadmin";
+		
+		if (!is_null($this->model()->permission())) {
+			$permissions = array_merge($permissions, explode(",", $this->model()->permission()));
+		};
+
 		return [
 			'title'     => $this->title(),
 			'columns'   => $this->allColumns(),
-			'creatable' => ! is_null($this->model()->create()),
+			'creatable' => ! is_null($this->model()->create()) && \Sentinel::hasAnyAccess($permissions),
 			'createUrl' => $this->model()->createUrl($this->parameters() + Input::all()),
 			'actions'   => $this->actions(),
+			'dropdowns' => $this->dropdowns(),
 		];
 	}
 

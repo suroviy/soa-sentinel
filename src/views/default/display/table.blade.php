@@ -3,15 +3,7 @@
 		@if ( ! empty($title) )
 			<h3>{{ $title }}</h3>
 		@endif
-      	<div class="box-tools">
-        	@if ($creatable)
-				<a class="btn btn-primary flat" href="{{ $createUrl }}"><i class="fa fa-plus"></i> {{ trans('admin::lang.table.new-entry') }}</a>
-			@endif
-
-			@foreach ($actions as $action)
-				{!! $action !!}
-			@endforeach
-      </div>
+      	@include(AdminTemplate::view('_partials.displayactions'))
     </div>
 
     <div class="box-body table-responsive no-padding">

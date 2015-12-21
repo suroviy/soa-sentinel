@@ -73,9 +73,28 @@ return [
 		'browse'         => 'Bild auswählen',
 		'browseMultiple' => 'Bilder auswählen',
 		'remove'         => 'Bild löschen',
+		'clear'			 => 'Leeren',
 	],
 	'file'     => [
 		'browse' => 'Datei auswählen',
 		'remove' => 'Datei löschen',
 	],
+	'menu'		=> [
+		'dashboard'	=> '&Uuml;bersicht',
+		'user'	=> [
+			'category'		=> 'Benutzerverwaltung',
+			'users'			=> 'Benutzer',
+			'roles'			=> 'Rollen',
+			'permissions'	=> 'Berechtigungen'
+		]
+	],
+	'permission' => [
+		'denied' => 'Keine Berechtigung'
+	],
+	'save' => [
+		'edit' => 'Der Datensatz wurde erfolgreich bearbeitet.',
+		'create' => 'Der Datensatz wurde erfolgreich erstellt.',
+		'destroy' => 'Der Datensatz wurde erfolgreich gelöscht.',
+		'restore' => 'Der Datensatz wurde erfolgreich wiederhergestellt.'
+	]
 ];

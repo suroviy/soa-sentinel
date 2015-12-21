@@ -62,10 +62,10 @@ class AssetManager
 			if (strpos($asset, 'admin::') !== false)
 			{
 				$asset = str_replace('admin::', '', $asset);
-				return asset('packages/sleeping-owl/admin/' . $asset);
+				return asset('vendor/sleeping-owl/admin/' . $asset);
 			}
 			return $asset;
 		}, array_unique($assets));
 	}
 
-} 
+}

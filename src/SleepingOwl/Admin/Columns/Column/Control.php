@@ -30,8 +30,8 @@ class Control extends BaseColumn
 	{
 		parent::initialize();
 
-		AssetManager::addScript('admin::default/js/bootbox.js');
-		AssetManager::addScript('admin::default/js/columns/control.js');
+		AssetManager::addScript('admin::default/plugins/bootbox/bootbox.js');
+		AssetManager::addScript('admin::default/scripts/columns/control.js');
 	}
 
 	/**
@@ -53,7 +53,7 @@ class Control extends BaseColumn
 	 */
 	protected function editable()
 	{
-		return ! $this->trashed() && ! is_null($this->model()->edit($this->instance->getKey()));
+		return ! $this->trashed() && ! is_null($this->model()->edit($this->instance->getKey())) && \Sentinel::hasAnyAccess($this->getPermissions('edit'));
 	}
 
 	/**
@@ -71,7 +71,7 @@ class Control extends BaseColumn
 	 */
 	protected function deletable()
 	{
-		return ! $this->trashed() && ! is_null($this->model()->delete($this->instance->getKey()));
+		return ! $this->trashed() && ! is_null($this->model()->delete($this->instance->getKey())) && \Sentinel::hasAnyAccess($this->getPermissions('destroy'));
 	}
 
 	/**
@@ -115,6 +115,16 @@ class Control extends BaseColumn
 			'restoreUrl' => $this->restoreUrl(),
 		];
 		return view(AdminTemplate::view('column.' . $this->view), $params);
+	}
+
+	private function getPermissions($action) {
+		$permissions[] = 'admin.' . $this->model()->alias() . '.' . $action;
+		$permissions[] = "superadmin";
+		if (!is_null($this->model()->permission())) {
+			$permissions = array_merge($permissions, explode(",", $this->model()->permission()));
+		};
+
+		return $permissions;
 	}
 
 }

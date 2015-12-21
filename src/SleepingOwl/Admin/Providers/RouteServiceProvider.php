@@ -62,6 +62,7 @@ class RouteServiceProvider extends ServiceProvider
 
 	protected function registerMiddleware()
 	{
+		Route::middleware('admin.language', 'SleepingOwl\Admin\Http\Middleware\Language');
 		Route::middleware('admin.auth', 'SleepingOwl\Admin\Http\Middleware\AdminAuthenticate');
 	}
 

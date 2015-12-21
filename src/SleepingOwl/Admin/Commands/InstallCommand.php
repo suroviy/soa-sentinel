@@ -4,6 +4,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 use Symfony\Component\Console\Input\InputOption;
 use Illuminate\Filesystem\Filesystem;
+use SleepingOwl\Admin\Model\Permission as PermissionModel;
 
 
 class InstallCommand extends Command
@@ -54,6 +55,7 @@ class InstallCommand extends Command
 	 */
 	protected function publishDB()
 	{
+
 		$this->call('migrate');
 
 		/*$this->call('db:seed', [
@@ -137,6 +139,14 @@ class InstallCommand extends Command
 			$this->laravel['files']->put($roleFile, $contents);
 			$this->line('<info>Role file was created:</info> ' . str_replace(base_path(), '', $roleFile));
 		}
+
+		$permissionFile = config('admin.bootstrapDirectory') . '/Permission.php';
+		if ( ! file_exists($permissionFile))
+		{
+			$contents = $this->laravel['files']->get(__DIR__ . '/stubs/Permission.stub');
+			$this->laravel['files']->put($permissionFile, $contents);
+			$this->line('<info>Permission file was created:</info> ' . str_replace(base_path(), '', $permissionFile));
+		}
 	}
 
 	/**
@@ -191,8 +201,82 @@ class InstallCommand extends Command
 	}
 
 	protected function createAdminUserAndRole() {
+		
+		$permissions = [
+
+			'superadmin'	=> [
+				'default'		=> true,
+				'description'	=> 'Super Admin'
+			],
+			'controlpanel'	=> [
+				'default'		=> true,
+				'description'	=> 'Access to the Control Panel'
+			],
+			'admin.users.view'	=> [
+				'default'		=> true,
+				'description'	=> 'View Users'
+			],
+			'admin.users.create'	=> [
+				'default'		=> true,
+				'description'	=> 'Create Users'
+			],
+			'admin.users.edit'	=> [
+				'default'		=> true,
+				'description'	=> 'Edit Users'
+			],
+			'admin.users.destroy'	=> [
+				'default'		=> true,
+				'description'	=> 'Delete Users'
+			],
+			'admin.roles.view'	=> [
+				'default'		=> true,
+				'description'	=> 'View Roles'
+			],
+			'admin.roles.create'	=> [
+				'default'		=> true,
+				'description'	=> 'Create Roles'
+			],
+			'admin.roles.edit'	=> [
+				'default'		=> true,
+				'description'	=> 'Edit Roles'
+			],
+			'admin.roles.destroy'	=> [
+				'default'		=> true,
+				'description'	=> 'Delete Roles'
+			],
+			'admin.permissions.view'	=> [
+				'default'		=> true,
+				'description'	=> 'View Permissions'
+			],
+			'admin.permissions.create'	=> [
+				'default'		=> true,
+				'description'	=> 'Create Permissions'
+			],
+			'admin.permissions.edit'	=> [
+				'default'		=> true,
+				'description'	=> 'Edit Permissions'
+			],
+			'admin.permissions.destroy'	=> [
+				'default'		=> true,
+				'description'	=> 'Delete Permissions'
+			]
+
+		];
+
 		try
 		{
+			
+			//create admin user
+			$credentials = [
+			    'email'    => 'admin@soa.backend',
+			    'password' => 'password',
+			];
+
+			$user = \Sentinel::create($credentials);
+			$activation = \Activation::create($user);
+			$activation_complete = \Activation::complete($user, $activation->code);
+
+			//create admin role
 			$role = \Sentinel::getRoleRepository()->createModel()->create([
 			    'name' => 'Administrator',
 			    'slug' => 'administrator',
@@ -200,43 +284,39 @@ class InstallCommand extends Command
 
 			$role = \Sentinel::findRoleByName('Administrator');
 
-			$role->permissions = [
-			    'superadmin' 			=> true,
-			    'controlpanel' 			=> true,
-
-			    'admin.users.view' 		=> true,
-			    'admin.users.create' 	=> true,
-			    'admin.users.edit' 		=> true,
-			    'admin.users.destroy' 	=> true,
-
-			    'admin.roles.view' 		=> true,
-			    'admin.roles.create' 	=> true,
-			    'admin.roles.edit' 		=> true,
-			    'admin.roles.destroy' 	=> true,
-			];
+			//add permissions to role
+			foreach ($permissions as $key => $permission) {
+				$role->addPermission($key, $permission['default']);
+			}
 
 			$role->save();
 
-
-			$credentials = [
-			    'email'    => 'admin@soa.backend',
-			    'password' => 'password',
-			];
-
-			$user = \Sentinel::create($credentials);
-
-			$role->users()->attach($user);
-
-			$activation = \Activation::create($user);
-
-			$activation_complete = \Activation::complete($user, $activation->code);
+			//attach admin user to admin role
+			$role->users()->attach($user);			
 
 			$this->info('Admin Role and User created successfully.');
+
+			$this->addPermissions($permissions);
 
 		} catch (\Exception $e)
 		{
 			$this->info('Something went wrong while creating Admin Role and User.');
+			$this->error($e);
 		}
+
+	}
+
+	protected function addPermissions($permissions) {
+
+		//add permissions to role
+		foreach ($permissions as $key => $permission) {
+			PermissionModel::create([
+				'value' => $key, 
+				'description' =>$permission['description']
+			]);
+		}
+
+		$this->info('Default Permissions created successfully.');
 
 	}
 

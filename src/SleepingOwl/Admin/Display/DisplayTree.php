@@ -23,6 +23,14 @@ class DisplayTree implements Renderable, DisplayInterface, WithRoutesInterface
 	protected $parentField = 'parent_id';
 	protected $orderField = 'order';
 	protected $rootParentId = null;
+	protected $apply;
+	protected $scopes;
+
+	public function __construct($class=null) {
+		if ( !is_null ( $class ) ) {
+			$this->setClass($class);
+		}
+	}
 
 	public function setClass($class)
 	{
@@ -48,12 +56,14 @@ class DisplayTree implements Renderable, DisplayInterface, WithRoutesInterface
 
 	public function initialize()
 	{
-		AssetManager::addScript('admin::default/js/jquery.nestable.js');
-		AssetManager::addScript('admin::default/js/nestable.js');
-		AssetManager::addStyle('admin::default/css/jquery.nestable.css');
+		AssetManager::addScript('admin::default/plugins/jquery-nestable/jquery.nestable.js');
+		AssetManager::addScript('admin::default/scripts/jquery-nestable/init.js');
+		AssetManager::addStyle('admin::default/plugins/jquery-nestable/jquery.nestable.css');
 
 		$this->repository = new TreeRepository($this->class);
 		$this->repository->with($this->with());
+		$this->repository->apply($this->apply());
+		$this->repository->scope($this->scope());
 
 		Column::treeControl()->initialize();
 	}
@@ -156,6 +166,26 @@ class DisplayTree implements Renderable, DisplayInterface, WithRoutesInterface
 			return $this->rootParentId;
 		}
 		$this->rootParentId = $rootParentId;
+		return $this;
+	}
+
+	public function apply($apply = null)
+	{
+		if (is_null($apply))
+		{
+			return $this->apply;
+		}
+		$this->apply = $apply;
+		return $this;
+	}
+
+	public function scope($scope = null)
+	{
+		if (is_null($scope))
+		{
+			return $this->scopes;
+		}
+		$this->scopes[] = func_get_args();
 		return $this;
 	}
 

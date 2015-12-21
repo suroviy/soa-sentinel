@@ -22,10 +22,10 @@
 		<div>
 			<div class="btn btn-primary imageBrowse flat"><i class="fa fa-upload"></i> {{ trans('admin::lang.image.browseMultiple') }}</div>
 		</div>
-		<input name="{{ $name }}" class="imageValue" type="hidden" value="{{ implode(',', $value) }}">
+		<input name="@if($lang){{ $lang }}{{'_'}}@endif{{$name}}" class="imageValue" type="hidden" value="{{ implode(',', $value) }}">
 		<div class="errors">
 			@include(AdminTemplate::view('formitem.help'))
-			@include(AdminTemplate::view('formitem.errors')))
+			@include(AdminTemplate::view('formitem.errors'))
 		</div>
 	</div>
 	@if($field_size)

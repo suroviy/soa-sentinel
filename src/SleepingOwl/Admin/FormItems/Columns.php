@@ -53,12 +53,13 @@ class Columns extends BaseFormItem
 	public function initialize()
 	{
 		parent::initialize();
+
 		$this->all(function ($item)
 		{
 			$item->initialize();
+			$item->setFieldSize($this->field_size);
+			$item->setLabelSize($this->label_size);
 		});
-
-		$this->custom(true);
 	}
 
 	public function setInstance($instance)
@@ -84,5 +85,4 @@ class Columns extends BaseFormItem
 			}
 		}
 	}
-
 }

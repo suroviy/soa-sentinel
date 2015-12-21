@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>{{{ $title }}}</title>
+		<title>{{ \Config::get('admin.title') }} @if(!empty($title)) - {{{ trans($title) }}} @endif</title>
 		<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 		<meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -28,7 +28,11 @@
 	      	});
 		</script>
 		@endif
-		
+
+		@if( Config::get('admin.tinymce.enable_elfinder') )
+		@include(AdminTemplate::view('_partials.elfinder'))
+		@endif
+
 	</head>
 
 	<body class="skin-{!! Config::get('admintheme.skin') !!} @if( Config::get('admintheme.sidebar_mini') )sidebar-mini @endif @if( Config::get('admintheme.boxed_layout') ) layout-boxed @endif @if( Config::get('admintheme.fixed_layout') ) fixed @endif @if( Config::get('admintheme.toggle_sidebar') ) sidebar-collapse @endif @yield('body')">

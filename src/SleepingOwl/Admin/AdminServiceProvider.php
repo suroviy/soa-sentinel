@@ -1,6 +1,7 @@
 <?php namespace SleepingOwl\Admin;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Session;
 
 class AdminServiceProvider extends ServiceProvider
 {
@@ -17,6 +18,8 @@ class AdminServiceProvider extends ServiceProvider
 		'SleepingOwl\Admin\Providers\FilterServiceProvider',
 		'SleepingOwl\Admin\Providers\BootstrapServiceProvider',
 		'SleepingOwl\Admin\Providers\RouteServiceProvider',
+		'SleepingOwl\Admin\Providers\EventServiceProvider',
+
 	];
 
 	/**
@@ -52,12 +55,28 @@ class AdminServiceProvider extends ServiceProvider
 		], 'config');
 
 
+		// Publish migrations
+        $migrations = realpath(__DIR__.'/Database/Migrations');
+
+        $this->publishes([
+            $migrations => $this->app->databasePath().'/migrations',
+        ], 'migrations');
+
 		$this->publishes([
-			__DIR__ . '/../../../public/' => public_path('packages/sleeping-owl/admin/'),
+			__DIR__ . '/../../../public/' => public_path('vendor/sleeping-owl/admin/'),
 		], 'assets');
 
 
-		//app('SleepingOwl\Admin\Helpers\StartSession')->run();
+		//we need this, otherwise we have no access to existing session values
+		//like the applocale which will be used to set the app language correctly
+		app('SleepingOwl\Admin\Helpers\StartSession')->run();
+
+		if (\Config::get('admin.language_switcher') && \Session::has('applocale') && array_key_exists(\Session::get('applocale'), \Config::get('admin.languages'))) {
+            \App::setLocale(\Session::get('applocale'));
+        }
+        else { // This is optional as Laravel will automatically set the fallback language if there is none specified
+            \App::setLocale(\Config::get('app.fallback_locale'));
+        }
 
 		Admin::instance();
 		$this->registerTemplate();
@@ -118,11 +137,12 @@ class AdminServiceProvider extends ServiceProvider
 	/**
 	 * Config Replacement for the CK Editor,
 	 * because to use url() inside the config file generates an Error in the CLI
-	 */ 
+	 */
 	protected function updateFilebrowserConfig() {
 		config([
         	'admin.ckeditor.filebrowserBrowseUrl' 		=> call_user_func( config('admin.ckeditor.filebrowserBrowseUrl.type', 'url'), config('admin.ckeditor.filebrowserBrowseUrl.path', 'elfinder/ckeditor') ),
         	'admin.ckeditor.filebrowserImageBrowseUrl' 	=> call_user_func( config('admin.ckeditor.filebrowserImageBrowseUrl.type', 'url'), config('admin.ckeditor.filebrowserImageBrowseUrl.path', 'elfinder/ckeditor') ),
+        	'admin.elfinderPopupUrl' 	=> call_user_func( config('admin.elfinderPopupUrl.type', 'url'), config('elfinderPopupUrl.path', 'elfinder/popup') ),
     	]);
 
 		//fix for #56 - if the default config is in use - we will set the middleware to null

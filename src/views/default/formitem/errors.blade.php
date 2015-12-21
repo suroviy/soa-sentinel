@@ -1,6 +1,6 @@
 <?php
 	$prefix = "";
-	if (isset($lang)) {
+	if (!empty($lang)) {
 		$prefix = $lang . '_';
 	}
 ?>

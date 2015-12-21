@@ -7,6 +7,8 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Input;
 use Redirect;
+use ReflectionClass;
+use SleepingOwl\Admin\Form\FormDefault;
 use SleepingOwl\Admin\Interfaces\FormInterface;
 use SleepingOwl\Admin\Repository\BaseRepository;
 
@@ -15,6 +17,11 @@ class AdminController extends Controller
 
 	public function getDisplay($model)
 	{
+		//added redirect to redirect back to the last model
+		if( !is_null( \Request::input('_action') ) ) {
+			$model->display();
+			return redirect()->route('admin.model', ['adminModel' => $model->alias()]);
+		}
 		return $this->render($model->title(), $model->display());
 	}
 
@@ -45,8 +52,18 @@ class AdminController extends Controller
 					'_redirectBack' => Input::get('_redirectBack'),
 				]);
 			}
-			$create->save($model);
+
+			if ( !$create instanceof FormDefault || $create->storable() ) {
+				$create->save($model);
+			} elseif ( !$create->storable() && !is_null($create->event_handler())) {
+				$reflect  = new ReflectionClass($create->event_handler());
+				$instance = $reflect->newInstance($create, \Input::all());
+				\Event::fire($instance);
+			} else {
+				abort(500, 'Please define form storable as true or set the event handler for storage.');
+			};
 		}
+		flash()->success(trans('admin::lang.save.create'));
 		return Redirect::to(Input::get('_redirectBack', $model->displayUrl()));
 	}
 
@@ -75,8 +92,18 @@ class AdminController extends Controller
 					'_redirectBack' => Input::get('_redirectBack'),
 				]);
 			}
-			$edit->save($model);
+
+			if ( !$edit instanceof FormDefault || $edit->storable() ) {
+				$edit->save($model);
+			} elseif ( !$edit->storable() && !is_null($edit->event_handler())) {
+				$reflect  = new ReflectionClass($edit->event_handler());
+				$instance = $reflect->newInstance($edit, \Input::all());
+				\Event::fire($instance);
+			} else {
+				abort(500, 'Please define form storable as true or set the event handler for storage.');
+			};
 		}
+		flash()->success(trans('admin::lang.save.edit'));
 		return Redirect::to(Input::get('_redirectBack', $model->displayUrl()));
 	}
 
@@ -88,6 +115,7 @@ class AdminController extends Controller
 			abort(404);
 		}
 		$model->repository()->delete($id);
+		flash()->success(trans('admin::lang.save.destroy'));
 		return Redirect::back();
 	}
 
@@ -99,6 +127,7 @@ class AdminController extends Controller
 			abort(404);
 		}
 		$model->repository()->restore($id);
+		flash()->success(trans('admin::lang.save.restore'));
 		return Redirect::back();
 	}
 
@@ -127,7 +156,8 @@ class AdminController extends Controller
 			'token'  => csrf_token(),
 			'prefix' => config('admin.prefix'),
 			'lang'   => $lang,
-			'ckeditor_cfg' => config('admin.ckeditor')
+			'ckeditor_cfg' => config('admin.ckeditor'),
+			'elfinder_url' => config('admin.elfinderPopupUrl'),
 		);
 
 		$content = 'window.admin = '.json_encode($data) . ';';
@@ -138,6 +168,15 @@ class AdminController extends Controller
 
 		return $this->cacheResponse($response);
 	}
+
+	public function switchLang($lang)
+    {
+        if (array_key_exists($lang, \Config::get('admin.languages'))) {
+            \Session::set('applocale', $lang);
+        }
+        
+        return Redirect::back();	    
+    }
 
 	protected function cacheResponse(Response $response)
 	{

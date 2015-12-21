@@ -2,6 +2,7 @@
 
 return [
 	'404'      => 'Página não encontrada.',
+	'required_field'	=> 'Required',
 	'auth'     => [
 		'title'          => 'Autorização',
 		'username'       => 'Usuário',
@@ -74,5 +75,14 @@ return [
 	'file'     => [
 		'browse' => 'Selecionar o arquivo',
 		'remove' => 'Remover o arquivo',
+	],
+	'menu'		=> [
+		'dashboard'	=> 'Dashboard',
+		'user'	=> [
+			'category'		=> 'User Management',
+			'users'			=> 'Users',
+			'roles'			=> 'Roles',
+			'permissions'	=> 'Permissions'
+		]
 	],
 ];

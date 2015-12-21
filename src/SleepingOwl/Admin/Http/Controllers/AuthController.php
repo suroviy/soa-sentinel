@@ -48,19 +48,19 @@ class AuthController extends Controller
 		if (\Sentinel::authenticate($data))
 		{
 
-			if( \Sentinel::hasAnyAccess(['superadmin', 'controlpanel']) ){
+			if( \Sentinel::hasAnyAccess(config('admin.defaultPermission')) ){
 				return \Redirect::intended(route('admin.wildcard', '/'));
 			} else {
 				return $this->getLogout();
 			}
 		}
-		
+
 
 		$message = new MessageBag([
-			'email' => trans('sentinel::lang.auth.wrong-email'),
-			'password' => trans('sentinel::lang.auth.wrong-password')
+			'email' => trans('admin::lang.auth.wrong-email'),
+			'password' => trans('admin::lang.auth.wrong-password')
 		]);
-		
+
 		return \Redirect::back()->withInput()->withErrors($message);
 	}
 

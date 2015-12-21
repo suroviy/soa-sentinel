@@ -6,6 +6,7 @@ use Illuminate\View\View;
 use Input;
 use SleepingOwl\Admin\Admin;
 use SleepingOwl\Admin\AssetManager\AssetManager;
+use SleepingOwl\Admin\FormItems\Columns;
 use SleepingOwl\Admin\Interfaces\DisplayInterface;
 use SleepingOwl\Admin\Interfaces\FormInterface;
 use SleepingOwl\Admin\Interfaces\FormItemInterface;
@@ -62,6 +63,8 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 	protected $label_size = "col-sm-2";
 	protected $field_size = "col-sm-10";
 	protected $ajax_validation = false;
+	protected $storable = true;
+	protected $event_handler = null;
 	protected $back_url;
 	protected $validation_rules = null;
 	protected $validation_messages = null;
@@ -152,6 +155,28 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 			}
 		}
 		$this->ajax_validation = $ajax_validation;
+		return $this;
+	}
+
+	public function storable($storable = null)
+	{
+		if (is_null($storable))
+		{
+			return $this->storable;
+		}
+		$this->storable = $storable;
+		return $this;
+	}
+
+	public function event_handler($eventHandler = null)
+	{
+
+		if (is_null($eventHandler))
+		{
+			return $this->event_handler;
+		}
+
+		$this->event_handler = $eventHandler;
 		return $this;
 	}
 
@@ -333,7 +358,21 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 			$items = $this->items();
 			array_walk_recursive($items, function ($item) use (&$names) {
 				if ($item instanceof FormItemInterface && !$item->custom() ) {
-					$names = array_add($names, $item->path(), $item->label());
+					if ( $item instanceof Columns ) {
+
+						foreach ($item->columns() as $columnItems)
+						{
+							foreach ($columnItems as $columnItem)
+							{
+								if ($columnItem instanceof FormItemInterface)
+								{
+									$names = array_add($names, $columnItem->path(), $columnItem->label());
+								}
+							}
+						}
+					} else {
+						$names = array_add($names, $item->path(), $item->label());
+					}
 				}
 			});
 

@@ -3,7 +3,7 @@
 		@if ($reorderable)
 			<div class="dd-handle dd3-handle"></div>
 		@endif
-		<div class="dd3-content">
+		<div class="dd3-content" style="margin-top: -3px;">
 			{{{ $entry->$value }}}
 			@foreach ($controls as $control)
 				<?php
@@ -12,7 +12,9 @@
 						$control->setInstance($entry);
 					}
 				?>
-				{!! $control !!}
+				<div class="pull-right" style="margin-top: -3px;">
+					{!! $control !!}
+				</div>
 			@endforeach
 		</div>
 		@if ($entry->children->count() > 0)

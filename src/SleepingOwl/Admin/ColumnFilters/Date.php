@@ -17,12 +17,12 @@ class Date extends Text
 	{
 		parent::initialize();
 
-		AssetManager::addStyle('admin::default/css/formitems/datetime/bootstrap-datetimepicker.min.css');
-		AssetManager::addStyle('admin::default/css/formitems/datetime/style.css');
+		AssetManager::addStyle('admin::default/plugins/bootstrap-datetime-picker/css/bootstrap-datetimepicker.min.css');
+		AssetManager::addStyle('admin::default/plugins/bootstrap-datetime-picker/css/bootstrap-datetimepicker-custom.min.css');
 
-		AssetManager::addScript('admin::default/js/formitems/datetime/moment-with-locales.min.js');
-		AssetManager::addScript('admin::default/js/formitems/datetime/s_bootstrap-datetimepicker.min.js');
-		AssetManager::addScript('admin::default/js/formitems/datetime/init.js');
+		AssetManager::addScript('admin::default/plugins/bootstrap-datetime-picker/js/moment-with-locales.min.js');
+		AssetManager::addScript('admin::default/plugins/bootstrap-datetime-picker/js/bootstrap-datetimepicker.min.js');
+		AssetManager::addScript('admin::default/scripts/bootstrap-datetime-picker/init.js');
 	}
 
 	public function format($format = null)
@@ -147,4 +147,4 @@ class Date extends Text
 		}
 	}
 
-} 
+}

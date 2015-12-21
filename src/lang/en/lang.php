@@ -73,9 +73,29 @@ return [
 		'browse'         => 'Select Image',
 		'browseMultiple' => 'Select Images',
 		'remove'         => 'Remove Image',
+		'clear'	         => 'Clear',
 	],
 	'file'     => [
 		'browse' => 'Select File',
 		'remove' => 'Remove File',
 	],
+	'menu'		=> [
+		'dashboard'	=> 'Dashboard',
+		'user'	=> [
+			'category'		=> 'User Management',
+			'users'			=> 'Users',
+			'roles'			=> 'Roles',
+			'permissions'	=> 'Permissions'
+		]
+	],
+	'permission' => [
+		'denied' => 'Permission denied'
+	],
+	'save' => [
+		'edit' => 'Entry was successfully saved.',
+		'create' => 'Entry was successfully created.',
+		'destroy' => 'Entry was successfully deleted.',
+		'restore' => 'Entry was successfully restored.'
+	]
+
 ];

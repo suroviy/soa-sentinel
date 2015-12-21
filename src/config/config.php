@@ -16,7 +16,15 @@ return [
 	/*
 	 * Middleware to use in admin routes
 	 */
-	'middleware'              => ['admin.auth'],
+	'middleware'              => ['admin.language','admin.auth'],
+
+	/*
+	 * Default Permissions to Check
+	 */
+	'defaultPermission' => [
+		'superadmin',
+		'controlpanel'
+	],
 
 	/*
 	 * Path to admin bootstrap files directory
@@ -36,6 +44,15 @@ return [
 	'filemanagerDirectory' =>  'files/',
 
 	/*
+	 * Popup elfinder file manager url 
+	 * 
+	 */
+	'elfinderPopupUrl' => [
+		"type" 	=> "url",
+		"path"	=> "elfinder/popup" 
+	],
+
+	/*
 	 * Authentication config
 	 */
 	'auth'                    => [
@@ -44,6 +61,25 @@ return [
 			'email' => 'required',
 			'password' => 'required',
 		]
+	],
+
+	/*
+	 * Is language switcher present?
+	 */
+	'language_switcher'	=> false,
+
+	/*
+	 * Available languages
+	 */
+	'languages'	=> [
+
+		'de'	=> "German",
+		'en'	=> "English",
+		'es'	=> "Spanish",
+		'pt_BR'	=> "Portoguese",
+		'ru'	=> "Russian",
+		'uk'	=> "Ukrainian"
+
 	],
 
 	/*
@@ -75,4 +111,21 @@ return [
 			"path"	=> "elfinder/ckeditor" 
 		]
 	],
+	
+	/**
+	 * If you are using tinymce as WYSIWYG editor you can enable here the elfinder javascript to use elfinder with tinymce.
+	 */
+	
+	'tinymce' => [
+		'enable_elfinder' => false
+	],
+
+	/**
+	 * Define here your custom route with permissions, so that we can handle them
+	 * Format: route_name => permission
+	 * When you leave permission empty, we default using the defaultPermission array in this config
+	 */
+	'custom_routes' => [
+		'admin.dashboard' => ''
+	]
 ];

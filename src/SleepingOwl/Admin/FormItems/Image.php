@@ -18,8 +18,8 @@ class Image extends NamedFormItem implements WithRoutesInterface
 	{
 		parent::initialize();
 
-		AssetManager::addScript('admin::default/js/formitems/image/init.js');
-		AssetManager::addScript('admin::default/js/formitems/image/flow.min.js');
+		AssetManager::addScript('admin::default/scripts/image/init.js');
+		AssetManager::addScript('admin::default/plugins/flow/flow.min.js');
 	}
 
 	public function upload_path($upload_path = null)

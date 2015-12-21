@@ -21,7 +21,7 @@ class Select extends BaseColumnFilter
 	{
 		parent::initialize();
 
-		AssetManager::addScript('admin::default/js/columnfilters/select.js');
+		AssetManager::addScript('admin::default/scripts/column-filters/select.js');
 	}
 
     public function filter_field( $field = null )
@@ -110,7 +110,7 @@ class Select extends BaseColumnFilter
             $query->where($this->filter_field(), '=', $search);
             return;
         }
-        
+
         if ($operator == 'like')
 		{
 			$search = '%' . $search . '%';
@@ -132,4 +132,4 @@ class Select extends BaseColumnFilter
 		}
 	}
 
-} 
+}

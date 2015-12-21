@@ -21,10 +21,11 @@ class DisplayDatatables extends DisplayTable
 			'asc'
 		]
 	];
-	protected $columnFilters 	= [];
-	protected $attributes 		= [];
-
-	protected $exportButtons	= [];
+	protected $columnFilters 		= [];
+	protected $attributes 			= [];
+	protected $searchExcludeColumns	= [];
+	protected $exportButtons		= [];
+	protected $disableSearch 		= [];
 
 	/**
 	 * Initialize display
@@ -49,7 +50,7 @@ class DisplayDatatables extends DisplayTable
 		AssetManager::addScript('admin::default/plugins/datatables/extensions/Buttons/js/buttons.print.min.js');
 		AssetManager::addScript('admin::default/plugins/datatables/extensions/Buttons/js/buttons.colVis.min.js');
 		AssetManager::addScript('admin::default/plugins/datatables/extensions/Buttons/js/buttons.bootstrap.min.js');
-		AssetManager::addScript('admin::default/js/datatables/init.js');
+		AssetManager::addScript('admin::default/scripts/datatables/init.js');
 
 		AssetManager::addStyle('admin::default/plugins/datatables/dataTables.bootstrap.css');
 		AssetManager::addStyle('admin::default/plugins/datatables/extensions/Buttons/css/buttons.bootstrap.min.css');
@@ -63,6 +64,28 @@ class DisplayDatatables extends DisplayTable
 			return $this->columnFilters;
 		}
 		$this->columnFilters = $columnFilters;
+		return $this;
+	}
+
+	public function excludeSearch($searchExcludeColumns = null)
+	{
+		if (is_null($searchExcludeColumns))
+		{
+			return $this->searchExcludeColumns;
+		}
+
+
+		$excludeColumns = [];		
+
+		foreach($searchExcludeColumns as $key => $value) {
+			
+			$excludeColumns['columnDefs'][] = [
+				'searchable' 	=> $value[1],
+				'targets'		=> $value[0]
+			];
+		}
+
+		$this->searchExcludeColumns = $excludeColumns;
 		return $this;
 	}
 
@@ -114,11 +137,12 @@ class DisplayDatatables extends DisplayTable
 	 */
 	protected function getParams()
 	{
-		$params = parent::getParams();
-		$params['order'] = $this->order();
-		$params['columnFilters'] = $this->columnFilters();
-		$params['attributes'] = $this->attributes();
+		$params 					= parent::getParams();
+		$params['order'] 			= $this->order();
+		$params['columnFilters'] 	= $this->columnFilters();
+		$params['attributes'] 		= $this->attributes();
 		$params['exportButtons']	= $this->exportButtons();
+		$params['excludeSearch']	= $this->excludeSearch();
 		return $params;
 	}
 

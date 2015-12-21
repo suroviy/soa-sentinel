@@ -1,5 +1,5 @@
-<div class="form-group {{ $errors->has($name) ? 'has-error' : '' }}">
-	<label for="{{ $name }}" @if($label_size) class="{{ $label_size }}" @endif >
+<div class="form-group {{ $errors->has($name) || $errors->has($lang . '_' . $name) ? 'has-error' : '' }}">
+	<label for="@if($lang){{ $lang }}{{'_'}}@endif{{$name}}" @if($label_size) class="{{ $label_size }}" @endif >
 		{{ $label }}
 		@if($required_field)
 			@include(AdminTemplate::view('formitem.required'))
@@ -12,7 +12,7 @@
 		@if ($placement == 'before')
 			<div class="input-group-addon">{!! $addon !!}</div>
 		@endif
-		<input class="form-control" name="{{ $name }}" type="text" id="{{ $name }}" value="{{ $value }}">
+		<input class="form-control" name="@if($lang){{ $lang }}{{'_'}}@endif{{$name}}" type="text" id="@if($lang){{ $lang }}{{'_'}}@endif{{$name}}" value="{{ $value }}">
 		@if ($placement == 'after')
 			<div class="input-group-addon">{!! $addon !!}</div>
 		@endif

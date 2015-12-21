@@ -12,9 +12,9 @@ class Chosen extends Select
 	{
 		parent::initialize();
 
-		AssetManager::addStyle('admin::default/css/formitems/select/chosen.css');
-		AssetManager::addScript('admin::default/js/formitems/select/chosen.jquery.min.js');
-		AssetManager::addScript('admin::default/js/formitems/select/init.js');
+		AssetManager::addStyle('admin::default/plugins/chosen/bootstrap-chosen.css');
+		AssetManager::addScript('admin::default/plugins/chosen/chosen.jquery.min.js');
+		AssetManager::addScript('admin::default/scripts/select/init.js');
 	}
 
 }

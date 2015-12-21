@@ -24,6 +24,7 @@ class FormItemServiceProvider extends ServiceProvider
 		FormItem::register('ckeditor', 'SleepingOwl\Admin\FormItems\CKEditor');
 		FormItem::register('custom', 'SleepingOwl\Admin\FormItems\Custom');
 		FormItem::register('password', 'SleepingOwl\Admin\FormItems\Password');
+		FormItem::register('sentinelpassword', 'SleepingOwl\Admin\FormItems\SentinelPassword');
 		FormItem::register('textarea', 'SleepingOwl\Admin\FormItems\Textarea');
 		FormItem::register('view', 'SleepingOwl\Admin\FormItems\View');
 		FormItem::register('image', 'SleepingOwl\Admin\FormItems\Image');
@@ -31,6 +32,18 @@ class FormItemServiceProvider extends ServiceProvider
 		FormItem::register('file', 'SleepingOwl\Admin\FormItems\File');
 		FormItem::register('radio', 'SleepingOwl\Admin\FormItems\Radio');
 		FormItem::register('tinymce', 'SleepingOwl\Admin\FormItems\TinyMCE');
+		FormItem::register('filemanager', 'SleepingOwl\Admin\FormItems\Filemanager');
+		FormItem::register('colorpicker', 'SleepingOwl\Admin\FormItems\Colorpicker');
+		FormItem::register('permissions', 'SleepingOwl\Admin\FormItems\Permissions');
+		FormItem::register('roles', 'SleepingOwl\Admin\FormItems\Roles');
+
+		FormItem::register('icheckbox', 'SleepingOwl\Admin\FormItems\ICheckbox');
+		FormItem::register('iradio', 'SleepingOwl\Admin\FormItems\IRadio');
+
+		FormItem::register('switchradio', 'SleepingOwl\Admin\FormItems\SwitchRadio');
+		FormItem::register('switchcheckbox', 'SleepingOwl\Admin\FormItems\SwitchCheckbox');
+
+		FormItem::register('typeahead', 'SleepingOwl\Admin\FormItems\Typeahead');
 	}
 
 }
