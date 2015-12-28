@@ -20,13 +20,13 @@ class Password extends NamedFormItem
 		return $this->useSentinel;
 	}
 
-	public function save(Request $request)
+	public function save()
 	{
 		$name = $this->name();
-		if ( $request->has($name))
+		if ( Request::has($name))
 		{
 			if( $this->useSentinel() ) {
-				$request->merge(array($name => password_hash($this->value(), PASSWORD_BCRYPT)));
+				Request::merge(array($name => password_hash($this->value(), PASSWORD_BCRYPT)));
 				parent::save();		
 			} else {
 				parent::save();

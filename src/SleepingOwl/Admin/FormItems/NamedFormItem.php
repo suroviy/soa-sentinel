@@ -171,12 +171,12 @@ abstract class NamedFormItem extends BaseFormItem
 		return $this->defaultValue();
 	}
 
-	public function save(Request $request)
+	public function save()
 	{
 		$attribute = $this->attribute();
 
 		if ( $this->storable() ) {
-			if ($request->input($this->path()) === null) {
+			if (Request::input($this->path()) === null) {
 				$value = null;
 			} else {
 				$value = $this->value();

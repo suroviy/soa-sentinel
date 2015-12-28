@@ -8,12 +8,12 @@ class SentinelPassword extends NamedFormItem
 
 	protected $view = 'password';
 
-	public function save(Request $request)
+	public function save()
 	{
 		$name = $this->name();
-		if ( $request->has($name) )
+		if ( Request::has($name) )
 		{
-			$request->merge(array($name => password_hash($this->value(), PASSWORD_BCRYPT)));
+			Request::merge(array($name => password_hash($this->value(), PASSWORD_BCRYPT)));
 			parent::save();
 		}
 	}

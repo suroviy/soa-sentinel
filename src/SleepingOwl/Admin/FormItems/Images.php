@@ -18,10 +18,10 @@ class Images extends Image
 		AssetManager::addStyle('admin::default/css/form-items/images.css');
 	}
 
-	public function save(Request $request)
+	public function save()
 	{
 		$name = $this->name();
-		$value = $request->input($name, '');
+		$value = Request::input($name, '');
 		if ( ! empty($value))
 		{
 			$value = explode(',', $value);
@@ -29,7 +29,7 @@ class Images extends Image
 		{
 			$value = [];
 		}
-		$request->merge([$name => $value]);
+		Request::merge([$name => $value]);
 		parent::save();
 	}
 

@@ -1,9 +1,8 @@
 <?php namespace SleepingOwl\Admin\Display;
 
+use Illuminate\Http\Request;
 use SleepingOwl\Admin\AssetManager\AssetManager;
 use SleepingOwl\Admin\Interfaces\ColumnFilterInterface;
-use Illuminate\Http\Request;
-
 
 class DisplayDatatables extends DisplayTable
 {

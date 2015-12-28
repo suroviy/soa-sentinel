@@ -24,7 +24,7 @@ class InstallCommand extends Command
 	protected $stubs 		= [
 		'menu',
 		'bootstrap',
-		'routes'
+		'routes',
 		'User',
 		'Role',
 		'Permission'
@@ -92,7 +92,7 @@ class InstallCommand extends Command
 	protected function createFilesFromStub() {
 
 
-		foreach ($stubs as $stub) {
+		foreach ($this->stubs as $stub) {
 			$file = config('admin.bootstrapDirectory') . '/'.$stub.'.php';
 			if ( ! file_exists($file))
 			{

@@ -8,12 +8,12 @@ class Checkbox extends NamedFormItem
 
 	protected $view = 'checkbox';
 
-	public function save(Request $request)
+	public function save()
 	{
 		$name = $this->name();
-		if ( ! $request->has($name))
+		if ( ! Request::has($name))
 		{
-			$request->merge([$name => 0]);
+			Request::merge([$name => 0]);
 		}
 		parent::save();
 	}

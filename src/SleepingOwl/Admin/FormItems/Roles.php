@@ -10,13 +10,13 @@ class Roles extends Chosen
 	protected $multi	= true;
 	protected $nullable = true;
 
-    public function save(Request $request)
+    public function save()
 	{
 		$name = $this->name();
 
 		//fetch the selected roles from the temporary
 		//form field
-		$input = $request->all();
+		$input = Request::all();
 		$selected_roles = array_get($input, $name);
 		if( $selected_roles === null ) {
 			$selected_roles = [];

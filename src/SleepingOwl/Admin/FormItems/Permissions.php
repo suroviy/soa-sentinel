@@ -42,12 +42,12 @@ class Permissions  extends NamedFormItem
 		];
 	}
 
-    public function save(Request $request)
+    public function save()
 	{
 		$name = $this->name();
 
 		//fetch the selected permissions from the temporary form field
-		$input = $request->all();
+		$input = Request::all();
 
 		$selected_permissions = array_get($input, $name);
 		if( $selected_permissions === null ) {

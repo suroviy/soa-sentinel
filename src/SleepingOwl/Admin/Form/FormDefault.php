@@ -290,14 +290,14 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 	 * @param mixed $model
 	 * @return Validator|null
 	 */
-	public function validate(Request $request, $model)
+	public function validate($model)
 	{
 		if ($this->model() != $model)
 		{
 			return null;
 		}
 
-		$data = $request->all();
+		$data = Request::all();
 		$verifier = app('validation.presence');
 		$verifier->setConnection($this->instance()->getConnectionName());
 		$validator = Validator::make($data, $this->build_validation_rules(), [], $this->build_validation_messages());

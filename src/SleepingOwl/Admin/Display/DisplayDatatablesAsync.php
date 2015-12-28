@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use SleepingOwl\Admin\ColumnFilters\Date;
 use SleepingOwl\Admin\Columns\Column\DateTime;
 use SleepingOwl\Admin\Columns\Column\NamedColumn;
-use SleepingOwl\Admin\Columns\Column\String;
+use SleepingOwl\Admin\Columns\Column\ColumnString;
 use SleepingOwl\Admin\Interfaces\WithRoutesInterface;
 
 class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInterface
@@ -169,7 +169,7 @@ class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInte
 			$columns = $this->columns();
 			foreach ($columns as $key => $column)
 			{
-				if ($column instanceof String)
+				if ($column instanceof ColumnString)
 				{
 					$searchable = array_get($dtColumns[$key], 'searchable');	
 					$name 		= $column->name();
