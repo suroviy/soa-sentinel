@@ -102,7 +102,7 @@ class DisplayTree implements Renderable, DisplayInterface, WithRoutesInterface
 		return Admin::model($this->class);
 	}
 
-	public function render(Request $request)
+	public function render()
 	{
 		$params = [
 			'items'       => $this->repository()->tree(),
@@ -110,7 +110,7 @@ class DisplayTree implements Renderable, DisplayInterface, WithRoutesInterface
 			'url'         => Admin::model($this->class)->displayUrl(),
 			'value'       => $this->value(),
 			'creatable'   => ! is_null($this->model()->create()),
-			'createUrl'   => $this->model()->createUrl($this->parameters() + $request->all()),
+			'createUrl'   => $this->model()->createUrl($this->parameters() + Request::all()),
 			'controls'    => [Column::treeControl()],
 		];
 		return view(AdminTemplate::view('display.tree'), $params);

@@ -75,10 +75,10 @@ class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInte
 	/**
 	 * @return \Illuminate\View\View
 	 */
-	public function render(Request $request)
+	public function render()
 	{
 		$params = $this->getParams();
-		$attributes = $request->all();
+		$attributes = Request::all();
 		array_unshift($attributes, $this->name());
 		array_unshift($attributes, $this->model()->alias());
 		$params['url'] = route('admin.model.async', $attributes);
