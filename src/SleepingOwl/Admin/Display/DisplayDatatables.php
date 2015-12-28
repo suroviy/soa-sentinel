@@ -2,6 +2,8 @@
 
 use SleepingOwl\Admin\AssetManager\AssetManager;
 use SleepingOwl\Admin\Interfaces\ColumnFilterInterface;
+use Illuminate\Http\Request;
+
 
 class DisplayDatatables extends DisplayTable
 {
@@ -135,7 +137,7 @@ class DisplayDatatables extends DisplayTable
 	 * Get view render parameters
 	 * @return array
 	 */
-	protected function getParams()
+	protected function getParams(Request $request)
 	{
 		$params 					= parent::getParams();
 		$params['order'] 			= $this->order();
