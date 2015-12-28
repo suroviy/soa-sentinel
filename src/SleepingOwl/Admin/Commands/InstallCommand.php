@@ -21,6 +21,15 @@ class InstallCommand extends Command
 	 */
 	protected $description = 'Install the admin package';
 
+	protected $stubs 		= [
+		'menu',
+		'bootstrap',
+		'routes'
+		'User',
+		'Role',
+		'Permission'
+	];
+
 	/**
 	 * Execute the console command.
 	 * @return void
@@ -40,14 +49,9 @@ class InstallCommand extends Command
 		$this->publishConfig($title);
 
 		$this->createBootstrapDirectory();
-		$this->createMenuFile();
-		$this->createBootstrapFile();
-		$this->createRoutesFile();
-		$this->createUserAndRoleFile();
-
+		$this->createFilesFromStub();
+		
 		$this->createPublicDefaultStructure($path);
-
-		$this->createAdminUserAndRole();
 	}
 
 	/**
@@ -58,9 +62,17 @@ class InstallCommand extends Command
 
 		$this->call('migrate');
 
-		/*$this->call('db:seed', [
-			'--class' => 'SleepingOwl\\Admin\\Database\\Seeders\\SentinelSeeder'
-		]);*/
+		$this->call('db:seed', [
+			'--class' => 'SleepingOwl\\Admin\\Database\\Seeders\\SentinelRoleSeeder'
+		]);
+
+		$this->call('db:seed', [
+			'--class' => 'SleepingOwl\\Admin\\Database\\Seeders\\SentinelUserSeeder'
+		]);
+
+		$this->call('db:seed', [
+			'--class' => 'SleepingOwl\\Admin\\Database\\Seeders\\SentinelPermissionSeeder'
+		]);
 	}
 
 	/**
@@ -77,77 +89,20 @@ class InstallCommand extends Command
 		}
 	}
 
-	/**
-	 * Create default menu file
-	 */
-	protected function createMenuFile()
-	{
-		$file = config('admin.bootstrapDirectory') . '/menu.php';
-		if ( ! file_exists($file))
-		{
-			$contents = $this->laravel['files']->get(__DIR__ . '/stubs/menu.stub');
-			$this->laravel['files']->put($file, $contents);
-			$this->line('<info>Menu file was created:</info> ' . str_replace(base_path(), '', $file));
+	protected function createFilesFromStub() {
+
+
+		foreach ($stubs as $stub) {
+			$file = config('admin.bootstrapDirectory') . '/'.$stub.'.php';
+			if ( ! file_exists($file))
+			{
+				$contents = $this->laravel['files']->get(__DIR__ . '/stubs/'.$stub.'.stub');
+				$this->laravel['files']->put($file, $contents);
+				$this->line('<info>'.$stub.' file was created:</info> ' . str_replace(base_path(), '', $file));
+			}
 		}
 	}
 
-	/**
-	 * Create default bootstrap file
-	 */
-	protected function createBootstrapFile()
-	{
-		$file = config('admin.bootstrapDirectory') . '/bootstrap.php';
-		if ( ! file_exists($file))
-		{
-			$contents = $this->laravel['files']->get(__DIR__ . '/stubs/bootstrap.stub');
-			$this->laravel['files']->put($file, $contents);
-			$this->line('<info>Bootstrap file was created:</info> ' . str_replace(base_path(), '', $file));
-		}
-	}
-
-	/**
-	 * Create default routes file
-	 */
-	protected function createRoutesFile()
-	{
-		$file = config('admin.bootstrapDirectory') . '/routes.php';
-		if ( ! file_exists($file))
-		{
-			$contents = $this->laravel['files']->get(__DIR__ . '/stubs/routes.stub');
-			$this->laravel['files']->put($file, $contents);
-			$this->line('<info>Routes file was created:</info> ' . str_replace(base_path(), '', $file));
-		}
-	}
-
-	/**
-	 * Create dummy user file
-	 */
-	protected function createUserAndRoleFile()
-	{
-		$userFile = config('admin.bootstrapDirectory') . '/User.php';
-		if ( ! file_exists($userFile))
-		{
-			$contents = $this->laravel['files']->get(__DIR__ . '/stubs/User.stub');
-			$this->laravel['files']->put($userFile, $contents);
-			$this->line('<info>User file was created:</info> ' . str_replace(base_path(), '', $userFile));
-		}
-
-		$roleFile = config('admin.bootstrapDirectory') . '/Role.php';
-		if ( ! file_exists($roleFile))
-		{
-			$contents = $this->laravel['files']->get(__DIR__ . '/stubs/Role.stub');
-			$this->laravel['files']->put($roleFile, $contents);
-			$this->line('<info>Role file was created:</info> ' . str_replace(base_path(), '', $roleFile));
-		}
-
-		$permissionFile = config('admin.bootstrapDirectory') . '/Permission.php';
-		if ( ! file_exists($permissionFile))
-		{
-			$contents = $this->laravel['files']->get(__DIR__ . '/stubs/Permission.stub');
-			$this->laravel['files']->put($permissionFile, $contents);
-			$this->line('<info>Permission file was created:</info> ' . str_replace(base_path(), '', $permissionFile));
-		}
-	}
 
 	/**
 	 * Create public default structure
@@ -198,126 +153,6 @@ class InstallCommand extends Command
         $files->delete(base_path('database/migrations/2014_10_12_100000_create_password_resets_table.php'));
 
         $this->info('Laravel Auth removed! Enjoy your fresh start.');
-	}
-
-	protected function createAdminUserAndRole() {
-		
-		$permissions = [
-
-			'superadmin'	=> [
-				'default'		=> true,
-				'description'	=> 'Super Admin'
-			],
-			'controlpanel'	=> [
-				'default'		=> true,
-				'description'	=> 'Access to the Control Panel'
-			],
-			'admin.users.view'	=> [
-				'default'		=> true,
-				'description'	=> 'View Users'
-			],
-			'admin.users.create'	=> [
-				'default'		=> true,
-				'description'	=> 'Create Users'
-			],
-			'admin.users.edit'	=> [
-				'default'		=> true,
-				'description'	=> 'Edit Users'
-			],
-			'admin.users.destroy'	=> [
-				'default'		=> true,
-				'description'	=> 'Delete Users'
-			],
-			'admin.roles.view'	=> [
-				'default'		=> true,
-				'description'	=> 'View Roles'
-			],
-			'admin.roles.create'	=> [
-				'default'		=> true,
-				'description'	=> 'Create Roles'
-			],
-			'admin.roles.edit'	=> [
-				'default'		=> true,
-				'description'	=> 'Edit Roles'
-			],
-			'admin.roles.destroy'	=> [
-				'default'		=> true,
-				'description'	=> 'Delete Roles'
-			],
-			'admin.permissions.view'	=> [
-				'default'		=> true,
-				'description'	=> 'View Permissions'
-			],
-			'admin.permissions.create'	=> [
-				'default'		=> true,
-				'description'	=> 'Create Permissions'
-			],
-			'admin.permissions.edit'	=> [
-				'default'		=> true,
-				'description'	=> 'Edit Permissions'
-			],
-			'admin.permissions.destroy'	=> [
-				'default'		=> true,
-				'description'	=> 'Delete Permissions'
-			]
-
-		];
-
-		try
-		{
-			
-			//create admin user
-			$credentials = [
-			    'email'    => 'admin@soa.backend',
-			    'password' => 'password',
-			];
-
-			$user = \Sentinel::create($credentials);
-			$activation = \Activation::create($user);
-			$activation_complete = \Activation::complete($user, $activation->code);
-
-			//create admin role
-			$role = \Sentinel::getRoleRepository()->createModel()->create([
-			    'name' => 'Administrator',
-			    'slug' => 'administrator',
-			]);
-
-			$role = \Sentinel::findRoleByName('Administrator');
-
-			//add permissions to role
-			foreach ($permissions as $key => $permission) {
-				$role->addPermission($key, $permission['default']);
-			}
-
-			$role->save();
-
-			//attach admin user to admin role
-			$role->users()->attach($user);			
-
-			$this->info('Admin Role and User created successfully.');
-
-			$this->addPermissions($permissions);
-
-		} catch (\Exception $e)
-		{
-			$this->info('Something went wrong while creating Admin Role and User.');
-			$this->error($e);
-		}
-
-	}
-
-	protected function addPermissions($permissions) {
-
-		//add permissions to role
-		foreach ($permissions as $key => $permission) {
-			PermissionModel::create([
-				'value' => $key, 
-				'description' =>$permission['description']
-			]);
-		}
-
-		$this->info('Default Permissions created successfully.');
-
 	}
 
 	/**

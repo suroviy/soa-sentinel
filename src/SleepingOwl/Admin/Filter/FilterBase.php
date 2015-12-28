@@ -62,7 +62,7 @@ abstract class FilterBase implements FilterInterface
 		return $this;
 	}
 
-	public function initialize()
+	public function initialize(Request $request)
 	{
 		$parameters = $request->all();
 		$value = $this->value();
