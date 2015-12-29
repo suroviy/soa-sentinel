@@ -16,7 +16,7 @@ class Roles extends Chosen
 
 		//fetch the selected roles from the temporary
 		//form field
-		$input = Request::all();
+		$input = \Request::all();
 		$selected_roles = array_get($input, $name);
 		if( $selected_roles === null ) {
 			$selected_roles = [];

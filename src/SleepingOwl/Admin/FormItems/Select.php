@@ -150,7 +150,9 @@ class Select extends NamedFormItem
 						}
 					}
 				} else {
-					$value = $dataset->$display[0];
+					
+					$value = $dataset[$display[0]];
+					//$value = $dataset->$display[0];
 				}
 
 				$optionValue = $this->optionValue();

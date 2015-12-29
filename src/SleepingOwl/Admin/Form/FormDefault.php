@@ -297,7 +297,7 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 			return null;
 		}
 
-		$data = Request::all();
+		$data = \Request::all();
 		$verifier = app('validation.presence');
 		$verifier->setConnection($this->instance()->getConnectionName());
 		$validator = Validator::make($data, $this->build_validation_rules(), [], $this->build_validation_messages());

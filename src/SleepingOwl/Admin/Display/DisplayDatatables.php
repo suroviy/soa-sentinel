@@ -136,7 +136,7 @@ class DisplayDatatables extends DisplayTable
 	 * Get view render parameters
 	 * @return array
 	 */
-	protected function getParams(Request $request)
+	protected function getParams()
 	{
 		$params 					= parent::getParams();
 		$params['order'] 			= $this->order();
