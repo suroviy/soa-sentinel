@@ -64,7 +64,7 @@ abstract class FilterBase implements FilterInterface
 
 	public function initialize()
 	{
-		$parameters = Request::all();
+		$parameters = \Request::all();
 		$value = $this->value();
 		if (is_null($value))
 		{

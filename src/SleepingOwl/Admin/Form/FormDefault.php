@@ -358,6 +358,7 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 			$names = [];
 			$items = $this->items();
 			array_walk_recursive($items, function ($item) use (&$names) {
+
 				if ($item instanceof FormItemInterface && !$item->custom() ) {
 					if ( $item instanceof Columns ) {
 
@@ -365,7 +366,7 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 						{
 							foreach ($columnItems as $columnItem)
 							{
-								if ($columnItem instanceof FormItemInterface)
+								if ($columnItem instanceof FormItemInterface && !$columnItem->custom() )
 								{
 									$names = array_add($names, $columnItem->path(), $columnItem->label());
 								}

@@ -47,13 +47,13 @@ class Image extends NamedFormItem implements WithRoutesInterface
 			'as' => 'admin.upload.' . static::$route,
 			function ()
 			{
-				$validator = Validator::make(Request::all(), static::uploadValidationRules());
+				$validator = Validator::make(\Request::all(), static::uploadValidationRules());
 				if ($validator->fails())
 				{
 					return Response::make($validator->errors()->get('file'), 400);
 				}
-				$file = Request::file('file');
-				$upload_path = config('admin.filemanagerDirectory') . Request::input('path');
+				$file = \Request::file('file');
+				$upload_path = config('admin.filemanagerDirectory') . \Request::input('path');
 
 				$orginalFilename = str_slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
 				$filename = $orginalFilename . '.' . $file->getClientOriginalExtension();
@@ -64,7 +64,7 @@ class Image extends NamedFormItem implements WithRoutesInterface
 					\File::makeDirectory($fullpath , 0755, true);
 				}
 
-				if ( $oldFilename = Request::input('filename') ) {
+				if ( $oldFilename = \Request::input('filename') ) {
 					\File::delete($oldFilename);
 				}
 
@@ -87,7 +87,7 @@ class Image extends NamedFormItem implements WithRoutesInterface
 			'as' => 'admin.upload.delete.' . static::$route,
 			function ()
 			{
-				if ( $filename = Request::input('filename') ) {
+				if ( $filename = \Request::input('filename') ) {
 					\File::delete($filename);
 					return "Success";
 				}

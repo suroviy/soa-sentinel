@@ -11,9 +11,9 @@ class Checkbox extends NamedFormItem
 	public function save()
 	{
 		$name = $this->name();
-		if ( ! Request::has($name))
+		if ( ! \Request::has($name))
 		{
-			Request::merge([$name => 0]);
+			\Request::merge([$name => 0]);
 		}
 		parent::save();
 	}

@@ -21,7 +21,7 @@ class Images extends Image
 	public function save()
 	{
 		$name = $this->name();
-		$value = Request::input($name, '');
+		$value = \Request::input($name, '');
 		if ( ! empty($value))
 		{
 			$value = explode(',', $value);
@@ -29,7 +29,7 @@ class Images extends Image
 		{
 			$value = [];
 		}
-		Request::merge([$name => $value]);
+		\Request::merge([$name => $value]);
 		parent::save();
 	}
 
