@@ -110,7 +110,7 @@ class DisplayTree implements Renderable, DisplayInterface, WithRoutesInterface
 			'url'         => Admin::model($this->class)->displayUrl(),
 			'value'       => $this->value(),
 			'creatable'   => ! is_null($this->model()->create()),
-			'createUrl'   => $this->model()->createUrl($this->parameters() + Request::all()),
+			'createUrl'   => $this->model()->createUrl($this->parameters() + \Request::all()),
 			'controls'    => [Column::treeControl()],
 		];
 		return view(AdminTemplate::view('display.tree'), $params);
@@ -125,7 +125,7 @@ class DisplayTree implements Renderable, DisplayInterface, WithRoutesInterface
 	{
 		Route::post('{adminModel}/reorder', function ($model)
 		{
-			$data = $request->input('data');
+			$data = \Request::input('data');
 			$model->display()->repository()->reorder($data);
 		});
 	}

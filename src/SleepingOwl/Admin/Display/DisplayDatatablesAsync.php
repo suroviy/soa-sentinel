@@ -78,7 +78,7 @@ class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInte
 	public function render()
 	{
 		$params = $this->getParams();
-		$attributes = Request::all();
+		$attributes = \Request::all();
 		array_unshift($attributes, $this->name());
 		array_unshift($attributes, $this->model()->alias());
 		$params['url'] = route('admin.model.async', $attributes);
@@ -118,10 +118,10 @@ class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInte
 	 * Apply offset and limit to the query
 	 * @param $query
 	 */
-	protected function applyOffset(Request $request, $query)
+	protected function applyOffset($query)
 	{
-		$offset = $request->input('start', 0);
-		$limit = $request->input('length', 10);
+		$offset = \Request::input('start', 0);
+		$limit = \Request::input('length', 10);
 		if ($limit == -1)
 		{
 			return;
@@ -133,9 +133,9 @@ class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInte
 	 * Apply orders to the query
 	 * @param $query
 	 */
-	protected function applyOrders(Request $request, $query)
+	protected function applyOrders($query)
 	{
-		$orders = $request->input('order', []);
+		$orders = \Request::input('order', []);
 		foreach ($orders as $order)
 		{
 			$columnIndex = $order['column'];
@@ -153,15 +153,15 @@ class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInte
 	 * Apply search to the query
 	 * @param $query
 	 */
-	protected function applySearch(Request $request, $query)
+	protected function applySearch($query)
 	{
-		$search = $request->input('search.value');
+		$search = \Request::input('search.value');
 		if (is_null($search))
 		{
 			return;
 		}
 
-		$dtColumns = $request->input('columns', []);
+		$dtColumns = \Request::input('columns', []);
 
 		$query->where(function ($query) use ($search, $dtColumns)
 		{
@@ -185,9 +185,9 @@ class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInte
 		});
 	}
 
-	protected function applyColumnSearch(Request $request, $query)
+	protected function applyColumnSearch($query)
 	{
-		$queryColumns = $request->input('columns', []);
+		$queryColumns = \Request::input('columns', []);
 		foreach ($queryColumns as $index => $queryColumn)
 		{
 			$search = array_get($queryColumn, 'search.value');
@@ -210,12 +210,12 @@ class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInte
 	 * @param $filteredCount
 	 * @return array
 	 */
-	protected function prepareDatatablesStructure(Request $request, $collection, $totalCount, $filteredCount)
+	protected function prepareDatatablesStructure($collection, $totalCount, $filteredCount)
 	{
 		$columns = $this->allColumns();
 
 		$result = [];
-		$result['draw'] = $request->input('draw', 0);
+		$result['draw'] = \Request::input('draw', 0);
 		$result['recordsTotal'] = $totalCount;
 		$result['recordsFiltered'] = $filteredCount;
 		$result['data'] = [];
