@@ -89,7 +89,16 @@ return [
 		]
 	],
 	'permission' => [
-		'denied' => 'Permission denied'
+		'denied' 	=> 'Permission denied',
+		'backend'	=> 'Backend',
+		'without_group'	=> 'Without group',
+		'headline'	=> [
+			'permission' 	=> 'Permission',
+			'allowed'		=> 'Allow',
+			'denied'		=> 'Denied',
+			'inherited'		=> 'Inherited'
+		]
+
 	],
 	'save' => [
 		'edit' => 'Entry was successfully saved.',

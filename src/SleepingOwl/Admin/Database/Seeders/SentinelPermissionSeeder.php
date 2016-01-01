@@ -16,59 +16,73 @@ class SentinelPermissionSeeder extends Seeder
 
 				'superadmin'	=> [
 					'default'		=> true,
-					'description'	=> 'Super Admin'
+					'description'	=> 'Super Admin',
+					'group_name'	=> 'admin::lang.permission.without_group'
 				],
 				'controlpanel'	=> [
 					'default'		=> true,
-					'description'	=> 'Access to the Control Panel'
+					'description'	=> 'Access to the Control Panel',
+					'group_name'	=> 'admin::lang.permission.without_group'
 				],
 				'admin.users.view'	=> [
 					'default'		=> true,
-					'description'	=> 'View Users'
+					'description'	=> 'View Users',
+					'group_name'	=> 'admin::lang.permission.without_group'
 				],
 				'admin.users.create'	=> [
 					'default'		=> true,
-					'description'	=> 'Create Users'
+					'description'	=> 'Create Users',
+					'group_name'	=> 'admin::lang.permission.without_group'
 				],
 				'admin.users.edit'	=> [
 					'default'		=> true,
-					'description'	=> 'Edit Users'
+					'description'	=> 'Edit Users',
+					'group_name'	=> 'admin::lang.permission.without_group'
 				],
 				'admin.users.destroy'	=> [
 					'default'		=> true,
-					'description'	=> 'Delete Users'
+					'description'	=> 'Delete Users',
+					'group_name'	=> 'admin::lang.permission.without_group'
 				],
 				'admin.roles.view'	=> [
 					'default'		=> true,
-					'description'	=> 'View Roles'
+					'description'	=> 'View Roles',
+					'group_name'	=> 'admin::lang.permission.without_group'
 				],
 				'admin.roles.create'	=> [
 					'default'		=> true,
-					'description'	=> 'Create Roles'
+					'description'	=> 'Create Roles',
+					'group_name'	=> 'admin::lang.permission.without_group'
 				],
 				'admin.roles.edit'	=> [
 					'default'		=> true,
-					'description'	=> 'Edit Roles'
+					'description'	=> 'Edit Roles',
+					'group_name'	=> 'admin::lang.permission.without_group'
 				],
 				'admin.roles.destroy'	=> [
 					'default'		=> true,
-					'description'	=> 'Delete Roles'
+					'description'	=> 'Delete Roles',
+					'group_name'	=> 'admin::lang.permission.without_group'
 				],
 				'admin.permissions.view'	=> [
 					'default'		=> true,
-					'description'	=> 'View Permissions'
+					'description'	=> 'View Permissions',
+					'group_name'	=> 'admin::lang.permission.without_group'
 				],
 				'admin.permissions.create'	=> [
 					'default'		=> true,
-					'description'	=> 'Create Permissions'
+					'description'	=> 'Create Permissions',
+					'group_name'	=> 'admin::lang.permission.without_group'
 				],
 				'admin.permissions.edit'	=> [
 					'default'		=> true,
-					'description'	=> 'Edit Permissions'
+					'description'	=> 'Edit Permissions',
+					'group_name'	=> 'admin::lang.permission.without_group'
 				],
 				'admin.permissions.destroy'	=> [
 					'default'		=> true,
-					'description'	=> 'Delete Permissions'
+					'description'	=> 'Delete Permissions',
+					'group_name'	=> 'admin::lang.permission.without_group'
 				]
 
 			];
@@ -76,8 +90,9 @@ class SentinelPermissionSeeder extends Seeder
 			//create records
 			foreach ($permissions as $key => $permission) {
 				PermissionModel::create([
-					'value' => $key, 
-					'description' =>$permission['description']
+					'value' 		=> $key, 
+					'description' 	=> $permission['description'],
+					'group_name'	=> $permission['group_name']
 				]);
 			}
 

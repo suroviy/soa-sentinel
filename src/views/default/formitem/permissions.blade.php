@@ -2,36 +2,23 @@
 	
 	<thead>
 		<tr>
-
-			<th>
-				Permission
-			</th>
-
-			<th>
-				Allowed
-			</th>
-
-			<th>
-				Denied
-			</th>
-
+			<th>{{ trans('admin::lang.permission.headline.permission') }}</th>
+			<th>{{ trans('admin::lang.permission.headline.allowed') }}</th>
+			<th>{{ trans('admin::lang.permission.headline.denied') }}</th>
 			@if( $withInherited )
-			<th>
-				Inherited
-			</th>
+				<th>{{ trans('admin::lang.permission.headline.inherited') }}</th>
 			@endif
-
 		</tr>
 	</thead>
 
 	<tbody>
-		
 		@foreach ($all_permissions as $all_permission)
-		
 		<tr>
 			
 			<td>
-				<a href="#" data-toggle="tooltip" title="{{ $all_permission['value']}}">{{ (!empty($all_permission['description'])) ? $all_permission['description'] : $all_permission['value'] }}</a>
+				<a href="#" data-toggle="tooltip" title="{{ $all_permission['value']}}">
+					{{ (!empty($all_permission['description'])) ? $all_permission['description'] : $all_permission['value'] }}
+				</a>
 			</td>
 
 
