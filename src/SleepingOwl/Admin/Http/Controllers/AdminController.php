@@ -180,6 +180,114 @@ class AdminController extends Controller
         return Redirect::back();	    
     }
 
+    public function getSettings() 
+    {
+    	$skins = [
+    		'blue' 			=> 'Blue',
+    		'blue-light' 	=> 'Blue Light',
+			'black' 		=> 'Black',
+			'black-light' 	=> 'Black Light',
+			'purple' 		=> 'Purple',
+			'purple-light' 	=> 'Purple Light',
+			'green' 		=> 'Green',
+			'green-light' 	=> 'Green Light',
+			'red' 			=> 'Red',
+			'red-light' 	=> 'Red Light',
+			'yellow' 		=> 'Yellow',
+			'yellow-light' 	=> 'Yellow Light',
+    	];
+
+    	$items	= [
+
+    		
+    		\FormItem::select('theme.skin', 'Theme Skin')
+    			->options($skins)
+    			->defaultValue( \Setting::get('theme.skin', config('admintheme.skin') ) ),
+
+    		\FormItem::checkbox('theme.fixed_layout', 'Fixed Layout')
+    			->defaultValue( \Setting::get('theme.fixed_layout', config('admintheme.fixed_layout') ) )
+    			->help_text('You can\'t use fixed and boxed layouts together.'),
+
+    		\FormItem::checkbox('theme.boxed_layout', 'Boxed Layout')
+    			->defaultValue( \Setting::get('theme.boxed_layout', config('admintheme.boxed_layout') ) )
+    			->help_text('You can\'t use fixed and boxed layouts together.'),
+
+    		\FormItem::checkbox('theme.sidebar_mini', 'Minimize Sidebar')
+    			->defaultValue( \Setting::get('theme.sidebar_mini', config('admintheme.sidebar_mini') ) ),
+
+    		\FormItem::checkbox('theme.toggle_sidebar', 'Toggle Sidebar')
+    			->defaultValue( \Setting::get('theme.toggle_sidebar', config('admintheme.toggle_sidebar') ) )
+    			->help_text('Toggle the left sidebar\'s state (open or collapse)'),
+
+    		\FormItem::checkbox('theme.sidebar_on_hover', 'Sidebar on Hover')
+    			->defaultValue( \Setting::get('theme.sidebar_on_hover', config('admintheme.sidebar_on_hover') ) )
+    			->help_text('Let the sidebar mini expand on hover'),
+    	
+    	];
+
+    	return $this->render(
+    					trans('admin::lang.settings'), 
+    					view( AdminTemplate::view('pages.admin_settings'), compact('items') ) 
+    				);
+    }
+
+    public function postSettings() 
+    {
+    	$fields = [
+    		'theme.fixed_layout'		=> 'checkbox',
+    		'theme.boxed_layout'		=> 'checkbox',
+    		'theme.sidebar_mini'		=> 'checkbox',
+    		'theme.toggle_sidebar'		=> 'checkbox',
+    		'theme.sidebar_on_hover'	=> 'checkbox',
+
+    	];
+
+    	foreach ($fields as $key => $value) {
+			if ( ! \Request::has($key))
+			{
+				\Request::merge([$key => false]);
+			} else {
+				\Request::merge([$key => true]);
+			}
+    	}
+
+    	$settings = \Request::except('_token');
+
+    	//dd($settings);
+
+    	foreach( $settings as $key => $value ) 
+    	{
+    		\Setting::set($key, $value);
+    	}
+
+    	\Setting::save();
+
+    	flash()->success(trans('admin::lang.save.edit'));
+    	return redirect()->back();
+    }
+
+    public function getSettingsReset()
+    {
+    	$fields = [
+    		'theme.skin'				=> config('admintheme.skin'),
+    		'theme.fixed_layout'		=> config('admintheme.fixed_layout'),
+    		'theme.boxed_layout'		=> config('admintheme.boxed_layout'),
+    		'theme.sidebar_mini'		=> config('admintheme.sidebar_mini'),
+    		'theme.toggle_sidebar'		=> config('admintheme.toggle_sidebar'),
+    		'theme.sidebar_on_hover'	=> config('admintheme.sidebar_on_hover'),
+    	];
+
+    	foreach( $fields as $key => $value ) 
+    	{
+    		\Setting::set($key, $value);
+    	}
+
+    	\Setting::save();
+
+    	flash()->success(trans('admin::lang.save.edit'));
+    	return redirect()->back();
+    }
+
 	protected function cacheResponse(Response $response)
 	{
 		$response->setSharedMaxAge(31536000);

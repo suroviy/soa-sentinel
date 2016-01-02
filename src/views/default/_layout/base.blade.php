@@ -21,7 +21,7 @@
 			<script src="{{ $script }}"></script>
 		@endforeach
 
-		@if( Config::get('admintheme.sidebar_on_hover') )
+		@if( \Setting::get('theme.sidebar_on_hover', config('admintheme.sidebar_on_hover') ) )
 		<script type="text/javascript">
 	      	$(function () {
 	      		$.AdminLTE.pushMenu.expandOnHover();
@@ -35,7 +35,7 @@
 
 	</head>
 
-	<body class="skin-{!! Config::get('admintheme.skin') !!} @if( Config::get('admintheme.sidebar_mini') )sidebar-mini @endif @if( Config::get('admintheme.boxed_layout') ) layout-boxed @endif @if( Config::get('admintheme.fixed_layout') ) fixed @endif @if( Config::get('admintheme.toggle_sidebar') ) sidebar-collapse @endif @yield('body')">
+	<body class="skin-{!! \Setting::get('theme.skin', config('admintheme.skin') ) !!} @if( \Setting::get('theme.sidebar_mini', config('admintheme.sidebar_mini') ) )sidebar-mini @endif @if( \Setting::get('theme.boxed_layout', config('admintheme.boxed_layout') ) ) layout-boxed @endif @if( \Setting::get('theme.fixed_layout', config('admintheme.fixed_layout') ) ) fixed @endif @if( \Setting::get('theme.toggle_sidebar', config('admintheme.toggle_sidebar') ) ) sidebar-collapse @endif @yield('body')">
 
 		@yield('content')
 

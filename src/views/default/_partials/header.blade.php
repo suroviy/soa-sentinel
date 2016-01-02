@@ -51,6 +51,9 @@
 				<ul class="dropdown-menu">
 					<li class="user-footer">
 						
+						<div class="pull-left">
+							<a href="{{ route('admin.settings') }}" class="btn btn-default btn-flat">{{ trans('admin::lang.settings') }}</a>
+						</div>
 						<div class="pull-right">
 							<a href="{{ route('admin.logout') }}" class="btn btn-default btn-flat">{{ trans('admin::lang.auth.logout') }}</a>
 						</div>

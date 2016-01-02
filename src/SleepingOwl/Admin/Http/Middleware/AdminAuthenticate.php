@@ -36,7 +36,7 @@ class AdminAuthenticate
 		if( $route_name == "admin.logout" ) {
 			return $next($request);
 		}
-		if(starts_with($route_name, "elfinder.") || starts_with($route_name, "admin.upload.") ){
+		if(starts_with($route_name, "elfinder.") || starts_with($route_name, "admin.upload.") || starts_with($route_name, 'admin.settings') ){
 			$system_route = true;
 		}
 

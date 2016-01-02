@@ -104,5 +104,7 @@ return [
 		'create' => 'Der Datensatz wurde erfolgreich erstellt.',
 		'destroy' => 'Der Datensatz wurde erfolgreich gelöscht.',
 		'restore' => 'Der Datensatz wurde erfolgreich wiederhergestellt.'
-	]
+	],
+
+	'settings'		=> 'Benutzereinstellungen'
 ];

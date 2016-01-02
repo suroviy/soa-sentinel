@@ -15,6 +15,7 @@ class AdminServiceProvider extends ServiceProvider
 		\Barryvdh\Elfinder\ElfinderServiceProvider::class,
 		\Proengsoft\JsValidation\JsValidationServiceProvider::class,
 		\Laracasts\Flash\FlashServiceProvider::class,
+		\Grimthorr\LaravelUserSettings\ServiceProvider::class
 	];
 
 	/**
@@ -50,7 +51,8 @@ class AdminServiceProvider extends ServiceProvider
         'FormItem'      => \SleepingOwl\Admin\FormItems\FormItem::class,
 
         'JsValidator'   => \Proengsoft\JsValidation\Facades\JsValidatorFacade::class,
-        'Flash'         => \Laracasts\Flash\Flash::class
+        'Flash'         => \Laracasts\Flash\Flash::class,
+        'Setting' 		=> \Grimthorr\LaravelUserSettings\Facade::class,
 	];
 
 	/**

@@ -26,6 +26,21 @@ Route::group(['middleware' => ['web']], function () {
 			'uses' => 'AuthController@getLogout',
 		]);
 
+		Route::get('settings', [
+			'as'   => 'admin.settings',
+			'uses' => 'AdminController@getSettings',
+		]);
+
+		Route::get('settings/reset', [
+			'as'   => 'admin.settings.reset',
+			'uses' => 'AdminController@getSettingsReset',
+		]);
+
+		Route::post('settings', [
+			'as'   => 'admin.settings',
+			'uses' => 'AdminController@postSettings',
+		]);
+
 		Route::get('{adminModel}', [
 			'as'   => 'admin.model',
 			'uses' => 'AdminController@getDisplay'

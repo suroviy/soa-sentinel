@@ -105,6 +105,7 @@ return [
 		'create' => 'Entry was successfully created.',
 		'destroy' => 'Entry was successfully deleted.',
 		'restore' => 'Entry was successfully restored.'
-	]
+	],
+	'settings'		=> 'User Settings'
 
 ];
