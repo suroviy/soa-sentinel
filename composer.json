@@ -48,5 +48,8 @@
 			"tests/TestBase.php",
 			"tests/models"
 		]
-	}
+	},
+	"config": {
+        "preferred-install": "dist"
+    }
 }
