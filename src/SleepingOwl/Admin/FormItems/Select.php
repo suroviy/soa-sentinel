@@ -6,17 +6,18 @@ use SleepingOwl\Admin\Repository\BaseRepository;
 class Select extends NamedFormItem
 {
 
-	protected $view = 'select';
+	protected $view 		= 'select';
 	protected $model;
 	protected $with;
-	protected $display = 'title';
-	protected $options = [];
-	protected $nullable = false;
-	protected $multi = false;
-	protected $plugin = null;
-	protected $seperator = '-';
-	protected $scopes = [];
-	protected $optionValue = null;
+	protected $display 		= 'title';
+	protected $options 		= [];
+	protected $nullable 	= false;
+	protected $multi 		= false;
+	protected $plugin 		= null;
+	protected $seperator 	= '-';
+	protected $scopes 		= [];
+	protected $optionValue 	= null;
+	protected $sort 		= true;
 
 	public function model($model = null)
 	{
@@ -78,7 +79,7 @@ class Select extends NamedFormItem
 		return $this;
 	}
 
-	public function options($options = null, $sort=true)
+	public function options($options = null)
 	{
 		if (is_null($options))
 		{
@@ -88,7 +89,7 @@ class Select extends NamedFormItem
 			}
 			$options = $this->options;
 
-			if($sort) {
+			if( $this->sort() ) {
 				asort($options);
 			}
 
@@ -96,6 +97,16 @@ class Select extends NamedFormItem
 		}
 		$this->options = $options;
 		return $this;
+	}
+
+	public function disableSort()
+	{
+		$this->sort = false;
+		return $this;
+	}
+
+	protected function sort() {
+		return $this->sort;
 	}
 
 	protected function loadOptions()
@@ -174,9 +185,9 @@ class Select extends NamedFormItem
 		];
 	}
 
-	public function enum($values, $sort=true)
+	public function enum($values)
 	{
-		return $this->options(array_combine($values, $values), $sort);
+		return $this->options(array_combine($values, $values));
 	}
 
 	public function nullable($nullable = true)
