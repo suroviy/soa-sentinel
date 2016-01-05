@@ -1,8 +1,5 @@
 <?php namespace SleepingOwl\Admin\FormItems;
 
-
-use Illuminate\Http\Request;
-
 class Password extends NamedFormItem
 {
 
