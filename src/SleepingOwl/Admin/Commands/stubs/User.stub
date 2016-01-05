@@ -83,15 +83,15 @@
 					'plugin' 			=> null, 
 					'nullable' 			=> false, 
 					'options' 			=> $skins, 
-					'value' 			=> \Setting::get('theme.skin', config('admintheme.skin'), $instance->id ), 
+					'value' 			=> \SoaUserSetting::get('theme.skin', config('admintheme.skin'), $instance->id ), 
 					'help_text' 		=> null
 				];
 			    return view(AdminTemplate::view('formitem.select'), $field_params )->render();
 			})->callback(function ($instance)
 			{
 			 	
-			    \Setting::set('theme.skin', \Request::input('theme_skin'), $instance->id );
-			    \Setting::save();
+			    \SoaUserSetting::set('theme.skin', \Request::input('theme_skin'), $instance->id );
+			    \SoaUserSetting::save();
 			}),
 
 			FormItem::custom()->display(function ($instance)
@@ -103,7 +103,7 @@
 					'field_size' 		=> null, 
 					'label' 			=> 'Fixed Layout', 
 					'required_field' 	=> false, 
-					'value' 			=> \Setting::get('theme.fixed_layout', config('admintheme.fixed_layout'), $instance->id ), 
+					'value' 			=> \SoaUserSetting::get('theme.fixed_layout', config('admintheme.fixed_layout'), $instance->id ), 
 					'help_text' 		=> 'You can\'t use fixed and boxed layouts together.'
 				];
 			    return view(AdminTemplate::view('formitem.checkbox'), $field_params )->render();
@@ -115,8 +115,8 @@
 				} else {
 					\Request::merge(['theme_fixed_layout' => true]);
 				}
-			    \Setting::set('theme.fixed_layout', \Request::input('theme_fixed_layout'), $instance->id );
-			    \Setting::save();
+			    \SoaUserSetting::set('theme.fixed_layout', \Request::input('theme_fixed_layout'), $instance->id );
+			    \SoaUserSetting::save();
 			}),
 
 			FormItem::custom()->display(function ($instance)
@@ -128,7 +128,7 @@
 					'field_size' 		=> null, 
 					'label' 			=> 'Boxed Layout', 
 					'required_field' 	=> false, 
-					'value' 			=> \Setting::get('theme.boxed_layout', config('admintheme.boxed_layout'), $instance->id ), 
+					'value' 			=> \SoaUserSetting::get('theme.boxed_layout', config('admintheme.boxed_layout'), $instance->id ), 
 					'help_text' 		=> 'You can\'t use fixed and boxed layouts together.'
 				];
 			    return view(AdminTemplate::view('formitem.checkbox'), $field_params )->render();
@@ -140,8 +140,8 @@
 				} else {
 					\Request::merge(['theme_boxed_layout' => true]);
 				}
-			    \Setting::set('theme.boxed_layout', \Request::input('theme_boxed_layout'), $instance->id );
-			    \Setting::save();
+			    \SoaUserSetting::set('theme.boxed_layout', \Request::input('theme_boxed_layout'), $instance->id );
+			    \SoaUserSetting::save();
 			}),
 
 			FormItem::custom()->display(function ($instance)
@@ -153,7 +153,7 @@
 					'field_size' 		=> null, 
 					'label' 			=> 'Minimize Sidebar', 
 					'required_field' 	=> false, 
-					'value' 			=> \Setting::get('theme.sidebar_mini', config('admintheme.sidebar_mini'), $instance->id ), 
+					'value' 			=> \SoaUserSetting::get('theme.sidebar_mini', config('admintheme.sidebar_mini'), $instance->id ), 
 					'help_text' 		=> null
 				];
 			    return view(AdminTemplate::view('formitem.checkbox'), $field_params )->render();
@@ -165,8 +165,8 @@
 				} else {
 					\Request::merge(['theme_sidebar_mini' => true]);
 				}
-			    \Setting::set('theme.sidebar_mini', \Request::input('theme_sidebar_mini'), $instance->id );
-			    \Setting::save();
+			    \SoaUserSetting::set('theme.sidebar_mini', \Request::input('theme_sidebar_mini'), $instance->id );
+			    \SoaUserSetting::save();
 			}),
 
 			FormItem::custom()->display(function ($instance)
@@ -178,7 +178,7 @@
 					'field_size' 		=> null, 
 					'label' 			=> 'Toggle Sidebar', 
 					'required_field' 	=> false, 
-					'value' 			=> \Setting::get('theme.toggle_sidebar', config('admintheme.toggle_sidebar'), $instance->id ), 
+					'value' 			=> \SoaUserSetting::get('theme.toggle_sidebar', config('admintheme.toggle_sidebar'), $instance->id ), 
 					'help_text' 		=> 'Toggle the left sidebar\'s state (open or collapse)'
 				];
 			    return view(AdminTemplate::view('formitem.checkbox'), $field_params )->render();
@@ -190,8 +190,8 @@
 				} else {
 					\Request::merge(['theme_toggle_sidebar' => true]);
 				}
-			    \Setting::set('theme.toggle_sidebar', \Request::input('theme_toggle_sidebar'), $instance->id );
-			    \Setting::save();
+			    \SoaUserSetting::set('theme.toggle_sidebar', \Request::input('theme_toggle_sidebar'), $instance->id );
+			    \SoaUserSetting::save();
 			}),
 
 			FormItem::custom()->display(function ($instance)
@@ -203,7 +203,7 @@
 					'field_size' 		=> null, 
 					'label' 			=> 'Sidebar on Hover', 
 					'required_field' 	=> false, 
-					'value' 			=> \Setting::get('theme.sidebar_on_hover', config('admintheme.sidebar_on_hover'), $instance->id ), 
+					'value' 			=> \SoaUserSetting::get('theme.sidebar_on_hover', config('admintheme.sidebar_on_hover'), $instance->id ), 
 					'help_text' 		=> 'Let the sidebar mini expand on hover'
 				];
 			    return view(AdminTemplate::view('formitem.checkbox'), $field_params )->render();
@@ -216,7 +216,7 @@
 					\Request::merge(['theme_sidebar_on_hover' => true]);
 				}
 			    \Setting::set('theme.sidebar_on_hover', \Request::input('theme_sidebar_on_hover'), $instance->id );
-			    \Setting::save();
+			    \SoaUserSetting::save();
 			})
         ]
     ]);

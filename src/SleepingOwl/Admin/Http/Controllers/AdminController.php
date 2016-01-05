@@ -202,25 +202,25 @@ class AdminController extends Controller
     		
     		\FormItem::select('theme.skin', 'Theme Skin')
     			->options($skins)
-    			->defaultValue( \Setting::get('theme.skin', config('admintheme.skin') ) ),
+    			->defaultValue( \SoaUserSetting::get('theme.skin', config('admintheme.skin') ) ),
 
     		\FormItem::checkbox('theme.fixed_layout', 'Fixed Layout')
-    			->defaultValue( \Setting::get('theme.fixed_layout', config('admintheme.fixed_layout') ) )
+    			->defaultValue( \SoaUserSetting::get('theme.fixed_layout', config('admintheme.fixed_layout') ) )
     			->help_text('You can\'t use fixed and boxed layouts together.'),
 
     		\FormItem::checkbox('theme.boxed_layout', 'Boxed Layout')
-    			->defaultValue( \Setting::get('theme.boxed_layout', config('admintheme.boxed_layout') ) )
+    			->defaultValue( \SoaUserSetting::get('theme.boxed_layout', config('admintheme.boxed_layout') ) )
     			->help_text('You can\'t use fixed and boxed layouts together.'),
 
     		\FormItem::checkbox('theme.sidebar_mini', 'Minimize Sidebar')
-    			->defaultValue( \Setting::get('theme.sidebar_mini', config('admintheme.sidebar_mini') ) ),
+    			->defaultValue( \SoaUserSetting::get('theme.sidebar_mini', config('admintheme.sidebar_mini') ) ),
 
     		\FormItem::checkbox('theme.toggle_sidebar', 'Toggle Sidebar')
-    			->defaultValue( \Setting::get('theme.toggle_sidebar', config('admintheme.toggle_sidebar') ) )
+    			->defaultValue( \SoaUserSetting::get('theme.toggle_sidebar', config('admintheme.toggle_sidebar') ) )
     			->help_text('Toggle the left sidebar\'s state (open or collapse)'),
 
     		\FormItem::checkbox('theme.sidebar_on_hover', 'Sidebar on Hover')
-    			->defaultValue( \Setting::get('theme.sidebar_on_hover', config('admintheme.sidebar_on_hover') ) )
+    			->defaultValue( \SoaUserSetting::get('theme.sidebar_on_hover', config('admintheme.sidebar_on_hover') ) )
     			->help_text('Let the sidebar mini expand on hover'),
     	
     	];
@@ -257,10 +257,10 @@ class AdminController extends Controller
 
     	foreach( $settings as $key => $value ) 
     	{
-    		\Setting::set($key, $value);
+    		\SoaUserSetting::set($key, $value);
     	}
 
-    	\Setting::save();
+    	\SoaUserSetting::save();
 
     	flash()->success(trans('admin::lang.save.edit'));
     	return redirect()->back();
@@ -279,10 +279,10 @@ class AdminController extends Controller
 
     	foreach( $fields as $key => $value ) 
     	{
-    		\Setting::set($key, $value);
+    		\SoaUserSetting::set($key, $value);
     	}
 
-    	\Setting::save();
+    	\SoaUserSetting::save();
 
     	flash()->success(trans('admin::lang.save.edit'));
     	return redirect()->back();

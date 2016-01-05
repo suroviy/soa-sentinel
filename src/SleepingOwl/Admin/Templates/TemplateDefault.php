@@ -13,13 +13,13 @@ class TemplateDefault implements TemplateInterface
 		AssetManager::addStyle('admin::default/plugins/ionicons/css/ionicons.min.css');
 		AssetManager::addStyle('admin::default/css/base/admin-lte.min.css');
 
-		AssetManager::addStyle('admin::default/css/base/skins/skin-'.\Setting::get('theme.skin', config('admintheme.skin') ).'.min.css');
+		AssetManager::addStyle('admin::default/css/base/skins/skin-'.\SoaUserSetting::get('theme.skin', config('admintheme.skin') ).'.min.css');
 
 
 		AssetManager::addScript(route('admin.lang'));
 		AssetManager::addScript('admin::default/plugins/jQuery/jQuery-2.1.4.min.js');
 		AssetManager::addScript('admin::default/plugins/bootstrap/js/bootstrap.min.js');
-		if( \Setting::get('theme.fixed_layout', config('admintheme.fixed_layout') ) ) {
+		if( \SoaUserSetting::get('theme.fixed_layout', config('admintheme.fixed_layout') ) ) {
 			AssetManager::addScript('admin::default/plugins/jquery-slimscroll/jquery.slimscroll.min.js');
 		}
 		AssetManager::addScript('admin::default/scripts/base/app.min.js');
