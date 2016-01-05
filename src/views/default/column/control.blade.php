@@ -1,7 +1,7 @@
 <td>
 	<div class="text-right pull-right" style="width: 90px;">
 		@if ($editable)
-			<a href="{{ $editUrl }}" class="btn btn-default btn-sm flat" data-toggle="tooltip" title="{{ trans('admin::lang.table.edit') }}"><i class="{!! soa_icon(config('admin.icons.edit')) !!}"></i></a>
+			<a href="{{ $editUrl }}" class="btn btn-default btn-sm flat" data-toggle="tooltip" title="{{ trans('admin::lang.table.edit') }}">{!! soa_icon(config('admin.icons.edit')) !!}</a>
 		@endif
 		@if ($deletable)
 			<form action="{{ $deleteUrl }}" method="POST" style="display:inline-block;">
