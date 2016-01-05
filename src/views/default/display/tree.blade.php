@@ -9,7 +9,7 @@
 
     <div class="box-body">
 
-		<div class="dd nestable" data-url="{{ $url }}/reorder">
+		<div class="dd nestable" data-url="{{ $url }}/reorder" data-max-depth="{{ $maxdepth }}">
 			<ol class="dd-list">
 				@include(AdminTemplate::view('display.tree_children'), ['children' => $items])
 			</ol>

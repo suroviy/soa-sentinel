@@ -4,7 +4,37 @@
 			<div class="dd-handle dd3-handle"></div>
 		@endif
 		<div class="dd3-content" style="margin-top: -3px;">
-			{{{ $entry->$value }}}
+			<?php
+
+			$display = explode('|', $value);
+			$seperators = explode('|', $seperator);
+
+			$itemCount = count($display);
+
+			if ( $itemCount > 1 ) {
+				$count = 0;
+				$result = null;
+				foreach( $display as $item ) {
+					$count++;
+					$result .= $entry->$item;
+					if ($count < $itemCount ) {
+						if ( $result ) {
+							if (array_has($seperators, $count - 1)) {
+								$sep = $seperators[$count - 1];
+							} else {
+								$sep = '-';
+							}
+						}
+
+						$result .= ' ' . $sep . ' ';
+					}
+				}
+			} else {
+				$result = $entry->$value;
+			}
+
+			?>
+			{{ $result }}
 			@foreach ($controls as $control)
 				<?php
 					if ($control instanceof \SleepingOwl\Admin\Interfaces\ColumnInterface)
