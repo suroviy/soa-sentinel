@@ -122,10 +122,10 @@ return [
 
 	/**
 	 * Define here your custom route with permissions, so that we can handle them
-	 * Format: route_name => permission
+	 * Format: route_name => ['permission' => '', 'logout' => false]
 	 * When you leave permission empty, we default using the defaultPermission array in this config
 	 */
 	'custom_routes' => [
-		'admin.dashboard' => ''
+		'admin.dashboard'    => [ 'permission' => '', 'logout' => true ]
 	]
 ];

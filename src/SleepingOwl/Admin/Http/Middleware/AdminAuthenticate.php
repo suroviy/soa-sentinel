@@ -41,14 +41,14 @@ class AdminAuthenticate
 		}
 
 		if( array_key_exists($route_name, $custom_routes ) || $system_route ) {
-			$config_permissions = (!$system_route) ? $custom_routes[$route_name] : null;
+			$config_permissions = (!$system_route) ? $custom_routes[$route_name]['permission'] : null;
 			$check_permissions = (!empty($config_permissions)) ? $config_permissions : config('admin.defaultPermission');
 
 			if (\Sentinel::hasAnyAccess($check_permissions))
 			{
 				return $next($request);
 			}
-			else {
+			elseif ( array_key_exists('logout', $custom_routes[$route_name]) && $custom_routes[$route_name]['logout'] ) {
 				\Sentinel::logout(null, true);
 				return redirect()->guest(route('admin.login'));
 			}
