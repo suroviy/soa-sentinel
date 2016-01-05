@@ -20,7 +20,7 @@
 		},
 		{
 			"name": "Heiko Bihlmaier",
-			"email": "mail@heiko-bihlmaier.com"
+			"email": "octagency@outlook.de"
 		}
 	],
 	"require": {
@@ -30,7 +30,7 @@
 		"cartalyst/sentinel": "2.0.*",
 		"proengsoft/laravel-jsvalidation": "1.2.*",
 		"dimsav/laravel-translatable": "5.4.*",
-		"barryvdh/laravel-elfinder" : "0.3.*",
+		"pseudoagentur/soa-elfinder" : "3.0.0",
 		"laracasts/flash": "1.3.*",
 		"pseudoagentur/user-settings": "3.0.0"
 	},
