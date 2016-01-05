@@ -18,7 +18,7 @@
 			@if( Config::get('admin.language_switcher') )
 			<li class="dropdown tasks tasks-menu">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" alt="Current Language: {{ Config::get('admin.languages')[App::getLocale()] }}" title="Current Language: {{ Config::get('admin.languages')[App::getLocale()] }}">
-					<i class="fa fa-flag-o"></i>
+					{!! soa_icon(config('admin.icons.flag'))  !!}
 				</a>
 
 				<ul class="dropdown-menu">
@@ -45,7 +45,7 @@
 
 			<li class="dropdown user user-menu">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<i class="fa fa-user fa-fw"></i>
+					{!! soa_icon(config('admin.icons.user'))  !!}
 					{{ \Sentinel::check()->first_name ?: 'admin' }} {{ \Sentinel::check()->last_name ?: '' }}
 				</a>
 				<ul class="dropdown-menu">
