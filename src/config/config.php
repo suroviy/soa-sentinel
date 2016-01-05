@@ -87,6 +87,34 @@ return [
 	 */
 	'template'                => 'SleepingOwl\Admin\Templates\TemplateDefault',
 
+	/*
+	 * Prefix for icon font
+	 */
+	'icon_prefix' 	=> 'fa',
+
+	/*
+	 * Icon Font Tag
+	 */
+	'icon_tag' 		=> '<i class="%s"></i>',
+
+	/*
+	 * Used Icon Fonts
+	 */
+	'icons' => [
+		'flag' => 'fa-flag-o',
+		'user' => 'fa-user',
+		'create' => 'fa-plus',
+		'edit' => 'fa-pencil',
+		'delete' => 'fa-times',
+		'restore' => 'fa-reply',
+		'menu_dropdown' => 'fa-angle-left',
+		'goto_filter' => 'fa-arrow-circle-o-right',
+		'datepicker' => 'fa-clock-o',
+		'timepicker' => 'fa-clock-o',
+		'file' => 'fa-file-o',
+		'file_remove' => 'fa-upload',
+		'file_upload' => 'fa-times'
+	],
 
 	/*
 	 * Default date and time formats

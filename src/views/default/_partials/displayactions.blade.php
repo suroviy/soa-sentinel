@@ -5,7 +5,7 @@ if ( !isset ( $show_actions ) ) {
 ?>
 <div class="box-tools">
 	@if ($creatable)
-		<a class="btn btn-primary flat" href="{{ $createUrl }}"><i class="fa fa-plus"></i> {{ trans('admin::lang.table.new-entry') }}</a>
+		<a class="btn btn-primary flat" href="{{ $createUrl }}">{!! soa_icon(config('admin.icons.create'))  !!} {{ trans('admin::lang.table.new-entry') }}</a>
 	@endif
 
 	@if ( $show_actions )

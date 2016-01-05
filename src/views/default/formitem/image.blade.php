@@ -16,8 +16,8 @@
 			</div>
 		</div>
 		<div>
-			<div class="btn btn-primary imageBrowse flat"><i class="fa fa-upload"></i> {{ trans('admin::lang.image.browse') }}</div>
-			<div class="btn btn-danger imageRemove flat"><i class="fa fa-times"></i> {{ trans('admin::lang.image.remove') }}</div>
+			<div class="btn btn-primary imageBrowse flat">{!! soa_icon(config('admin.icons.file_upload')) !!} {{ trans('admin::lang.image.browse') }}</div>
+			<div class="btn btn-danger imageRemove flat">{!! soa_icon(config('admin.icons.file_remove')) !!} {{ trans('admin::lang.image.remove') }}</div>
 		</div>
 		<input name="@if($lang){{ $lang }}{{'_'}}@endif{{$name}}" class="imageValue" type="hidden" value="{{ $value }}">
 		<div class="errors">

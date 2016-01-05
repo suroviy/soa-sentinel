@@ -20,7 +20,7 @@
 			@endforeach
 		</div>
 		<div>
-			<div class="btn btn-primary imageBrowse flat"><i class="fa fa-upload"></i> {{ trans('admin::lang.image.browseMultiple') }}</div>
+			<div class="btn btn-primary imageBrowse flat">{!! soa_icon(config('admin.icons.file_upload')) !!} {{ trans('admin::lang.image.browseMultiple') }}</div>
 		</div>
 		<input name="@if($lang){{ $lang }}{{'_'}}@endif{{$name}}" class="imageValue" type="hidden" value="{{ implode(',', $value) }}">
 		<div class="errors">

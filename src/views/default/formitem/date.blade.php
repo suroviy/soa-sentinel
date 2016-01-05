@@ -11,7 +11,7 @@
 	<div class="datepicker input-group">
 		<input data-date-format="{{ $pickerFormat }}" data-date-pickdate="true" data-date-picktime="false" data-date-useseconds="{{ $seconds ? 'true' : 'false' }}" class="form-control" name="{{ $name }}" type="text" id="{{ $name }}" value="{{ $value }}">
 		<div class="input-group-addon">
-			<span class="fa fa-clock-o"></span>
+			<span class="{!! soa_icon(config('admin.icons.datepicker'), false) !!}"></span>
 		</div>
 	</div>
 	@include(AdminTemplate::view('formitem.help'))
