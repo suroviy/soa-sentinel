@@ -113,7 +113,8 @@ return [
 		'timepicker' => 'fa-clock-o',
 		'file' => 'fa-file-o',
 		'file_remove' => 'fa-upload',
-		'file_upload' => 'fa-times'
+		'file_upload' => 'fa-times',
+		'filter_self' => 'fa-filter'
 	],
 
 	/*
