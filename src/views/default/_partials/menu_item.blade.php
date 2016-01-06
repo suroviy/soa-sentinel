@@ -3,7 +3,7 @@
 	<a href="{{ $url }}" class="@if($isActive) active @endif">
 		<i class="fa fa-fw {{ $icon }}"></i> <span>{!! trans($label) !!}</span>
 		@if (count($items) > 0)
-			<i class="{!! soa_icon(config('admin.icons.menu_dropdown'), false)  !!}} pull-right"></i>
+			<i class="{!! soa_icon(config('admin.icons.menu_dropdown'), false)  !!} pull-right"></i>
 		@endif
 	</a>
 	@if (count($items) > 0)
