@@ -26,17 +26,17 @@ Route::group(['middleware' => ['web']], function () {
 			'uses' => 'AuthController@getLogout',
 		]);
 
-		Route::get('settings', [
+		Route::get('soa_settings', [
 			'as'   => 'admin.settings',
 			'uses' => 'AdminController@getSettings',
 		]);
 
-		Route::get('settings/reset', [
+		Route::get('soa_settings/reset', [
 			'as'   => 'admin.settings.reset',
 			'uses' => 'AdminController@getSettingsReset',
 		]);
 
-		Route::post('settings', [
+		Route::post('soa_settings', [
 			'as'   => 'admin.settings',
 			'uses' => 'AdminController@postSettings',
 		]);
