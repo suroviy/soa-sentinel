@@ -53,6 +53,7 @@ class AdminServiceProvider extends ServiceProvider
         'JsValidator'   => \Proengsoft\JsValidation\Facades\JsValidatorFacade::class,
         'Flash'         => \Laracasts\Flash\Flash::class,
         'SoaUserSetting' 	=> \Grimthorr\LaravelUserSettings\Facade::class,
+        'AssetManager'	=> \SleepingOwl\Admin\AssetManager\AssetManager::class
 	];
 
 	/**
