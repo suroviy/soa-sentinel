@@ -7,7 +7,7 @@ $(function ()
 	});
 
 	$('.nestable').nestable({
-		maxDepth: $(this).data('max-depth')
+		maxDepth: $('.nestable').data('max-depth')
 	}).on('change', function (e) {
 		var url = $(this).data('url');
 		var list = e.length ? e : $(e.target);
