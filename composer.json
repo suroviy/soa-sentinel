@@ -20,18 +20,18 @@
 		},
 		{
 			"name": "Heiko Bihlmaier",
-			"email": "octagency@outlook.de"
+			"email": "hello@octagency.de"
 		}
 	],
 	"require": {
 		"php": ">=5.4.0",
 		"illuminate/support": "5.*",
 		"doctrine/dbal": "~2.3",
-		"cartalyst/sentinel": "2.0.*",
-		"proengsoft/laravel-jsvalidation": "1.2.*",
+		"cartalyst/sentinel": "2.0.*",				
 		"dimsav/laravel-translatable": "5.4.*",
-		"pseudoagentur/soa-elfinder" : "3.0.0",
-		"laracasts/flash": "1.3.*",
+		"pseudoagentur/soa-flash": "3.0.0",
+		"pseudoagentur/soa-jsvalidation": "3.0.0",
+		"pseudoagentur/soa-elfinder" : "3.0.0",		
 		"pseudoagentur/user-settings": "3.0.0"
 	},
 	"require-dev": {
