@@ -15,7 +15,8 @@ class AdminServiceProvider extends ServiceProvider
 		\Barryvdh\Elfinder\ElfinderServiceProvider::class,
 		\Proengsoft\JsValidation\JsValidationServiceProvider::class,
 		\Laracasts\Flash\FlashServiceProvider::class,
-		\Grimthorr\LaravelUserSettings\ServiceProvider::class
+		\Grimthorr\LaravelUserSettings\ServiceProvider::class,
+		\Dimsav\Translatable\TranslatableServiceProvider::class,
 	];
 
 	/**

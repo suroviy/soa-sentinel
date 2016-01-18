@@ -9,9 +9,15 @@ class Permissions  extends NamedFormItem
 {
 
 	protected $view 				= 'permissions';
-	protected $model				= 'SleepingOwl\Admin\Model\Permission';
+	protected $model				= null;
 	protected $withInherited		= false;
 	protected $groupedPermissions	= false;
+
+	public function initialize()
+	{
+		parent::initialize();
+		$this->model = config('admin.models.permission');
+	}
 
 	public function value() 
 	{

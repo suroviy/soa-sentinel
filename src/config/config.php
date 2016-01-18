@@ -27,6 +27,13 @@ return [
 	],
 
 	/*
+	 * Models
+	 */
+	'models' => [
+		'permission' => 'SleepingOwl\Admin\Model\Permission'
+	],
+
+	/*
 	 * Path to admin bootstrap files directory
 	 * Default: app_path('Admin')
 	 */
