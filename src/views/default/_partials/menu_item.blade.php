@@ -1,7 +1,7 @@
 @if( Sentinel::hasAnyAccess($permission) )
 <li class="{!! (count($items) > 0) ? 'treeview' : '' !!} @if($isActive) active @endif">
 	<a href="{{ $url }}" class="@if($isActive) active @endif">
-		<i class="fa fa-fw {{ $icon }}"></i> <span>{!! trans($label) !!}</span>
+		@if ( !empty($icon) )<i class="fa fa-fw {{ $icon }}"></i>@endif <span>{!! trans($label) !!} </span>
 		@if (count($items) > 0)
 			<i class="{!! soa_icon(config('admin.icons.menu_dropdown'), false)  !!} pull-right"></i>
 		@endif
