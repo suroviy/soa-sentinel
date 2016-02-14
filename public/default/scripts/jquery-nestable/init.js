@@ -14,5 +14,4 @@ $(function ()
 		var data = list.nestable('serialize');
 		$.post(url, {data : data});
 	});
-	$('.nestable').nestable('collapseAll');
 });
