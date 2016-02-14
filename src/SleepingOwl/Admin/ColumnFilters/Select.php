@@ -12,8 +12,7 @@ class Select extends BaseColumnFilter
 	protected $display = 'title';
 	protected $options = [];
 	protected $placeholder;
-    	protected $filter_field = '';
-	protected $sort = true;
+    protected $filter_field = '';
 
 	/**
 	 * Initialize column filter
@@ -63,11 +62,7 @@ class Select extends BaseColumnFilter
 				$this->loadOptions();
 			}
 			$options = $this->options;
-			
-			if( $this->sort() ) {
-				asort($options);
-			}
-			
+			asort($options);
 			return $options;
 		}
 		$this->options = $options;
@@ -136,15 +131,5 @@ class Select extends BaseColumnFilter
 			});
 		}
 	}
-	
-	protected function sort() {
- 		return $this->sort;
- 	}
- 
- 	public function disableSort()
- 	{
- 		$this->sort = false;
- 		return $this;
- 	}
 
 }
