@@ -192,7 +192,11 @@ class DisplayTab implements Renderable, DisplayInterface, FormInterface
 	 */
 	function __toString()
 	{
-		return (string) $this->render();
+		try {
+			return (string)$this->render();
+		} catch( \Exception $e ) {
+			dd($e);
+		}
 	}
 
 }

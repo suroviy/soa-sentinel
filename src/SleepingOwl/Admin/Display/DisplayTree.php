@@ -2,6 +2,7 @@
 
 use AdminTemplate;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\Request;
 use Input;
 use Route;
 use SleepingOwl\Admin\Admin;
@@ -22,9 +23,11 @@ class DisplayTree implements Renderable, DisplayInterface, WithRoutesInterface
 	protected $value = 'title';
 	protected $parentField = 'parent_id';
 	protected $orderField = 'order';
+	protected $maxDepth = 5;
 	protected $rootParentId = null;
 	protected $apply;
 	protected $scopes;
+	protected $seperator = '-';
 
 	public function __construct($class=null) {
 		if ( !is_null ( $class ) ) {
@@ -109,8 +112,10 @@ class DisplayTree implements Renderable, DisplayInterface, WithRoutesInterface
 			'url'         => Admin::model($this->class)->displayUrl(),
 			'value'       => $this->value(),
 			'creatable'   => ! is_null($this->model()->create()),
-			'createUrl'   => $this->model()->createUrl($this->parameters() + Input::all()),
+			'createUrl'   => $this->model()->createUrl($this->parameters() + \Request::all()),
 			'controls'    => [Column::treeControl()],
+			'seperator'   => $this->seperator(),
+			'maxdepth'    => $this->maxdepth(),
 		];
 		return view(AdminTemplate::view('display.tree'), $params);
 	}
@@ -124,7 +129,7 @@ class DisplayTree implements Renderable, DisplayInterface, WithRoutesInterface
 	{
 		Route::post('{adminModel}/reorder', function ($model)
 		{
-			$data = Input::get('data');
+			$data = \Request::input('data');
 			$model->display()->repository()->reorder($data);
 		});
 	}
@@ -186,6 +191,27 @@ class DisplayTree implements Renderable, DisplayInterface, WithRoutesInterface
 			return $this->scopes;
 		}
 		$this->scopes[] = func_get_args();
+		return $this;
+	}
+
+	public function seperator($seperator = null)
+	{
+		if (is_null($seperator))
+		{
+			return $this->seperator;
+		}
+
+		$this->seperator = $seperator;
+		return $this;
+	}
+
+	public function maxdepth($maxDepth = null)
+	{
+		if (is_null($maxDepth)) {
+			return $this->maxDepth;
+		}
+		$this->maxDepth = $maxDepth;
+
 		return $this;
 	}
 

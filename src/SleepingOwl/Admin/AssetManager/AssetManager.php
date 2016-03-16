@@ -15,12 +15,24 @@ class AssetManager
 	protected static $scripts = [];
 
 	/**
+	 * Registered custom styles
+	 * @var string[]
+	 */
+	protected static $customstyles = [];
+	/**
+	 * Registered  custom scripts
+	 * @var string[]
+	 */
+	protected static $customscripts = [];
+
+	/**
 	 * Return all registered styles
 	 * @return string[]
 	 */
 	public static function styles()
 	{
-		return static::assets(static::$styles);
+		$styles = array_merge(static::$styles, static::$customstyles);
+		return static::assets($styles);
 	}
 
 	/**
@@ -33,12 +45,22 @@ class AssetManager
 	}
 
 	/**
+	 * Register style
+	 * @param $style
+	 */
+	public static function customStyle($style)
+	{
+		static::$customstyles[] = $style;
+	}
+
+	/**
 	 * Get all registered scripts
 	 * @return string[]
 	 */
 	public static function scripts()
 	{
-		return static::assets(static::$scripts);
+		$scripts = array_merge(static::$scripts, static::$customscripts);
+		return static::assets($scripts);
 	}
 
 	/**
@@ -48,6 +70,15 @@ class AssetManager
 	public static function addScript($script)
 	{
 		static::$scripts[] = $script;
+	}
+
+	/**
+	 * Register script
+	 * @param $script
+	 */
+	public static function customScript($script)
+	{
+		static::$customscripts[] = $script;
 	}
 
 	/**

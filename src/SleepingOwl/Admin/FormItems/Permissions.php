@@ -1,23 +1,45 @@
 <?php namespace SleepingOwl\Admin\FormItems;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use SleepingOwl\Admin\Model\Permission as PermissionModel;
 use SleepingOwl\Admin\AssetManager\AssetManager;
 use SleepingOwl\Admin\Repository\BaseRepository;
 
 class Permissions  extends NamedFormItem
 {
 
-	protected $view 			= 'permissions';
-	protected $withInherited	= false;
+	protected $view 				= 'permissions';
+	protected $model				= null;
+	protected $withInherited		= false;
+	protected $groupedPermissions	= false;
 
-	public function value() {
+	public function initialize()
+	{
+		parent::initialize();
+		$this->model = config('admin.models.permission');
+	}
+
+	public function value() 
+	{
 		$value = parent::value();
 		return array_keys($value);
 	}
 
-	public function getAllPermissions() {
-		return PermissionModel::orderBy('value')->get();
+	public function getAllPermissions() 
+	{
+		$repository = new BaseRepository($this->model());
+		$model = $repository->query();		
+		
+		if( $this->groupedPermissions() ) 
+		{
+			$collection = $repository->model()->all()->groupBy(function ($item, $key) {
+		    	return ( empty($item['group_name']) ) ? 'admin::lang.permission.without_group' : $item['group_name'];
+			});
+		} else {
+			$collection = $repository->model()->all();
+		}
+		
+		return $collection;
 	}
 
 	public function inherited()
@@ -26,18 +48,41 @@ class Permissions  extends NamedFormItem
 		return $this;
 	}
 
-	public function withInherited() {
+	public function model($model = null)
+	{
+		if (is_null($model))
+		{
+			return $this->model;
+		}
+		$this->model = $model;
+		return $this;
+	}
+
+	public function grouped() 
+	{
+		$this->groupedPermissions 	= true;
+		$this->view 				= 'permissions_tab';
+		return $this;
+	}
+
+	public function groupedPermissions()
+	{
+		return $this->groupedPermissions;
+	}
+
+	public function withInherited() 
+	{
 		return $this->withInherited;
 	}
 
 	public function getParams()
 	{
 		return parent::getParams() + [
-			'fieldname'			=> $this->name(),
-			'permissions'		=> $this->instance()->permissions,
-			'all_permissions'	=> $this->getAllPermissions(),
-			'withInherited'		=> $this->withInherited()
-
+			'fieldname'					=> $this->name(),
+			'permissions'				=> $this->instance()->permissions,
+			'all_permissions'			=> $this->getAllPermissions(),
+			'withInherited'				=> $this->withInherited(),
+			'groupedPermissions'		=> $this->groupedPermissions()
 		];
 	}
 
@@ -46,9 +91,10 @@ class Permissions  extends NamedFormItem
 		$name = $this->name();
 
 		//fetch the selected permissions from the temporary form field
-		$input = \Input::all();
+		$input = \Request::all();
 
 		$selected_permissions = array_get($input, $name);
+		
 		if( $selected_permissions === null ) {
 			$selected_permissions = [];
 		}

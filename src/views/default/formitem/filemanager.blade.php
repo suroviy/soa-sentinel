@@ -16,10 +16,10 @@
 		</div>
 		<div>
 			<div class="btn btn-primary popupBrowse flat" data-inputid="{{ $name }}">
-				<i class="fa fa-folder-open"></i> {{ trans('admin::lang.image.browse') }}
+				{!! soa_icon(config('admin.icons.file')) !!} {{ trans('admin::lang.image.browse') }}
 			</div>
 			<div class="btn btn-warning popupRemove flat" data-inputid="{{ $name }}">
-				<i class="fa fa-times"></i> {{ trans('admin::lang.image.clear') }}
+				{!! soa_icon(config('admin.icons.file_remove')) !!} {{ trans('admin::lang.image.clear') }}
 			</div>
 		</div>
 		<input name="{{ $name }}" id="{{ $name }}" type="hidden" value="{{ $value }}">

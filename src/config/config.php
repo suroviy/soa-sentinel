@@ -27,6 +27,13 @@ return [
 	],
 
 	/*
+	 * Models
+	 */
+	'models' => [
+		'permission' => 'SleepingOwl\Admin\Model\Permission'
+	],
+
+	/*
 	 * Path to admin bootstrap files directory
 	 * Default: app_path('Admin')
 	 */
@@ -87,6 +94,35 @@ return [
 	 */
 	'template'                => 'SleepingOwl\Admin\Templates\TemplateDefault',
 
+	/*
+	 * Prefix for icon font
+	 */
+	'icon_prefix' 	=> 'fa',
+
+	/*
+	 * Icon Font Tag
+	 */
+	'icon_tag' 		=> '<i class="%s"></i>',
+
+	/*
+	 * Used Icon Fonts
+	 */
+	'icons' => [
+		'flag' => 'fa-flag-o',
+		'user' => 'fa-user',
+		'create' => 'fa-plus',
+		'edit' => 'fa-pencil',
+		'delete' => 'fa-times',
+		'restore' => 'fa-reply',
+		'menu_dropdown' => 'fa-angle-left',
+		'goto_filter' => 'fa-arrow-circle-o-right',
+		'datepicker' => 'fa-clock-o',
+		'timepicker' => 'fa-clock-o',
+		'file' => 'fa-file-o',
+		'file_remove' => 'fa-upload',
+		'file_upload' => 'fa-times',
+		'filter_self' => 'fa-filter'
+	],
 
 	/*
 	 * Default date and time formats
@@ -122,10 +158,10 @@ return [
 
 	/**
 	 * Define here your custom route with permissions, so that we can handle them
-	 * Format: route_name => permission
+	 * Format: route_name => ['permission' => '', 'logout' => false]
 	 * When you leave permission empty, we default using the defaultPermission array in this config
 	 */
 	'custom_routes' => [
-		'admin.dashboard' => ''
+		'admin.dashboard'    => [ 'permission' => '', 'logout' => true ]
 	]
 ];

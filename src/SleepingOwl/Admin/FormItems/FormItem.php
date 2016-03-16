@@ -35,6 +35,8 @@ use SleepingOwl\Admin\Base\AliasBinder;
  * @method static \SleepingOwl\Admin\FormItems\TinyMCE tinymce($name, $label = null)
  * @method static \SleepingOwl\Admin\FormItems\View view($name, $label = null)
  * @method static \SleepingOwl\Admin\FormItems\ICheckbox icheckbox($name, $label = null)
+ * @method static \SleepingOwl\Admin\FormItems\SwitchCheckbox switchcheckbox($name, $label = null)
+ * @method static \SleepingOwl\Admin\FormItems\SwitchRadio switchradio($name, $label = null)
  * @method static \SleepingOwl\Admin\FormItems\IRadio iradio($name, $label = null)
  * @method static \SleepingOwl\Admin\FormItems\typeahead typeahead($name, $label = null)
  */

@@ -3,6 +3,7 @@
 use Input;
 use Response;
 use Route;
+use Illuminate\Http\Request;
 use SleepingOwl\Admin\AssetManager\AssetManager;
 use SleepingOwl\Admin\Interfaces\WithRoutesInterface;
 use Validator;
@@ -46,13 +47,13 @@ class Image extends NamedFormItem implements WithRoutesInterface
 			'as' => 'admin.upload.' . static::$route,
 			function ()
 			{
-				$validator = Validator::make(Input::all(), static::uploadValidationRules());
+				$validator = Validator::make(\Request::all(), static::uploadValidationRules());
 				if ($validator->fails())
 				{
 					return Response::make($validator->errors()->get('file'), 400);
 				}
-				$file = Input::file('file');
-				$upload_path = config('admin.filemanagerDirectory') . Input::get('path');
+				$file = \Request::file('file');
+				$upload_path = config('admin.filemanagerDirectory') . \Request::input('path');
 
 				$orginalFilename = str_slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
 				$filename = $orginalFilename . '.' . $file->getClientOriginalExtension();
@@ -63,7 +64,7 @@ class Image extends NamedFormItem implements WithRoutesInterface
 					\File::makeDirectory($fullpath , 0755, true);
 				}
 
-				if ( $oldFilename = Input::get('filename') ) {
+				if ( $oldFilename = \Request::input('filename') ) {
 					\File::delete($oldFilename);
 				}
 
@@ -86,7 +87,7 @@ class Image extends NamedFormItem implements WithRoutesInterface
 			'as' => 'admin.upload.delete.' . static::$route,
 			function ()
 			{
-				if ( $filename = Input::get('filename') ) {
+				if ( $filename = \Request::input('filename') ) {
 					\File::delete($filename);
 					return "Success";
 				}

@@ -89,12 +89,22 @@ return [
 		]
 	],
 	'permission' => [
-		'denied' => 'Keine Berechtigung'
+		'denied' 	=> 'Keine Berechtigung',
+		'backend'	=> 'Backend',
+		'without_group'	=> 'Ohne Gruppe',
+		'headline'	=> [
+			'permission' 	=> 'Berechtigung',
+			'allowed'		=> 'Erlauben',
+			'denied'		=> 'Verbieten',
+			'inherited'		=> 'Vererben'
+		]
 	],
 	'save' => [
 		'edit' => 'Der Datensatz wurde erfolgreich bearbeitet.',
 		'create' => 'Der Datensatz wurde erfolgreich erstellt.',
 		'destroy' => 'Der Datensatz wurde erfolgreich gelöscht.',
 		'restore' => 'Der Datensatz wurde erfolgreich wiederhergestellt.'
-	]
+	],
+
+	'settings'		=> 'Benutzereinstellungen'
 ];

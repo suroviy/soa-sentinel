@@ -1,25 +1,60 @@
 <?php namespace SleepingOwl\Admin;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Session;
 
 class AdminServiceProvider extends ServiceProvider
 {
 
 	/**
+	 * Define Service Providers from our dependencies
+	 */ 
+	protected $parent_providers = [
+		\Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
+		\Barryvdh\Elfinder\ElfinderServiceProvider::class,
+		\Proengsoft\JsValidation\JsValidationServiceProvider::class,
+		\Laracasts\Flash\FlashServiceProvider::class,
+		\Grimthorr\LaravelUserSettings\ServiceProvider::class,
+		\Dimsav\Translatable\TranslatableServiceProvider::class,
+	];
+
+	/**
 	 * Providers to register
 	 */
 	protected $providers = [
-		'SleepingOwl\Admin\Providers\DisplayServiceProvider',
-		'SleepingOwl\Admin\Providers\ColumnServiceProvider',
-		'SleepingOwl\Admin\Providers\ColumnFilterServiceProvider',
-		'SleepingOwl\Admin\Providers\FormServiceProvider',
-		'SleepingOwl\Admin\Providers\FormItemServiceProvider',
-		'SleepingOwl\Admin\Providers\FilterServiceProvider',
-		'SleepingOwl\Admin\Providers\BootstrapServiceProvider',
-		'SleepingOwl\Admin\Providers\RouteServiceProvider',
-		'SleepingOwl\Admin\Providers\EventServiceProvider',
+		\SleepingOwl\Admin\Providers\DisplayServiceProvider::class,
+		\SleepingOwl\Admin\Providers\ColumnServiceProvider::class,
+		\SleepingOwl\Admin\Providers\ColumnFilterServiceProvider::class,
+		\SleepingOwl\Admin\Providers\FormServiceProvider::class,
+		\SleepingOwl\Admin\Providers\FormItemServiceProvider::class,
+		\SleepingOwl\Admin\Providers\FilterServiceProvider::class,
+		\SleepingOwl\Admin\Providers\BootstrapServiceProvider::class,
+		\SleepingOwl\Admin\Providers\RouteServiceProvider::class,
+		\SleepingOwl\Admin\Providers\EventServiceProvider::class,
+	];
 
+	/**
+	 * Define aliases to register
+	 */
+	protected $aliases = [
+		'Activation'    => \Cartalyst\Sentinel\Laravel\Facades\Activation::class,
+        'Reminder'      => \Cartalyst\Sentinel\Laravel\Facades\Reminder::class,
+        'Sentinel'      => \Cartalyst\Sentinel\Laravel\Facades\Sentinel::class,
+
+        'Admin'         => \SleepingOwl\Admin\Admin::class,
+        'Column'        => \SleepingOwl\Admin\Columns\Column::class,
+        'ColumnFilter'  => \SleepingOwl\Admin\ColumnFilters\ColumnFilter::class,
+        'Filter'        => \SleepingOwl\Admin\Filter\Filter::class,
+        'AdminDisplay'  => \SleepingOwl\Admin\Display\AdminDisplay::class,
+        'AdminForm'     => \SleepingOwl\Admin\Form\AdminForm::class,
+        'AdminTemplate' => \SleepingOwl\Admin\Templates\Facade\AdminTemplate::class,
+        'FormItem'      => \SleepingOwl\Admin\FormItems\FormItem::class,
+
+        'JsValidator'   => \Proengsoft\JsValidation\Facades\JsValidatorFacade::class,
+        'Flash'         => \Laracasts\Flash\Flash::class,
+        'SoaUserSetting' 	=> \Grimthorr\LaravelUserSettings\Facade::class,
+        'AssetManager'	=> \SleepingOwl\Admin\AssetManager\AssetManager::class
 	];
 
 	/**
@@ -31,16 +66,18 @@ class AdminServiceProvider extends ServiceProvider
 	];
 
 	/**
-	 *
+	 * Register Function
 	 */
 	public function register()
 	{
+		$this->registerParentProviders();
+		$this->registerAliases();
 		$this->updateFilebrowserConfig();
 		$this->registerCommands();
 	}
 
 	/**
-	 *
+	 * Boot Function
 	 */
 	public function boot()
 	{
@@ -71,17 +108,25 @@ class AdminServiceProvider extends ServiceProvider
 		//like the applocale which will be used to set the app language correctly
 		app('SleepingOwl\Admin\Helpers\StartSession')->run();
 
-		if (\Config::get('admin.language_switcher') && \Session::has('applocale') && array_key_exists(\Session::get('applocale'), \Config::get('admin.languages'))) {
-            \App::setLocale(\Session::get('applocale'));
-        }
-        else { // This is optional as Laravel will automatically set the fallback language if there is none specified
-            \App::setLocale(\Config::get('app.fallback_locale'));
-        }
+		if( \Config::get('admin.language_switcher') ) 
+		{
+			if ( \Session::has('applocale') && array_key_exists(\Session::get('applocale'), \Config::get('admin.languages'))) {
+	            \App::setLocale(\Session::get('applocale'));
+	        } else {
+	            \App::setLocale(\Config::get('app.fallback_locale'));
+	        }
+    	} else {
+    		\App::setLocale(\Config::get('app.locale'));
+    	}
 
-		Admin::instance();
+
 		$this->registerTemplate();
 		$this->registerProviders();
+		$this->registerAliases();
 		$this->initializeTemplate();
+
+		Admin::instance();
+
 	}
 
 	/**
@@ -116,12 +161,35 @@ class AdminServiceProvider extends ServiceProvider
 	 */
 	protected function registerProviders()
 	{
+
 		foreach ($this->providers as $providerClass)
 		{
 			$provider = app($providerClass, [app()]);
 			$provider->register();
 		}
 	}
+
+	/** 
+	 * Register Dependency Providers
+	 */
+	protected function registerParentProviders()
+	{
+		foreach ($this->parent_providers as $parentProviderClass)
+		{
+			$this->app->register($parentProviderClass);
+		}
+	}
+
+	/**
+     * Register the aliases from this module.
+     */
+    protected function registerAliases()
+    {
+        $loader = AliasLoader::getInstance();
+        foreach ($this->aliases as $aliasName => $aliasClass) {
+            $loader->alias($aliasName, $aliasClass);
+        }
+    }
 
 	/**
 	 * Register commands

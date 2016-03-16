@@ -46,12 +46,12 @@ class MenuItem implements Renderable
 	 * @var int
 	 */
 	protected $level;
-
 	/**
 	 * Menu item permission
 	 * @var boolean
 	 */
 	protected $permission;
+
 
 	/**
 	 * @param string|null $modelClass
@@ -121,6 +121,7 @@ class MenuItem implements Renderable
 			return $this->subItems;
 		}
 		$old = static::$current;
+
 		static::$current = $this;
 		call_user_func($callback);
 		static::$current = $old;
@@ -235,22 +236,66 @@ class MenuItem implements Renderable
 	public function render()
 	{
 		$params = [
-			'icon'  => $this->icon(),
-			'label' => $this->label(),
-			'url'   => $this->url(),
-			'level' => $this->level(),
-			'items' => $this->items(),
-			'permission' => $this->permission()
+			'icon'  		=> $this->icon(),
+			'label' 		=> $this->label(),
+			'url'   		=> $this->url(),
+			'level' 		=> $this->level(),
+			'items' 		=> $this->items(),
+			'permission' 	=> $this->permission(),
+			'alias'			=> $this->alias(),
+			'isActive'		=> $this->getActiveState(),
+			'hasChildren'	=> $this->hasChildren(),
 		];
 
 		return view(AdminTemplate::view('_partials.menu_item'), $params);
 	}
 
 	/**
+	 * 
+	 */ 
+	public function hasChildren() {
+		return ( count($this->items()) > 0 );
+	}
+
+	/**
+	 * 
+	 */ 
+	public function alias()
+	{
+		return $this->getModelItem()->alias();
+	}
+
+	/**
+	 * 
+	 */ 
+	public function getActiveState() 
+	{
+
+		$link = false;
+
+		if( $this->hasChildren() ) 
+		{
+			foreach ($this->items() as $key => $value) {
+				if( $value->getActiveState() ) {
+					$link = true;
+				}
+			}
+		} else {
+			if( !empty($this->alias() ) ) {
+				$link = ( \Request::is(config('admin.prefix').'/'.$this->alias() ) || \Request::is(config('admin.prefix').'/'.$this->alias().'/*') );	
+			} else {
+				$link = ( url()->full() == $this->url() );
+			}
+		}
+		
+		return $link;
+	}
+
+	/**
 	 * @return string
 	 */
 	function __toString()
-	{
+	{	
 		return (string)$this->render();	
 	}
 

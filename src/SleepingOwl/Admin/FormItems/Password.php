@@ -20,10 +20,10 @@ class Password extends NamedFormItem
 	public function save()
 	{
 		$name = $this->name();
-		if ( \Input::has($name))
+		if ( \Request::has($name))
 		{
 			if( $this->useSentinel() ) {
-				\Input::merge(array($name => password_hash($this->value(), PASSWORD_BCRYPT)));
+				\Request::merge(array($name => password_hash($this->value(), PASSWORD_BCRYPT)));
 				parent::save();		
 			} else {
 				parent::save();

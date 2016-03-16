@@ -3,6 +3,7 @@
 use AdminTemplate;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
 use Input;
 use SleepingOwl\Admin\Admin;
 use SleepingOwl\Admin\AssetManager\AssetManager;
@@ -296,7 +297,7 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 			return null;
 		}
 
-		$data = Input::all();
+		$data = \Request::all();
 		$verifier = app('validation.presence');
 		$verifier->setConnection($this->instance()->getConnectionName());
 		$validator = Validator::make($data, $this->build_validation_rules(), [], $this->build_validation_messages());
@@ -357,6 +358,7 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 			$names = [];
 			$items = $this->items();
 			array_walk_recursive($items, function ($item) use (&$names) {
+
 				if ($item instanceof FormItemInterface && !$item->custom() ) {
 					if ( $item instanceof Columns ) {
 
@@ -364,7 +366,7 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 						{
 							foreach ($columnItems as $columnItem)
 							{
-								if ($columnItem instanceof FormItemInterface)
+								if ($columnItem instanceof FormItemInterface && !$columnItem->custom() )
 								{
 									$names = array_add($names, $columnItem->path(), $columnItem->label());
 								}

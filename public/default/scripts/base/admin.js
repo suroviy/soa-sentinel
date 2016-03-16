@@ -1,6 +1,7 @@
 $(function ()
 {
 	// select active link in menu
+	/*
 	(function ()
 	{
 		var currentPage = window.location.href;
@@ -15,6 +16,7 @@ $(function ()
 		}
 		currentPageLink.addClass('active').parents('li').addClass('active').end().parents('ul').addClass('collapse').addClass('in');
 	})();
+	*/
 
 	// create tooltips
 	(function ()

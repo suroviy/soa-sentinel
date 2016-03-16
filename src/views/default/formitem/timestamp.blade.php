@@ -10,7 +10,7 @@
     @endif
 	<div class="datepicker input-group">
 		<input data-date-format="{{ $pickerFormat }}" data-date-useseconds="{{ $seconds ? 'true' : 'false' }}" class="form-control" name="@if($lang){{ $lang }}{{'_'}}@endif{{$name}}" type="text" id="@if($lang){{ $lang }}{{'_'}}@endif{{$name}}" value="{{ $value }}">
-		<div class="input-group-addon"><span class="fa fa-clock-o"></span></div>
+		<div class="input-group-addon"><span class="{!! soa_icon(config('admin.icons.timepicker'), false) !!}"></span></div>
 	</div>
 	@include(AdminTemplate::view('formitem.help'))
 	@include(AdminTemplate::view('formitem.errors'))

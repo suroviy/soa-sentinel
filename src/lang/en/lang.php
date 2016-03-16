@@ -89,13 +89,23 @@ return [
 		]
 	],
 	'permission' => [
-		'denied' => 'Permission denied'
+		'denied' 	=> 'Permission denied',
+		'backend'	=> 'Backend',
+		'without_group'	=> 'Without group',
+		'headline'	=> [
+			'permission' 	=> 'Permission',
+			'allowed'		=> 'Allow',
+			'denied'		=> 'Denied',
+			'inherited'		=> 'Inherited'
+		]
+
 	],
 	'save' => [
 		'edit' => 'Entry was successfully saved.',
 		'create' => 'Entry was successfully created.',
 		'destroy' => 'Entry was successfully deleted.',
 		'restore' => 'Entry was successfully restored.'
-	]
+	],
+	'settings'		=> 'User Settings'
 
 ];

@@ -1,6 +1,7 @@
 <?php namespace SleepingOwl\Admin\FormItems;
 
 use Input;
+use Illuminate\Http\Request;
 
 abstract class NamedFormItem extends BaseFormItem
 {
@@ -151,7 +152,7 @@ abstract class NamedFormItem extends BaseFormItem
 		{
 			return $value;
 		}
-		$input = Input::all();
+		$input = \Request::all();
 		if (($value = array_get($input, $this->path())) !== null)
 		{
 			return $value;
@@ -175,7 +176,7 @@ abstract class NamedFormItem extends BaseFormItem
 		$attribute = $this->attribute();
 
 		if ( $this->storable() ) {
-			if (Input::get($this->path()) === null) {
+			if (\Request::input($this->path()) === null) {
 				$value = null;
 			} else {
 				$value = $this->value();

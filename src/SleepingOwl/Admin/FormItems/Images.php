@@ -1,6 +1,7 @@
 <?php namespace SleepingOwl\Admin\FormItems;
 
 use Input;
+use Illuminate\Http\Request;
 use SleepingOwl\Admin\AssetManager\AssetManager;
 
 class Images extends Image
@@ -20,7 +21,7 @@ class Images extends Image
 	public function save()
 	{
 		$name = $this->name();
-		$value = Input::get($name, '');
+		$value = \Request::input($name, '');
 		if ( ! empty($value))
 		{
 			$value = explode(',', $value);
@@ -28,7 +29,7 @@ class Images extends Image
 		{
 			$value = [];
 		}
-		Input::merge([$name => $value]);
+		\Request::merge([$name => $value]);
 		parent::save();
 	}
 

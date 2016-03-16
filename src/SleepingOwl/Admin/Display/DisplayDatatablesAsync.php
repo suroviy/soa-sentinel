@@ -4,10 +4,11 @@ use AdminTemplate;
 use Carbon\Carbon;
 use Input;
 use Route;
+use Illuminate\Http\Request;
 use SleepingOwl\Admin\ColumnFilters\Date;
 use SleepingOwl\Admin\Columns\Column\DateTime;
 use SleepingOwl\Admin\Columns\Column\NamedColumn;
-use SleepingOwl\Admin\Columns\Column\String;
+use SleepingOwl\Admin\Columns\Column\ColumnString;
 use SleepingOwl\Admin\Interfaces\WithRoutesInterface;
 
 class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInterface
@@ -77,7 +78,7 @@ class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInte
 	public function render()
 	{
 		$params = $this->getParams();
-		$attributes = Input::all();
+		$attributes = \Request::all();
 		array_unshift($attributes, $this->name());
 		array_unshift($attributes, $this->model()->alias());
 		$params['url'] = route('admin.model.async', $attributes);
@@ -119,8 +120,8 @@ class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInte
 	 */
 	protected function applyOffset($query)
 	{
-		$offset = Input::get('start', 0);
-		$limit = Input::get('length', 10);
+		$offset = \Request::input('start', 0);
+		$limit = \Request::input('length', 10);
 		if ($limit == -1)
 		{
 			return;
@@ -134,7 +135,7 @@ class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInte
 	 */
 	protected function applyOrders($query)
 	{
-		$orders = Input::get('order', []);
+		$orders = \Request::input('order', []);
 		foreach ($orders as $order)
 		{
 			$columnIndex = $order['column'];
@@ -154,13 +155,13 @@ class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInte
 	 */
 	protected function applySearch($query)
 	{
-		$search = Input::get('search.value');
+		$search = \Request::input('search.value');
 		if (is_null($search))
 		{
 			return;
 		}
 
-		$dtColumns = Input::get('columns', []);
+		$dtColumns = \Request::input('columns', []);
 
 		$query->where(function ($query) use ($search, $dtColumns)
 		{
@@ -168,7 +169,7 @@ class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInte
 			$columns = $this->columns();
 			foreach ($columns as $key => $column)
 			{
-				if ($column instanceof String)
+				if ($column instanceof ColumnString)
 				{
 					$searchable = array_get($dtColumns[$key], 'searchable');	
 					$name 		= $column->name();
@@ -186,7 +187,7 @@ class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInte
 
 	protected function applyColumnSearch($query)
 	{
-		$queryColumns = Input::get('columns', []);
+		$queryColumns = \Request::input('columns', []);
 		foreach ($queryColumns as $index => $queryColumn)
 		{
 			$search = array_get($queryColumn, 'search.value');
@@ -214,7 +215,7 @@ class DisplayDatatablesAsync extends DisplayDatatables implements WithRoutesInte
 		$columns = $this->allColumns();
 
 		$result = [];
-		$result['draw'] = Input::get('draw', 0);
+		$result['draw'] = \Request::input('draw', 0);
 		$result['recordsTotal'] = $totalCount;
 		$result['recordsFiltered'] = $filteredCount;
 		$result['data'] = [];
