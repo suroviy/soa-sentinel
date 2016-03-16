@@ -41,7 +41,7 @@ abstract class NamedFormItem extends BaseFormItem
 			}
 		}
 		$this->path = $path;
-		return $path;
+		return $this;
 	}
 
 	public function attribute($attribute = null)
@@ -55,7 +55,7 @@ abstract class NamedFormItem extends BaseFormItem
 			//}
 		}
 		$this->attribute = $attribute;
-		return $attribute;
+		return $this;
 	}
 
 	public function name($name = null)
