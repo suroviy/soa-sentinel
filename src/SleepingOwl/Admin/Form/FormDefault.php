@@ -60,6 +60,13 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 	 */
 	protected $initialized = false;
 
+	/**
+	 * Use Eloquent's push method instead of save. 
+	 * This will enable relationship saving. 
+	 * @var boolean
+	 */
+	protected $usePush = false;
+
 	protected $horizontal = false;
 	protected $label_size = "col-sm-2";
 	protected $field_size = "col-sm-10";
@@ -166,6 +173,17 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 			return $this->storable;
 		}
 		$this->storable = $storable;
+		return $this;
+	}
+
+	public function usePush($usePush = null) 
+	{
+		if (is_null($usePush))
+		{
+			return $this->usePush;
+		}
+
+		$this->usePush = $usePush;
 		return $this;
 	}
 
@@ -282,7 +300,15 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 				$item->save();
 			}
 		});
-		$this->instance()->save();
+
+		if ($this->usePush) 
+		{
+			$this->instance()->push();
+		}
+		else 
+		{
+			$this->instance()->save();
+		}		
 	}
 
 	/**
