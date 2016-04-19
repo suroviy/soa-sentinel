@@ -50,6 +50,15 @@ class Columns extends BaseFormItem
 		});
 	}
 
+	public function saved()
+	{
+		parent::saved();
+		$this->all(function ($item)
+		{
+			$item->saved();
+		});
+	}
+
 	public function initialize()
 	{
 		parent::initialize();
