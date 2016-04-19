@@ -282,7 +282,16 @@ class FormDefault implements Renderable, DisplayInterface, FormInterface
 				$item->save();
 			}
 		});
+
 		$this->instance()->save();
+
+		array_walk_recursive($items, function ($item)
+		{
+			if ($item instanceof FormItemInterface)
+			{
+				$item->saved();
+			}
+		});	
 	}
 
 	/**

@@ -18,6 +18,7 @@ class Select extends NamedFormItem
 	protected $scopes 		= [];
 	protected $optionValue 	= null;
 	protected $sort 		= true;
+	protected $relation     = null;
 
 	public function model($model = null)
 	{
@@ -108,6 +109,17 @@ class Select extends NamedFormItem
 	protected function sort() {
 		return $this->sort;
 	}
+
+	public function relation($relation = null)
+    {
+        if (is_null($relation))
+        {
+            return $this->relation;
+        }
+
+        $this->relation = $relation;
+        return $this;
+    }
 
 	protected function loadOptions()
 	{
@@ -240,4 +252,79 @@ class Select extends NamedFormItem
 		}
 	}
 
+    public function save()
+    {
+        if (! $this->canSaveRelation())
+        {
+            parent::save();
+            return;
+        }
+
+        $relationClass = get_class($this->getToManyRelation());
+        
+        if ($this->instance()->id) {
+            switch ($relationClass) {
+                case 'Illuminate\Database\Eloquent\Relations\BelongsToMany':
+                case 'Illuminate\Database\Eloquent\Relations\MorphToMany':
+                    $this->getToManyRelation()->detach();
+                    break;
+
+                case 'Illuminate\Database\Eloquent\Relations\HasMany':
+                case 'Illuminate\Database\Eloquent\Relations\MorphMany':
+                    $this->detachHasMany();
+                    break;
+            }
+        }
+    }
+
+    public function saved()
+    {
+        if (! $this->canSaveRelation())
+        {
+            parent::saved();
+            return;
+        }
+
+        $objects = $this->getRelatedObjects();
+        $relationClass = get_class($this->getToManyRelation());
+
+        switch ($relationClass) {
+            case 'Illuminate\Database\Eloquent\Relations\BelongsToMany':
+            case 'Illuminate\Database\Eloquent\Relations\MorphToMany':
+                $this->getToManyRelation()->attach($objects->pluck('id')->toArray());
+                break;
+
+            case 'Illuminate\Database\Eloquent\Relations\HasMany':
+            case 'Illuminate\Database\Eloquent\Relations\MorphMany':
+                $this->getToManyRelation()->saveMany($objects);
+                break;
+        }
+    }
+
+    private function canSaveRelation()
+    {
+        return $this->multi() && $this->relation() && $this->model();
+    }
+
+    private function getRelatedObjects()
+    {
+        $relatedModel = $this->model();
+
+        return $relatedModel::whereIn('id', $this->value())->get();
+    }
+
+    private function getToManyRelation()
+    {
+        return call_user_func([
+            $this->instance(),
+            $this->relation()
+        ]);
+    }
+
+    private function detachHasMany()
+    {
+        $attributes = [];
+        $attributes[$this->getToManyRelation()->getPlainForeignKey()] = null;
+        $this->getToManyRelation()->update($attributes);
+    }
 }
