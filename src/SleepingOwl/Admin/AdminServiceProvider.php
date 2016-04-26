@@ -119,14 +119,12 @@ class AdminServiceProvider extends ServiceProvider
     		\App::setLocale(\Config::get('app.locale'));
     	}
 
+        Admin::instance();
 
 		$this->registerTemplate();
 		$this->registerProviders();
 		$this->registerAliases();
 		$this->initializeTemplate();
-
-		Admin::instance();
-
 	}
 
 	/**
