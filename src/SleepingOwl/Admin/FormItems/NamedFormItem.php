@@ -23,7 +23,7 @@ abstract class NamedFormItem extends BaseFormItem
 		if (count($parts) > 1) {
 			$this->path = $path;
 			$this->name = $parts[0] . "[" . implode("][", array_slice($parts, 1)) . "]";
-			$this->attribute = implode(".", array_slice(explode(".", $path), -1, 1));
+			$this->attribute = $path;//implode(".", array_slice(explode(".", $path), -1, 1));
 		} else {
 			$this->path = $path;
 			$this->name = $path;
@@ -159,14 +159,23 @@ abstract class NamedFormItem extends BaseFormItem
 		}
 
 		$attribute = $this->attribute();
+		
+		/*Alex*/
+		$atr = explode('.',$attribute);
+		if (isset($atr[1])){
+			$array = $instance->$atr[0];
+			if(isset($array[$atr[1]])) {
+				return $array[$atr[1]];
+			}
+		}
 
-        if ( !is_null($instance) && $this->lang() && !is_null($value = $instance->translate($this->lang()))) {
-            return $value->$attribute;
-        }
+        	if ( !is_null($instance) && $this->lang() && !is_null($value = $instance->translate($this->lang()))) {
+            		return $value->$attribute;
+        	}
 
-        if (!is_null($instance) && !$this->lang() && !is_null($value = $instance->getAttribute($attribute))) {
-            return $value;
-        }
+        	if (!is_null($instance) && !$this->lang() && !is_null($value = $instance->getAttribute($attribute))) {
+            		return $value;
+        	}
 
 		return $this->defaultValue();
 	}
@@ -184,12 +193,43 @@ abstract class NamedFormItem extends BaseFormItem
 
 			if(!$this->lang()) {
 				$this->instance()->$attribute = $value;
+				
+				/*Alex*/
+				$atr = explode('.',$attribute);
+				if (isset($atr[1])){
+					$array = $this->instance()->$atr[0];
+
+					if (!is_array($array)){
+						$array = [];
+					}
+					$array[$atr[1]] = $value;
+
+					$this->instance()->$atr[0] = $array;
+				}else{
+					$this->instance()->$attribute = $value;
+				}
+				
 			} else {
 
 				if( $this->instance()->translate() ) {
 					$this->instance()->translateOrNew($this->lang())->$attribute = $value;
 				} else {
-					$this->instance()->$attribute = $value;
+					
+					/*Alex*/
+					$atr = explode('.',$attribute);
+					if (isset($atr[1])){
+						$array = $this->instance()->$atr[0];
+
+						if (!is_array($array)){
+							$array = [];
+						}
+						$array[$atr[1]] = $value;
+
+						$this->instance()->$atr[0] = $array;
+					}else{
+						$this->instance()->$attribute = $value;
+					}
+					
 				}
 			}
 		}
