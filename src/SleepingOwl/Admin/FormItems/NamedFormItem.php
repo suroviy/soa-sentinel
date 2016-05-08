@@ -192,8 +192,7 @@ abstract class NamedFormItem extends BaseFormItem
 			}
 
 			if(!$this->lang()) {
-				$this->instance()->$attribute = $value;
-				
+
 				/*Alex*/
 				$atr = explode('.',$attribute);
 				if (isset($atr[1])){
@@ -214,7 +213,7 @@ abstract class NamedFormItem extends BaseFormItem
 				if( $this->instance()->translate() ) {
 					$this->instance()->translateOrNew($this->lang())->$attribute = $value;
 				} else {
-					
+
 					/*Alex*/
 					$atr = explode('.',$attribute);
 					if (isset($atr[1])){
